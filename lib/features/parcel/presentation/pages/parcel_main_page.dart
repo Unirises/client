@@ -216,8 +216,11 @@ class PabiliMainPage extends StatelessWidget {
                           ),
                           child: RaisedButton(
                             onPressed: (state.points.length >= 1 &&
-                                    state.pickup != null)
-                                ? () {}
+                                    state.pickup.id != null)
+                                ? () {
+                                    print(state.points.length);
+                                    print(state.pickup.id);
+                                  }
                                 : null,
                             color: Theme.of(context).primaryColor,
                             textColor: Colors.white,
