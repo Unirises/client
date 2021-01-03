@@ -13,7 +13,7 @@ class ParcelLoadSuccess extends ParcelState {
   final Stop pickup;
   final List<Stop> points;
 
-  const ParcelLoadSuccess({this.pickup, this.points = const []});
+  const ParcelLoadSuccess([this.pickup, this.points = const []]);
 
   @override
   List<Object> get props => [pickup, points];
@@ -22,8 +22,7 @@ class ParcelLoadSuccess extends ParcelState {
   String toString() => 'ParcelLoadSuccess { pickup: $pickup, points: $points }';
 
   ParcelLoadSuccess copyWith({Stop pickup, List<Stop> points}) =>
-      ParcelLoadSuccess(
-          pickup: pickup ?? this.pickup, points: points ?? this.points);
+      ParcelLoadSuccess(pickup ?? this.pickup, points ?? this.points);
 }
 
 class ParcelLoadFailure extends ParcelState {}
