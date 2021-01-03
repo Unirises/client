@@ -1,4 +1,5 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:client/features/parcel/bloc/parcel_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -167,6 +168,9 @@ class _AppState extends State<App> {
             create: (_) => PabiliDeliveryBloc(
               repository: widget.pabiliDeliveryRepository,
             ),
+          ),
+          BlocProvider(
+            create: (_) => ParcelBloc(),
           ),
           BlocProvider(
             create: (_) => BookCubit(),

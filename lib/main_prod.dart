@@ -24,6 +24,7 @@ import 'core/user_collection_bloc/user_collection_bloc.dart';
 import 'features/pabili/blocs/cubit/checkout_cubit.dart';
 import 'features/pabili/blocs/store/bloc/store_bloc.dart';
 import 'features/pabili/repositories/store_repository.dart';
+import 'features/parcel/bloc/parcel_bloc.dart';
 import 'features/ride_sharing/cubit/book_cubit.dart';
 
 void main() async {
@@ -125,6 +126,9 @@ class _AppState extends State<App> {
             create: (_) => PabiliDeliveryBloc(
               repository: widget.pabiliDeliveryRepository,
             ),
+          ),
+          BlocProvider(
+            create: (_) => ParcelBloc(),
           ),
           BlocProvider(
             create: (_) => BookCubit(),

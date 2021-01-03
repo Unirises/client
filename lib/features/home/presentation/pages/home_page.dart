@@ -1,3 +1,4 @@
+import 'package:client/features/parcel/presentation/pages/parcel_main_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -86,7 +87,7 @@ class _HomePageState extends State<HomePage> {
               duration: Duration(milliseconds: 200),
             ),
             navBarStyle: NavBarStyle
-                .style12, // Choose the nav bar style with this property.
+                .style2, // Choose the nav bar style with this property.
           );
         return SplashPage();
       },
@@ -94,20 +95,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Widget> _buildScreens() {
-    return [RideSharingInitialPage(), InitialPabiliPage(), AccountIndexPage()];
+    return [PabiliMainPage(), AccountIndexPage()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.home),
-        title: 'Home',
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: CupertinoColors.systemGrey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.shopping_cart),
-        title: 'Stores',
+        icon: const Icon(CupertinoIcons.archivebox),
+        title: 'Parcel Delivery',
         activeColor: Theme.of(context).primaryColor,
         inactiveColor: CupertinoColors.systemGrey,
       ),
