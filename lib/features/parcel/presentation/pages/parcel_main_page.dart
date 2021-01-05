@@ -155,56 +155,66 @@ class PabiliMainPage extends StatelessWidget {
                               horizontal: 8,
                             ),
                             child: RaisedButton.icon(
-                                onPressed: () async {
-                                  LocationResult result =
-                                      await showLocationPicker(
-                                    context,
-                                    'AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU',
-                                    initialCenter: LatLng(14.6091, 121.0223),
-                                    automaticallyAnimateToCurrentLocation: true,
-                                    myLocationButtonEnabled: true,
-                                    requiredGPS: true,
-                                    countries: ['PH'],
-                                    desiredAccuracy: LocationAccuracy.best,
-                                  );
-                                  if (result == null) return;
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            AddStopDetailsPage(
-                                              location: result,
-                                              isPickup:
-                                                  state.pickup?.id == null,
-                                              onSubmitFinished: (data) {
-                                                Navigator.pop(context);
-                                                context
-                                                    .bloc<ParcelBloc>()
-                                                    .add(ParcelAdded(
-                                                      data,
-                                                      state.pickup?.id == null,
-                                                    ));
-                                              },
-                                              onCancelled: () {
-                                                Navigator.pop(context);
-                                                return Flushbar(
-                                                  title: 'Event cancelled',
-                                                  message:
-                                                      'You cancelled adding a stop in your parcel data.',
-                                                  duration:
-                                                      Duration(seconds: 5),
-                                                  isDismissible: false,
-                                                  showProgressIndicator: true,
-                                                  progressIndicatorBackgroundColor:
-                                                      Theme.of(context)
-                                                          .primaryColor,
-                                                  flushbarPosition:
-                                                      FlushbarPosition.TOP,
-                                                )..show(context);
-                                              },
-                                            )),
-                                  );
-                                },
+                                onPressed: (state.points.length < 22)
+                                    ? () async {
+                                        LocationResult result =
+                                            await showLocationPicker(
+                                          context,
+                                          'AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU',
+                                          initialCenter:
+                                              LatLng(14.6091, 121.0223),
+                                          automaticallyAnimateToCurrentLocation:
+                                              true,
+                                          myLocationButtonEnabled: true,
+                                          requiredGPS: true,
+                                          countries: ['PH'],
+                                          desiredAccuracy:
+                                              LocationAccuracy.best,
+                                        );
+                                        if (result == null) return;
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AddStopDetailsPage(
+                                                    location: result,
+                                                    isPickup:
+                                                        state.pickup?.id ==
+                                                            null,
+                                                    onSubmitFinished: (data) {
+                                                      Navigator.pop(context);
+                                                      context
+                                                          .bloc<ParcelBloc>()
+                                                          .add(ParcelAdded(
+                                                            data,
+                                                            state.pickup?.id ==
+                                                                null,
+                                                          ));
+                                                    },
+                                                    onCancelled: () {
+                                                      Navigator.pop(context);
+                                                      return Flushbar(
+                                                        title:
+                                                            'Event cancelled',
+                                                        message:
+                                                            'You cancelled adding a stop in your parcel data.',
+                                                        duration: Duration(
+                                                            seconds: 5),
+                                                        isDismissible: false,
+                                                        showProgressIndicator:
+                                                            true,
+                                                        progressIndicatorBackgroundColor:
+                                                            Theme.of(context)
+                                                                .primaryColor,
+                                                        flushbarPosition:
+                                                            FlushbarPosition
+                                                                .TOP,
+                                                      )..show(context);
+                                                    },
+                                                  )),
+                                        );
+                                      }
+                                    : null,
                                 icon: Icon(Icons.add),
                                 label: Text(
                                     'Add ${state.pickup?.id == null ? 'Starting Point' : 'Stop'}'))),
@@ -227,6 +237,7 @@ class PabiliMainPage extends StatelessWidget {
                                       MaterialPageRoute(
                                         builder: (context) => SelectVehiclePage(
                                           onSelected: (selected) {
+                                            Navigator.pop(context);
                                             print('selected: ${selected}');
                                           },
                                         ),

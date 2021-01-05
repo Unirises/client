@@ -94,7 +94,31 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
           if (builtDirections.routes.length != 1) {
             yield ParcelLoadFailure();
           } else {
-            yield currentState.copyWith(directions: builtDirections);
+            // TODO: Compute fare here
+            num motorcycleFare = 0.00;
+            num car2Seaterfare = 0.00;
+            num car4SeaterFare = 0.00;
+            num car7SeaterFare = 0.00;
+            num duration = 0;
+            num distance = 0;
+            num weight = 0;
+
+            currentState.points.forEach((e) => weight += e.weight);
+
+            builtDirections.routes.first.legs.forEach((e) {
+              duration += e.duration.value;
+              distance += e.distance.value;
+            });
+
+            yield currentState.copyWith(directions: builtDirections, data: {
+              'motorcycleFare': motorcycleFare,
+              'car2Seaterfare': car2Seaterfare,
+              'car4SeaterFare': car4SeaterFare,
+              'car7SeaterFare': car7SeaterFare,
+              'duration': duration,
+              'distance': distance,
+              'weight': weight,
+            });
           }
         }
       } catch (e) {
