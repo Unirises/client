@@ -53,6 +53,23 @@ class _SelectVehiclePageState extends State<SelectVehiclePage> {
                   state.directions.routes.first.overviewPolyline.points)
               .map((e) => LatLng(e.latitude, e.longitude))
               .toList();
+
+          final Set<Marker> markers = {};
+
+          markers.add(Marker(
+              markerId: MarkerId('start'),
+              position:
+                  LatLng(state.pickup.location.lat, state.pickup.location.lng),
+              infoWindow: InfoWindow(title: 'Start')));
+
+          for (var i = 0; i < state.points.length; i++) {
+            markers.add(Marker(
+                markerId: MarkerId(String.fromCharCode(i)),
+                position: LatLng(
+                    state.points[i].location.lat, state.points[i].location.lng),
+                infoWindow: InfoWindow(title: state.points[i].name)));
+          }
+
           CameraUpdate u2 = CameraUpdate.newLatLngBounds(bounds, 45);
           mapController?.animateCamera(u2);
           return Stack(
@@ -76,6 +93,7 @@ class _SelectVehiclePageState extends State<SelectVehiclePage> {
                     color: Theme.of(context).primaryColor,
                   )
                 },
+                markers: markers,
               ),
               Positioned(
                 bottom: 12,
