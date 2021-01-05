@@ -12,9 +12,10 @@ class Stop extends Equatable {
 
   final num weight;
   final String type;
+  final bool isCashOnDelivery;
 
   const Stop({
-    @required this.houseDetails,
+    this.houseDetails,
     @required this.name,
     @required this.phone,
     @required this.location,
@@ -22,6 +23,7 @@ class Stop extends Equatable {
     @required this.address,
     this.weight,
     this.type,
+    this.isCashOnDelivery,
   });
 
   @override

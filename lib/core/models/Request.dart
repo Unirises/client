@@ -1,9 +1,52 @@
+import 'package:client/features/parcel/models/Stop.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
 
 import 'PlaceLocation.dart';
+
+class RequestData extends Equatable {
+  final String driverId;
+  final String userId;
+  final String status;
+  final FixedPos position;
+  final String driverName;
+  final String driverNumber;
+  final String clientName;
+  final String clientNumber;
+  final String rideType;
+  final bool isParcel;
+  final Map<String, dynamic> vehicleData;
+  final String driverToken;
+  final String clientToken;
+
+  final int currentIndex;
+  final Stop pickup;
+  final List<dynamic> points;
+
+  RequestData(
+      this.driverId,
+      this.userId,
+      this.status,
+      this.position,
+      this.driverName,
+      this.driverNumber,
+      this.clientName,
+      this.clientNumber,
+      this.rideType,
+      this.isParcel,
+      this.vehicleData,
+      this.driverToken,
+      this.clientToken,
+      this.currentIndex,
+      this.pickup,
+      this.points);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
 
 class Request extends Equatable {
   const Request({
