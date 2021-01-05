@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:client/features/parcel/built_models/built_directions.dart';
@@ -57,10 +58,49 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
         }
       }
     } else if (event is ComputeFare) {
-      var data = await Dio().get(
-          "https://maps.googleapis.com/maps/api/directions/json?origin=14.6894917,121.1120518&destination=14.6998849,121.1262652&waypoints=14.6481305,121.1014372&key=AIzaSyBWlDJm4CJ_PAhhrC0F3powcfmy_NJEn2E");
-      BuiltDirections builtDirections = BuiltDirections.fromJson(data.data);
-      print(builtDirections);
+      try {
+        if (currentState is ParcelLoadSuccess) {
+          yield ParcelLoadingInProgress();
+          var data;
+          if (currentState.points.length > 1) {
+            print('multiple waypoints');
+            var stopsCoords = [];
+            var stopCoordsString = '';
+
+            currentState.points.forEach((element) {
+              stopsCoords
+                  .add('${element.location.lat},${element.location.lng}');
+            });
+
+            stopsCoords.removeLast();
+
+            stopCoordsString =
+                stopsCoords.reduce((value, element) => value + '|' + element);
+            print(stopCoordsString);
+
+            data = await Dio().get(
+                "https://maps.googleapis.com/maps/api/directions/json?origin=${currentState.pickup.location.lat},${currentState.pickup.location.lng}&destination=${currentState.points.last.location.lat},${currentState.points.last.location.lng}&waypoints=${stopCoordsString}&key=AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU");
+          } else {
+            print('single waypoint');
+            print(currentState.pickup.location);
+            print(currentState.points);
+            print(currentState.points.first.location);
+            data = await Dio().get(
+                "https://maps.googleapis.com/maps/api/directions/json?origin=${currentState.pickup.location.lat},${currentState.pickup.location.lng}&destination=${currentState.points.first.location.lat},${currentState.points.first.location.lng}&key=AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU");
+          }
+          BuiltDirections builtDirections =
+              BuiltDirections.fromJson(json.encode(data.data));
+
+          if (builtDirections.routes.length != 1) {
+            yield ParcelLoadFailure();
+          } else {
+            yield currentState.copyWith(directions: builtDirections);
+          }
+        }
+      } catch (e) {
+        print(e);
+        yield ParcelLoadFailure();
+      }
     }
   }
 }

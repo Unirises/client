@@ -12,8 +12,15 @@ class ParcelLoadingInProgress extends ParcelState {}
 class ParcelLoadSuccess extends ParcelState {
   final Stop pickup;
   final List<Stop> points;
+  final dynamic data;
+  final BuiltDirections directions;
 
-  const ParcelLoadSuccess([this.pickup, this.points = const []]);
+  const ParcelLoadSuccess([
+    this.pickup,
+    this.points = const [],
+    this.data,
+    this.directions,
+  ]);
 
   @override
   List<Object> get props => [pickup, points];
@@ -21,8 +28,18 @@ class ParcelLoadSuccess extends ParcelState {
   @override
   String toString() => 'ParcelLoadSuccess { pickup: $pickup, points: $points }';
 
-  ParcelLoadSuccess copyWith({Stop pickup, List<Stop> points}) =>
-      ParcelLoadSuccess(pickup ?? this.pickup, points ?? this.points);
+  ParcelLoadSuccess copyWith({
+    Stop pickup,
+    List<Stop> points,
+    dynamic data,
+    BuiltDirections directions,
+  }) =>
+      ParcelLoadSuccess(
+        pickup ?? this.pickup,
+        points ?? this.points,
+        data ?? this.data,
+        directions ?? this.directions
+      );
 }
 
 class ParcelLoadFailure extends ParcelState {}

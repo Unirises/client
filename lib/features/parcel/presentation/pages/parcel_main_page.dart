@@ -1,4 +1,5 @@
 import 'package:client/features/parcel/bloc/parcel_bloc.dart';
+import 'package:client/features/parcel/presentation/pages/select_vehicle_page.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -218,8 +219,19 @@ class PabiliMainPage extends StatelessWidget {
                             onPressed: (state.points.length >= 1 &&
                                     state.pickup.id != null)
                                 ? () {
-                                    print(state.points.length);
-                                    print(state.pickup.id);
+                                    context
+                                        .bloc<ParcelBloc>()
+                                        .add(ComputeFare());
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SelectVehiclePage(
+                                          onSelected: (selected) {
+                                            print('selected: ${selected}');
+                                          },
+                                        ),
+                                      ),
+                                    );
                                   }
                                 : null,
                             color: Theme.of(context).primaryColor,
