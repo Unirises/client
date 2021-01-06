@@ -8,8 +8,9 @@ import 'package:client/core/models/Request.dart';
 import 'package:client/core/serializers.dart';
 import 'package:client/features/parcel/models/Stop.dart';
 
+import 'built_position.dart';
 import 'built_stop.dart';
-
+import 'package:built_collection/built_collection.dart';
 part 'built_request.g.dart';
 
 abstract class BuiltRequest
@@ -20,7 +21,7 @@ abstract class BuiltRequest
 
   String get status;
 
-  FixedPos get position;
+  BuiltPosition get position;
 
   @nullable
   String get driverName;
@@ -39,7 +40,8 @@ abstract class BuiltRequest
 
   int get currentIndex;
   BuiltStop get pickup;
-  List<BuiltStop> get points;
+
+  BuiltList<BuiltStop> get points;
 
   BuiltRequest._();
 

@@ -27,6 +27,7 @@ import 'core/user_collection_bloc/user_collection_bloc.dart';
 import 'features/pabili/blocs/cubit/checkout_cubit.dart';
 import 'features/pabili/blocs/store/bloc/store_bloc.dart';
 import 'features/pabili/repositories/store_repository.dart';
+import 'features/parcel/bloc/parcel_ride_bloc.dart';
 import 'features/ride_sharing/cubit/book_cubit.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -170,8 +171,9 @@ class _AppState extends State<App> {
             ),
           ),
           BlocProvider(
-            create: (_) => ParcelBloc(),
-          ),
+              create: (_) =>
+                  ParcelBloc(clientRepository: widget.clientRepository)),
+          BlocProvider(create: (_) => ParcelRideBloc()),
           BlocProvider(
             create: (_) => BookCubit(),
           ),

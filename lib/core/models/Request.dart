@@ -1,3 +1,4 @@
+import 'package:client/features/parcel/built_models/built_position.dart';
 import 'package:client/features/parcel/models/Stop.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';

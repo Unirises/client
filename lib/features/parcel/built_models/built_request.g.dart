@@ -27,7 +27,7 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
           specifiedType: const FullType(String)),
       'position',
       serializers.serialize(object.position,
-          specifiedType: const FullType(FixedPos)),
+          specifiedType: const FullType(BuiltPosition)),
       'clientName',
       serializers.serialize(object.clientName,
           specifiedType: const FullType(String)),
@@ -52,7 +52,7 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
       'points',
       serializers.serialize(object.points,
           specifiedType:
-              const FullType(List, const [const FullType(BuiltStop)])),
+              const FullType(BuiltList, const [const FullType(BuiltStop)])),
     ];
     if (object.driverId != null) {
       result
@@ -112,8 +112,8 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
               specifiedType: const FullType(String)) as String;
           break;
         case 'position':
-          result.position = serializers.deserialize(value,
-              specifiedType: const FullType(FixedPos)) as FixedPos;
+          result.position.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltPosition)) as BuiltPosition);
           break;
         case 'driverName':
           result.driverName = serializers.deserialize(value,
@@ -163,10 +163,10 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
               specifiedType: const FullType(BuiltStop)) as BuiltStop);
           break;
         case 'points':
-          result.points = serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(List, const [const FullType(BuiltStop)]))
-              as List<BuiltStop>;
+          result.points.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(BuiltStop)]))
+              as BuiltList<Object>);
           break;
       }
     }
@@ -183,7 +183,7 @@ class _$BuiltRequest extends BuiltRequest {
   @override
   final String status;
   @override
-  final FixedPos position;
+  final BuiltPosition position;
   @override
   final String driverName;
   @override
@@ -207,7 +207,7 @@ class _$BuiltRequest extends BuiltRequest {
   @override
   final BuiltStop pickup;
   @override
-  final List<BuiltStop> points;
+  final BuiltList<BuiltStop> points;
 
   factory _$BuiltRequest([void Function(BuiltRequestBuilder) updates]) =>
       (new BuiltRequestBuilder()..update(updates)).build();
@@ -372,9 +372,10 @@ class BuiltRequestBuilder
   String get status => _$this._status;
   set status(String status) => _$this._status = status;
 
-  FixedPos _position;
-  FixedPos get position => _$this._position;
-  set position(FixedPos position) => _$this._position = position;
+  BuiltPositionBuilder _position;
+  BuiltPositionBuilder get position =>
+      _$this._position ??= new BuiltPositionBuilder();
+  set position(BuiltPositionBuilder position) => _$this._position = position;
 
   String _driverName;
   String get driverName => _$this._driverName;
@@ -421,9 +422,10 @@ class BuiltRequestBuilder
   BuiltStopBuilder get pickup => _$this._pickup ??= new BuiltStopBuilder();
   set pickup(BuiltStopBuilder pickup) => _$this._pickup = pickup;
 
-  List<BuiltStop> _points;
-  List<BuiltStop> get points => _$this._points;
-  set points(List<BuiltStop> points) => _$this._points = points;
+  ListBuilder<BuiltStop> _points;
+  ListBuilder<BuiltStop> get points =>
+      _$this._points ??= new ListBuilder<BuiltStop>();
+  set points(ListBuilder<BuiltStop> points) => _$this._points = points;
 
   BuiltRequestBuilder();
 
@@ -432,7 +434,7 @@ class BuiltRequestBuilder
       _driverId = _$v.driverId;
       _userId = _$v.userId;
       _status = _$v.status;
-      _position = _$v.position;
+      _position = _$v.position?.toBuilder();
       _driverName = _$v.driverName;
       _driverNumber = _$v.driverNumber;
       _clientName = _$v.clientName;
@@ -444,7 +446,7 @@ class BuiltRequestBuilder
       _clientToken = _$v.clientToken;
       _currentIndex = _$v.currentIndex;
       _pickup = _$v.pickup?.toBuilder();
-      _points = _$v.points;
+      _points = _$v.points?.toBuilder();
       _$v = null;
     }
     return this;
@@ -472,7 +474,7 @@ class BuiltRequestBuilder
               driverId: driverId,
               userId: userId,
               status: status,
-              position: position,
+              position: position.build(),
               driverName: driverName,
               driverNumber: driverNumber,
               clientName: clientName,
@@ -484,12 +486,17 @@ class BuiltRequestBuilder
               clientToken: clientToken,
               currentIndex: currentIndex,
               pickup: pickup.build(),
-              points: points);
+              points: points.build());
     } catch (_) {
       String _$failedField;
       try {
+        _$failedField = 'position';
+        position.build();
+
         _$failedField = 'pickup';
         pickup.build();
+        _$failedField = 'points';
+        points.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'BuiltRequest', _$failedField, e.toString());

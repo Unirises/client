@@ -9,6 +9,7 @@ part of serializers;
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Bounds.serializer)
       ..add(BuiltDirections.serializer)
+      ..add(BuiltPosition.serializer)
       ..add(BuiltRequest.serializer)
       ..add(BuiltStop.serializer)
       ..add(Distance.serializer)
@@ -17,6 +18,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Location.serializer)
       ..add(OverviewPolyline.serializer)
       ..add(Routes.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(BuiltStop)]),
+          () => new ListBuilder<BuiltStop>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Legs)]),
           () => new ListBuilder<Legs>())

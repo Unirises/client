@@ -11,13 +11,13 @@ class ParcelLoadingInProgress extends ParcelState {}
 
 class ParcelLoadSuccess extends ParcelState {
   final BuiltStop pickup;
-  final List<BuiltStop> points;
+  final BuiltList<BuiltStop> points;
   final Map<String, dynamic> data;
   final BuiltDirections directions;
 
   const ParcelLoadSuccess([
     this.pickup,
-    this.points = const [],
+    this.points,
     this.data,
     this.directions,
   ]);
@@ -30,7 +30,7 @@ class ParcelLoadSuccess extends ParcelState {
 
   ParcelLoadSuccess copyWith({
     BuiltStop pickup,
-    List<BuiltStop> points,
+    BuiltList<BuiltStop> points,
     Map<String, dynamic> data,
     BuiltDirections directions,
   }) =>

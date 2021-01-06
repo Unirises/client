@@ -54,15 +54,17 @@ class RequestParcel extends ParcelEvent {
   final String type;
   final String name;
   final String number;
+  final ParcelRideBloc rideBloc;
 
   const RequestParcel({
     @required this.type,
     @required this.name,
     @required this.number,
+    @required this.rideBloc,
   });
 
   @override
-  List<Object> get props => [type];
+  List<Object> get props => [type, name, number, rideBloc];
 
   @override
   String toString() => 'ParcelRequested { type: $type }';

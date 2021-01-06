@@ -54,12 +54,12 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
     }
 
     if (event is ClientRequestsRide) {
-      var requestId = await _clientRepository.updateStatus(
-        data: 'requesting',
-        request: event.request,
-      );
+      // var requestId = await _clientRepository.updateStatus(
+      //   data: 'requesting',
+      //   request: event.request,
+      // );
 
-      event.rideSharingBloc.add(StartListenOnRide(requestId));
+      // event.rideSharingBloc.add(StartListenOnRide(requestId));
     } else if (event is ClientCancelRide) {
       await _clientRepository.updateStatus(
         data: 'idle',
@@ -72,12 +72,12 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
     if (event is ClientRequestFood) {
       // event.pabiliDeliveryBloc.add(PDB.ResetYield());
 
-      var requestId = await _clientRepository.updateDeliveryStatus(
-        data: 'requesting',
-        request: event.request,
-      );
+      // var requestId = await _clientRepository.updateDeliveryStatus(
+      //   data: 'requesting',
+      //   request: event.request,
+      // );
 
-      event.pabiliDeliveryBloc.add(PDB.StartListenOnPabiliRide(requestId));
+      // event.pabiliDeliveryBloc.add(PDB.StartListenOnPabiliRide(requestId));
     } else if (event is ClientCancelRide) {
       await _clientRepository.updateDeliveryStatus(
         data: 'idle',

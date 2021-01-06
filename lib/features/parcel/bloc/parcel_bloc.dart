@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:built_collection/built_collection.dart';
 import 'package:bloc/bloc.dart';
 import 'package:client/core/client_bloc/client_repository.dart';
 import 'package:client/core/helpers.dart';
 import 'package:client/core/models/Request.dart';
+import 'package:client/features/parcel/bloc/parcel_ride_bloc.dart';
 import 'package:client/features/parcel/built_models/built_directions.dart';
+import 'package:client/features/parcel/built_models/built_position.dart';
 import 'package:client/features/parcel/built_models/built_request.dart';
 import 'package:client/features/parcel/built_models/built_stop.dart';
 import 'package:client/features/parcel/built_models/location.dart';
@@ -35,9 +37,12 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
     if (event is ParcelAdded) {
       if (currentState is ParcelLoadSuccess) {
         if (!event.isDestination) {
-          final List<BuiltStop> updatedPoints =
-              List.from((state as ParcelLoadSuccess).points)..add(event.point);
+          var forNewInit = new BuiltList<BuiltStop>([]);
 
+          final BuiltList<BuiltStop> updatedPoints =
+              (currentState.points == null)
+                  ? forNewInit.rebuild((b) => b.add(event.point))
+                  : currentState.points.rebuild((b) => b.add(event.point));
           yield currentState.copyWith(points: updatedPoints);
         } else {
           final BuiltStop updatedPickup = event.point;
@@ -47,10 +52,12 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
     } else if (event is ParcelUpdated) {
       if (currentState is ParcelLoadSuccess) {
         if (!event.isDestination) {
-          final List<BuiltStop> updatedPoints =
-              (state as ParcelLoadSuccess).points.map((point) {
-            return point.id == event.point.id ? event.point : point;
-          }).toList();
+          final BuiltList<BuiltStop> updatedPoints =
+              currentState.points.rebuild((b) {
+            b.map((point) {
+              return point.id == event.point.id ? event.point : point;
+            });
+          });
           yield currentState.copyWith(points: updatedPoints);
         } else {
           final BuiltStop updatedPickup = event.point;
@@ -62,8 +69,9 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
         if (!event.isDestination) {
           final updatedPoints = (state as ParcelLoadSuccess)
               .points
-              .where((point) => point.id != event.point.id)
-              .toList();
+              .rebuild((b) => b.where((point) => point.id != event.point.id));
+          // .where((point) => point.id != event.point.id)
+          // .toList();
           yield currentState.copyWith(points: updatedPoints);
         } else {
           yield currentState.copyWith(pickup: BuiltStop((b) => b..id = null));
@@ -135,23 +143,25 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
           yield ParcelLoadingInProgress();
           var directions = currentState.directions;
           var points = currentState.points;
-          List<BuiltStop> mutatedPoints = [];
+          BuiltList<BuiltStop> mutatedPoints = new BuiltList<BuiltStop>([]);
           print('request triggered');
           for (int i = 0; i < points.length; i++) {
-            mutatedPoints.add(points[i].rebuild((b) => b
-              ..distance = directions.routes.first.legs[i].distance.value
-              ..duration = directions.routes.first.legs[i].duration.toBuilder()
-              ..price = computeFare(event.type,
-                  directions.routes.first.legs[i].distance.value, i > 1)
-              ..startLocation =
-                  directions.routes.first.legs[i].startLocation.toBuilder()
-              ..endLocation =
-                  directions.routes.first.legs[i].endLocation.toBuilder()
-              ..startAddress = directions.routes.first.legs[i].startAddress
-              ..endAddress = directions.routes.first.legs[i].endAddress));
+            mutatedPoints = mutatedPoints.rebuild((b) => b.add(points[i]
+                .rebuild((b) => b
+                  ..distance = directions.routes.first.legs[i].distance.value
+                  ..duration =
+                      directions.routes.first.legs[i].duration.toBuilder()
+                  ..price = computeFare(event.type,
+                      directions.routes.first.legs[i].distance.value, i > 1)
+                  ..startLocation =
+                      directions.routes.first.legs[i].startLocation.toBuilder()
+                  ..endLocation =
+                      directions.routes.first.legs[i].endLocation.toBuilder()
+                  ..startAddress = directions.routes.first.legs[i].startAddress
+                  ..endAddress = directions.routes.first.legs[i].endAddress)));
           }
           var shittyPos = await Geolocator.getCurrentPosition();
-          var goodPos = FixedPos.fromPosition(shittyPos);
+          var goodPos = BuiltPosition.fromJson(json.encode(shittyPos.toJson()));
           var deviceToken = await FirebaseMessaging.instance.getToken();
 
           var request = BuiltRequest((b) => b
@@ -159,9 +169,9 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
             ..isParcel = true
             ..userId = FirebaseAuth.instance.currentUser.uid
             ..status = 'requesting'
-            ..position = goodPos
+            ..position = goodPos.toBuilder()
             ..currentIndex = 0
-            ..points = mutatedPoints
+            ..points = mutatedPoints.toBuilder()
             ..pickup = currentState.pickup.toBuilder()
             ..clientName = event.name
             ..clientNumber = event.number
@@ -172,7 +182,7 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
             request: request,
           );
 
-          // TODO: Start other bloc listening
+          event.rideBloc.add(StartListenOnParcelRide(requestId));
           yield currentState.copyWith(points: mutatedPoints);
         }
       } catch (e) {

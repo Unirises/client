@@ -1,6 +1,7 @@
 import 'package:client/core/client_bloc/client_bloc.dart';
 import 'package:client/core/user_collection_bloc/user_collection_bloc.dart';
 import 'package:client/features/parcel/bloc/parcel_bloc.dart';
+import 'package:client/features/parcel/bloc/parcel_ride_bloc.dart';
 import 'package:client/features/parcel/presentation/pages/select_vehicle_page.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,7 @@ class PabiliMainPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: buildLeadingIcons(
-                                    context, state.points.length),
+                                    context, state.points?.length),
                               ),
                             ),
                           ),
@@ -142,7 +143,9 @@ class PabiliMainPage extends StatelessWidget {
                                 ),
                               );
                             },
-                            itemCount: state.points.length,
+                            itemCount: (state.points != null)
+                                ? state.points?.length
+                                : 0,
                           ),
                         ),
                       ],
@@ -157,7 +160,9 @@ class PabiliMainPage extends StatelessWidget {
                               horizontal: 8,
                             ),
                             child: RaisedButton.icon(
-                                onPressed: (state.points.length < 22)
+                                onPressed: ((state.points != null)
+                                        ? state.points?.length < 22
+                                        : true)
                                     ? () async {
                                         LocationResult result =
                                             await showLocationPicker(
@@ -228,7 +233,8 @@ class PabiliMainPage extends StatelessWidget {
                             horizontal: 8,
                           ),
                           child: RaisedButton(
-                            onPressed: (state.points.length >= 1 &&
+                            onPressed: (state.points != null &&
+                                    state.points.length >= 1 &&
                                     state.pickup.id != null)
                                 ? () {
                                     context
@@ -240,18 +246,26 @@ class PabiliMainPage extends StatelessWidget {
                                         builder: (context) => SelectVehiclePage(
                                           onSelected: (selected) {
                                             Navigator.pop(context);
-                                            context.bloc<ParcelBloc>().add(RequestParcel(
-                                                type: selected,
-                                                name: (context.bloc<
-                                                            UserCollectionBloc>()
-                                                        as UserCollectionLoaded)
-                                                    .userCollection
-                                                    .name,
-                                                number: (context.bloc<
-                                                            UserCollectionBloc>()
-                                                        as UserCollectionLoaded)
-                                                    .userCollection
-                                                    .phone));
+                                            context.bloc<ParcelBloc>().add(
+                                                  RequestParcel(
+                                                      type: selected,
+                                                      rideBloc: context.bloc<
+                                                          ParcelRideBloc>(),
+                                                      name: (context
+                                                                  .bloc<
+                                                                      UserCollectionBloc>()
+                                                                  .state
+                                                              as UserCollectionLoaded)
+                                                          .userCollection
+                                                          .name,
+                                                      number: (context
+                                                                  .bloc<
+                                                                      UserCollectionBloc>()
+                                                                  .state
+                                                              as UserCollectionLoaded)
+                                                          .userCollection
+                                                          .phone),
+                                                );
                                           },
                                         ),
                                       ),
@@ -279,6 +293,7 @@ class PabiliMainPage extends StatelessWidget {
   }
 
   List<Widget> buildLeadingIcons(BuildContext context, int length) {
+    if (length == null) length = 0;
     if (length < 1) return [Container()];
     if (length < 2)
       return [
