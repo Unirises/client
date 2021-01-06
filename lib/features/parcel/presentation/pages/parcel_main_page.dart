@@ -1,3 +1,5 @@
+import 'package:client/core/client_bloc/client_bloc.dart';
+import 'package:client/core/user_collection_bloc/user_collection_bloc.dart';
 import 'package:client/features/parcel/bloc/parcel_bloc.dart';
 import 'package:client/features/parcel/presentation/pages/select_vehicle_page.dart';
 import 'package:flushbar/flushbar.dart';
@@ -238,10 +240,18 @@ class PabiliMainPage extends StatelessWidget {
                                         builder: (context) => SelectVehiclePage(
                                           onSelected: (selected) {
                                             Navigator.pop(context);
-                                            print('selected: ${selected}');
-                                            context
-                                                .bloc<ParcelBloc>()
-                                                .add(RequestParcel());
+                                            context.bloc<ParcelBloc>().add(RequestParcel(
+                                                type: selected,
+                                                name: (context.bloc<
+                                                            UserCollectionBloc>()
+                                                        as UserCollectionLoaded)
+                                                    .userCollection
+                                                    .name,
+                                                number: (context.bloc<
+                                                            UserCollectionBloc>()
+                                                        as UserCollectionLoaded)
+                                                    .userCollection
+                                                    .phone));
                                           },
                                         ),
                                       ),

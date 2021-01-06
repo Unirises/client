@@ -6,6 +6,200 @@ part of built_request;
 // BuiltValueGenerator
 // **************************************************************************
 
+Serializer<BuiltStop> _$builtStopSerializer = new _$BuiltStopSerializer();
+
+class _$BuiltStopSerializer implements StructuredSerializer<BuiltStop> {
+  @override
+  final Iterable<Type> types = const [BuiltStop, _$BuiltStop];
+  @override
+  final String wireName = 'BuiltStop';
+
+  @override
+  Iterable<Object> serialize(Serializers serializers, BuiltStop object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[];
+    if (object.houseDetails != null) {
+      result
+        ..add('houseDetails')
+        ..add(serializers.serialize(object.houseDetails,
+            specifiedType: const FullType(String)));
+    }
+    if (object.name != null) {
+      result
+        ..add('name')
+        ..add(serializers.serialize(object.name,
+            specifiedType: const FullType(String)));
+    }
+    if (object.phone != null) {
+      result
+        ..add('phone')
+        ..add(serializers.serialize(object.phone,
+            specifiedType: const FullType(String)));
+    }
+    if (object.location != null) {
+      result
+        ..add('location')
+        ..add(serializers.serialize(object.location,
+            specifiedType: const FullType(Location)));
+    }
+    if (object.address != null) {
+      result
+        ..add('address')
+        ..add(serializers.serialize(object.address,
+            specifiedType: const FullType(String)));
+    }
+    if (object.id != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(object.id,
+            specifiedType: const FullType(String)));
+    }
+    if (object.weight != null) {
+      result
+        ..add('weight')
+        ..add(serializers.serialize(object.weight,
+            specifiedType: const FullType(num)));
+    }
+    if (object.type != null) {
+      result
+        ..add('type')
+        ..add(serializers.serialize(object.type,
+            specifiedType: const FullType(String)));
+    }
+    if (object.isCashOnDelivery != null) {
+      result
+        ..add('isCashOnDelivery')
+        ..add(serializers.serialize(object.isCashOnDelivery,
+            specifiedType: const FullType(bool)));
+    }
+    if (object.distance != null) {
+      result
+        ..add('distance')
+        ..add(serializers.serialize(object.distance,
+            specifiedType: const FullType(num)));
+    }
+    if (object.price != null) {
+      result
+        ..add('price')
+        ..add(serializers.serialize(object.price,
+            specifiedType: const FullType(num)));
+    }
+    if (object.startLocation != null) {
+      result
+        ..add('startLocation')
+        ..add(serializers.serialize(object.startLocation,
+            specifiedType: const FullType(Location)));
+    }
+    if (object.endLocation != null) {
+      result
+        ..add('endLocation')
+        ..add(serializers.serialize(object.endLocation,
+            specifiedType: const FullType(Location)));
+    }
+    if (object.startAddress != null) {
+      result
+        ..add('startAddress')
+        ..add(serializers.serialize(object.startAddress,
+            specifiedType: const FullType(String)));
+    }
+    if (object.endAddress != null) {
+      result
+        ..add('endAddress')
+        ..add(serializers.serialize(object.endAddress,
+            specifiedType: const FullType(String)));
+    }
+    if (object.duration != null) {
+      result
+        ..add('duration')
+        ..add(serializers.serialize(object.duration,
+            specifiedType: const FullType(DistanceDuration)));
+    }
+    return result;
+  }
+
+  @override
+  BuiltStop deserialize(Serializers serializers, Iterable<Object> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new BuiltStopBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'houseDetails':
+          result.houseDetails = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'phone':
+          result.phone = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'location':
+          result.location.replace(serializers.deserialize(value,
+              specifiedType: const FullType(Location)) as Location);
+          break;
+        case 'address':
+          result.address = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'weight':
+          result.weight = serializers.deserialize(value,
+              specifiedType: const FullType(num)) as num;
+          break;
+        case 'type':
+          result.type = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'isCashOnDelivery':
+          result.isCashOnDelivery = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
+          break;
+        case 'distance':
+          result.distance = serializers.deserialize(value,
+              specifiedType: const FullType(num)) as num;
+          break;
+        case 'price':
+          result.price = serializers.deserialize(value,
+              specifiedType: const FullType(num)) as num;
+          break;
+        case 'startLocation':
+          result.startLocation.replace(serializers.deserialize(value,
+              specifiedType: const FullType(Location)) as Location);
+          break;
+        case 'endLocation':
+          result.endLocation.replace(serializers.deserialize(value,
+              specifiedType: const FullType(Location)) as Location);
+          break;
+        case 'startAddress':
+          result.startAddress = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'endAddress':
+          result.endAddress = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'duration':
+          result.duration.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(DistanceDuration))
+              as DistanceDuration);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$BuiltStop extends BuiltStop {
   @override
   final String houseDetails;
@@ -37,6 +231,8 @@ class _$BuiltStop extends BuiltStop {
   final String startAddress;
   @override
   final String endAddress;
+  @override
+  final DistanceDuration duration;
 
   factory _$BuiltStop([void Function(BuiltStopBuilder) updates]) =>
       (new BuiltStopBuilder()..update(updates)).build();
@@ -56,54 +252,9 @@ class _$BuiltStop extends BuiltStop {
       this.startLocation,
       this.endLocation,
       this.startAddress,
-      this.endAddress})
-      : super._() {
-    if (houseDetails == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'houseDetails');
-    }
-    if (name == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'name');
-    }
-    if (phone == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'phone');
-    }
-    if (location == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'location');
-    }
-    if (address == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'address');
-    }
-    if (id == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'id');
-    }
-    if (weight == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'weight');
-    }
-    if (type == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'type');
-    }
-    if (isCashOnDelivery == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'isCashOnDelivery');
-    }
-    if (distance == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'distance');
-    }
-    if (price == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'price');
-    }
-    if (startLocation == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'startLocation');
-    }
-    if (endLocation == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'endLocation');
-    }
-    if (startAddress == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'startAddress');
-    }
-    if (endAddress == null) {
-      throw new BuiltValueNullFieldError('BuiltStop', 'endAddress');
-    }
-  }
+      this.endAddress,
+      this.duration})
+      : super._();
 
   @override
   BuiltStop rebuild(void Function(BuiltStopBuilder) updates) =>
@@ -130,7 +281,8 @@ class _$BuiltStop extends BuiltStop {
         startLocation == other.startLocation &&
         endLocation == other.endLocation &&
         startAddress == other.startAddress &&
-        endAddress == other.endAddress;
+        endAddress == other.endAddress &&
+        duration == other.duration;
   }
 
   @override
@@ -150,23 +302,25 @@ class _$BuiltStop extends BuiltStop {
                                                     $jc(
                                                         $jc(
                                                             $jc(
-                                                                0,
-                                                                houseDetails
-                                                                    .hashCode),
-                                                            name.hashCode),
-                                                        phone.hashCode),
-                                                    location.hashCode),
-                                                address.hashCode),
-                                            id.hashCode),
-                                        weight.hashCode),
-                                    type.hashCode),
-                                isCashOnDelivery.hashCode),
-                            distance.hashCode),
-                        price.hashCode),
-                    startLocation.hashCode),
-                endLocation.hashCode),
-            startAddress.hashCode),
-        endAddress.hashCode));
+                                                                $jc(
+                                                                    0,
+                                                                    houseDetails
+                                                                        .hashCode),
+                                                                name.hashCode),
+                                                            phone.hashCode),
+                                                        location.hashCode),
+                                                    address.hashCode),
+                                                id.hashCode),
+                                            weight.hashCode),
+                                        type.hashCode),
+                                    isCashOnDelivery.hashCode),
+                                distance.hashCode),
+                            price.hashCode),
+                        startLocation.hashCode),
+                    endLocation.hashCode),
+                startAddress.hashCode),
+            endAddress.hashCode),
+        duration.hashCode));
   }
 
   @override
@@ -186,7 +340,8 @@ class _$BuiltStop extends BuiltStop {
           ..add('startLocation', startLocation)
           ..add('endLocation', endLocation)
           ..add('startAddress', startAddress)
-          ..add('endAddress', endAddress))
+          ..add('endAddress', endAddress)
+          ..add('duration', duration))
         .toString();
   }
 }
@@ -259,6 +414,11 @@ class BuiltStopBuilder implements Builder<BuiltStop, BuiltStopBuilder> {
   String get endAddress => _$this._endAddress;
   set endAddress(String endAddress) => _$this._endAddress = endAddress;
 
+  DistanceDurationBuilder _duration;
+  DistanceDurationBuilder get duration =>
+      _$this._duration ??= new DistanceDurationBuilder();
+  set duration(DistanceDurationBuilder duration) => _$this._duration = duration;
+
   BuiltStopBuilder();
 
   BuiltStopBuilder get _$this {
@@ -278,6 +438,7 @@ class BuiltStopBuilder implements Builder<BuiltStop, BuiltStopBuilder> {
       _endLocation = _$v.endLocation?.toBuilder();
       _startAddress = _$v.startAddress;
       _endAddress = _$v.endAddress;
+      _duration = _$v.duration?.toBuilder();
       _$v = null;
     }
     return this;
@@ -305,7 +466,7 @@ class BuiltStopBuilder implements Builder<BuiltStop, BuiltStopBuilder> {
               houseDetails: houseDetails,
               name: name,
               phone: phone,
-              location: location.build(),
+              location: _location?.build(),
               address: address,
               id: id,
               weight: weight,
@@ -313,20 +474,24 @@ class BuiltStopBuilder implements Builder<BuiltStop, BuiltStopBuilder> {
               isCashOnDelivery: isCashOnDelivery,
               distance: distance,
               price: price,
-              startLocation: startLocation.build(),
-              endLocation: endLocation.build(),
+              startLocation: _startLocation?.build(),
+              endLocation: _endLocation?.build(),
               startAddress: startAddress,
-              endAddress: endAddress);
+              endAddress: endAddress,
+              duration: _duration?.build());
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'location';
-        location.build();
+        _location?.build();
 
         _$failedField = 'startLocation';
-        startLocation.build();
+        _startLocation?.build();
         _$failedField = 'endLocation';
-        endLocation.build();
+        _endLocation?.build();
+
+        _$failedField = 'duration';
+        _duration?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'BuiltStop', _$failedField, e.toString());

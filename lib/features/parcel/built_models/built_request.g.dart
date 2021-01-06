@@ -6,6 +6,175 @@ part of built_request;
 // BuiltValueGenerator
 // **************************************************************************
 
+Serializer<BuiltRequest> _$builtRequestSerializer =
+    new _$BuiltRequestSerializer();
+
+class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
+  @override
+  final Iterable<Type> types = const [BuiltRequest, _$BuiltRequest];
+  @override
+  final String wireName = 'BuiltRequest';
+
+  @override
+  Iterable<Object> serialize(Serializers serializers, BuiltRequest object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'userId',
+      serializers.serialize(object.userId,
+          specifiedType: const FullType(String)),
+      'status',
+      serializers.serialize(object.status,
+          specifiedType: const FullType(String)),
+      'position',
+      serializers.serialize(object.position,
+          specifiedType: const FullType(FixedPos)),
+      'clientName',
+      serializers.serialize(object.clientName,
+          specifiedType: const FullType(String)),
+      'clientNumber',
+      serializers.serialize(object.clientNumber,
+          specifiedType: const FullType(String)),
+      'rideType',
+      serializers.serialize(object.rideType,
+          specifiedType: const FullType(String)),
+      'isParcel',
+      serializers.serialize(object.isParcel,
+          specifiedType: const FullType(bool)),
+      'clientToken',
+      serializers.serialize(object.clientToken,
+          specifiedType: const FullType(String)),
+      'currentIndex',
+      serializers.serialize(object.currentIndex,
+          specifiedType: const FullType(int)),
+      'pickup',
+      serializers.serialize(object.pickup,
+          specifiedType: const FullType(BuiltStop)),
+      'points',
+      serializers.serialize(object.points,
+          specifiedType:
+              const FullType(List, const [const FullType(BuiltStop)])),
+    ];
+    if (object.driverId != null) {
+      result
+        ..add('driverId')
+        ..add(serializers.serialize(object.driverId,
+            specifiedType: const FullType(String)));
+    }
+    if (object.driverName != null) {
+      result
+        ..add('driverName')
+        ..add(serializers.serialize(object.driverName,
+            specifiedType: const FullType(String)));
+    }
+    if (object.driverNumber != null) {
+      result
+        ..add('driverNumber')
+        ..add(serializers.serialize(object.driverNumber,
+            specifiedType: const FullType(String)));
+    }
+    if (object.vehicleData != null) {
+      result
+        ..add('vehicleData')
+        ..add(serializers.serialize(object.vehicleData,
+            specifiedType: const FullType(
+                Map, const [const FullType(String), const FullType(dynamic)])));
+    }
+    if (object.driverToken != null) {
+      result
+        ..add('driverToken')
+        ..add(serializers.serialize(object.driverToken,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  BuiltRequest deserialize(Serializers serializers, Iterable<Object> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new BuiltRequestBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'driverId':
+          result.driverId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'userId':
+          result.userId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'status':
+          result.status = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'position':
+          result.position = serializers.deserialize(value,
+              specifiedType: const FullType(FixedPos)) as FixedPos;
+          break;
+        case 'driverName':
+          result.driverName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'driverNumber':
+          result.driverNumber = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'clientName':
+          result.clientName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'clientNumber':
+          result.clientNumber = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'rideType':
+          result.rideType = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'isParcel':
+          result.isParcel = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
+          break;
+        case 'vehicleData':
+          result.vehicleData = serializers.deserialize(value,
+              specifiedType: const FullType(Map, const [
+                const FullType(String),
+                const FullType(dynamic)
+              ])) as Map<String, dynamic>;
+          break;
+        case 'driverToken':
+          result.driverToken = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'clientToken':
+          result.clientToken = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'currentIndex':
+          result.currentIndex = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'pickup':
+          result.pickup.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltStop)) as BuiltStop);
+          break;
+        case 'points':
+          result.points = serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(List, const [const FullType(BuiltStop)]))
+              as List<BuiltStop>;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$BuiltRequest extends BuiltRequest {
   @override
   final String driverId;
@@ -36,9 +205,9 @@ class _$BuiltRequest extends BuiltRequest {
   @override
   final int currentIndex;
   @override
-  final Stop pickup;
+  final BuiltStop pickup;
   @override
-  final List<Stop> points;
+  final List<BuiltStop> points;
 
   factory _$BuiltRequest([void Function(BuiltRequestBuilder) updates]) =>
       (new BuiltRequestBuilder()..update(updates)).build();
@@ -61,9 +230,6 @@ class _$BuiltRequest extends BuiltRequest {
       this.pickup,
       this.points})
       : super._() {
-    if (driverId == null) {
-      throw new BuiltValueNullFieldError('BuiltRequest', 'driverId');
-    }
     if (userId == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'userId');
     }
@@ -72,12 +238,6 @@ class _$BuiltRequest extends BuiltRequest {
     }
     if (position == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'position');
-    }
-    if (driverName == null) {
-      throw new BuiltValueNullFieldError('BuiltRequest', 'driverName');
-    }
-    if (driverNumber == null) {
-      throw new BuiltValueNullFieldError('BuiltRequest', 'driverNumber');
     }
     if (clientName == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'clientName');
@@ -90,12 +250,6 @@ class _$BuiltRequest extends BuiltRequest {
     }
     if (isParcel == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'isParcel');
-    }
-    if (vehicleData == null) {
-      throw new BuiltValueNullFieldError('BuiltRequest', 'vehicleData');
-    }
-    if (driverToken == null) {
-      throw new BuiltValueNullFieldError('BuiltRequest', 'driverToken');
     }
     if (clientToken == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'clientToken');
@@ -263,13 +417,13 @@ class BuiltRequestBuilder
   int get currentIndex => _$this._currentIndex;
   set currentIndex(int currentIndex) => _$this._currentIndex = currentIndex;
 
-  Stop _pickup;
-  Stop get pickup => _$this._pickup;
-  set pickup(Stop pickup) => _$this._pickup = pickup;
+  BuiltStopBuilder _pickup;
+  BuiltStopBuilder get pickup => _$this._pickup ??= new BuiltStopBuilder();
+  set pickup(BuiltStopBuilder pickup) => _$this._pickup = pickup;
 
-  List<Stop> _points;
-  List<Stop> get points => _$this._points;
-  set points(List<Stop> points) => _$this._points = points;
+  List<BuiltStop> _points;
+  List<BuiltStop> get points => _$this._points;
+  set points(List<BuiltStop> points) => _$this._points = points;
 
   BuiltRequestBuilder();
 
@@ -289,7 +443,7 @@ class BuiltRequestBuilder
       _driverToken = _$v.driverToken;
       _clientToken = _$v.clientToken;
       _currentIndex = _$v.currentIndex;
-      _pickup = _$v.pickup;
+      _pickup = _$v.pickup?.toBuilder();
       _points = _$v.points;
       _$v = null;
     }
@@ -311,24 +465,37 @@ class BuiltRequestBuilder
 
   @override
   _$BuiltRequest build() {
-    final _$result = _$v ??
-        new _$BuiltRequest._(
-            driverId: driverId,
-            userId: userId,
-            status: status,
-            position: position,
-            driverName: driverName,
-            driverNumber: driverNumber,
-            clientName: clientName,
-            clientNumber: clientNumber,
-            rideType: rideType,
-            isParcel: isParcel,
-            vehicleData: vehicleData,
-            driverToken: driverToken,
-            clientToken: clientToken,
-            currentIndex: currentIndex,
-            pickup: pickup,
-            points: points);
+    _$BuiltRequest _$result;
+    try {
+      _$result = _$v ??
+          new _$BuiltRequest._(
+              driverId: driverId,
+              userId: userId,
+              status: status,
+              position: position,
+              driverName: driverName,
+              driverNumber: driverNumber,
+              clientName: clientName,
+              clientNumber: clientNumber,
+              rideType: rideType,
+              isParcel: isParcel,
+              vehicleData: vehicleData,
+              driverToken: driverToken,
+              clientToken: clientToken,
+              currentIndex: currentIndex,
+              pickup: pickup.build(),
+              points: points);
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'pickup';
+        pickup.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'BuiltRequest', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

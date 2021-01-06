@@ -1,15 +1,14 @@
 import 'dart:math';
 
+import 'package:client/features/parcel/built_models/built_stop.dart';
 import 'package:client/features/parcel/built_models/location.dart';
-import 'package:client/features/parcel/models/Stop.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddStopDetailsPage extends StatefulWidget {
   final LocationResult location;
-  final Function(Stop) onSubmitFinished;
+  final Function(BuiltStop) onSubmitFinished;
   final VoidCallback onCancelled;
   final bool isPickup;
 
@@ -207,19 +206,21 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                         child: RaisedButton(
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
-                              return widget.onSubmitFinished(Stop(
-                                weight: num.tryParse(_weightController.text),
-                                type: typeOfParcel,
-                                address: widget.location.address,
-                                houseDetails: _floorController.text,
-                                name: _nameController.text,
-                                phone: _phoneController.text,
-                                location: Location(
-                                  (b) => b
-                                    ..lat = widget.location.latLng.latitude
-                                    ..lng = widget.location.latLng.longitude,
-                                ),
-                                id: getRandomString(15),
+                              return widget.onSubmitFinished(BuiltStop(
+                                (b) => b
+                                  ..weight =
+                                      num.tryParse(_weightController.text)
+                                  ..type = typeOfParcel
+                                  ..address = widget.location.address
+                                  ..houseDetails = _floorController.text
+                                  ..name = _nameController.text
+                                  ..phone = _phoneController.text
+                                  ..location = Location(
+                                    (b) => b
+                                      ..lat = widget.location.latLng.latitude
+                                      ..lng = widget.location.latLng.longitude,
+                                  ).toBuilder()
+                                  ..id = getRandomString(15),
                               ));
                             }
                           },

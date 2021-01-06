@@ -6,6 +6,8 @@ import 'package:built_value/standard_json_plugin.dart';
 
 import 'package:client/features/parcel/built_models/bounds.dart';
 import 'package:client/features/parcel/built_models/built_directions.dart';
+import 'package:client/features/parcel/built_models/built_request.dart';
+import 'package:client/features/parcel/built_models/built_stop.dart';
 import 'package:client/features/parcel/built_models/distance.dart';
 import 'package:client/features/parcel/built_models/distance_duration.dart';
 import 'package:client/features/parcel/built_models/legs.dart';
@@ -24,6 +26,8 @@ part 'serializers.g.dart';
   DistanceDuration,
   Location,
   OverviewPolyline,
+  BuiltStop,
+  BuiltRequest,
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

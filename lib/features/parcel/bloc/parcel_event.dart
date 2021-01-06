@@ -10,7 +10,7 @@ abstract class ParcelEvent extends Equatable {
 class ParcelLoaded extends ParcelEvent {}
 
 class ParcelAdded extends ParcelEvent {
-  final Stop point;
+  final BuiltStop point;
   final bool isDestination;
 
   const ParcelAdded(this.point, this.isDestination);
@@ -23,7 +23,7 @@ class ParcelAdded extends ParcelEvent {
 }
 
 class ParcelUpdated extends ParcelEvent {
-  final Stop point;
+  final BuiltStop point;
   final bool isDestination;
 
   const ParcelUpdated(this.point, this.isDestination);
@@ -36,7 +36,7 @@ class ParcelUpdated extends ParcelEvent {
 }
 
 class ParcelDeleted extends ParcelEvent {
-  final Stop point;
+  final BuiltStop point;
   final bool isDestination;
 
   const ParcelDeleted(this.point, this.isDestination);
@@ -50,4 +50,20 @@ class ParcelDeleted extends ParcelEvent {
 
 class ComputeFare extends ParcelEvent {}
 
-class RequestParcel extends ParcelEvent {}
+class RequestParcel extends ParcelEvent {
+  final String type;
+  final String name;
+  final String number;
+
+  const RequestParcel({
+    @required this.type,
+    @required this.name,
+    @required this.number,
+  });
+
+  @override
+  List<Object> get props => [type];
+
+  @override
+  String toString() => 'ParcelRequested { type: $type }';
+}

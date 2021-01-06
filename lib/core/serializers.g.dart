@@ -9,6 +9,8 @@ part of serializers;
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Bounds.serializer)
       ..add(BuiltDirections.serializer)
+      ..add(BuiltRequest.serializer)
+      ..add(BuiltStop.serializer)
       ..add(Distance.serializer)
       ..add(DistanceDuration.serializer)
       ..add(Legs.serializer)

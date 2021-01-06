@@ -10,8 +10,8 @@ abstract class ParcelState extends Equatable {
 class ParcelLoadingInProgress extends ParcelState {}
 
 class ParcelLoadSuccess extends ParcelState {
-  final Stop pickup;
-  final List<Stop> points;
+  final BuiltStop pickup;
+  final List<BuiltStop> points;
   final Map<String, dynamic> data;
   final BuiltDirections directions;
 
@@ -29,17 +29,13 @@ class ParcelLoadSuccess extends ParcelState {
   String toString() => 'ParcelLoadSuccess { pickup: $pickup, points: $points }';
 
   ParcelLoadSuccess copyWith({
-    Stop pickup,
-    List<Stop> points,
+    BuiltStop pickup,
+    List<BuiltStop> points,
     Map<String, dynamic> data,
     BuiltDirections directions,
   }) =>
-      ParcelLoadSuccess(
-        pickup ?? this.pickup,
-        points ?? this.points,
-        data ?? this.data,
-        directions ?? this.directions
-      );
+      ParcelLoadSuccess(pickup ?? this.pickup, points ?? this.points,
+          data ?? this.data, directions ?? this.directions);
 }
 
 class ParcelLoadFailure extends ParcelState {}
