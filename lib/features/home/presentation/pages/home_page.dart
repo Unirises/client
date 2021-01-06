@@ -1,3 +1,4 @@
+import 'package:client/features/food_delivery/presentation/pages/food_delivery_main_page.dart';
 import 'package:client/features/parcel/presentation/pages/parcel_main_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flushbar/flushbar.dart';
@@ -95,7 +96,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Widget> _buildScreens() {
-    return [PabiliMainPage(), AccountIndexPage()];
+    return [PabiliMainPage(), FoodDeliveryMainPage(), AccountIndexPage()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -103,6 +104,12 @@ class _HomePageState extends State<HomePage> {
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.archivebox),
         title: 'Parcel Delivery',
+        activeColor: Theme.of(context).primaryColor,
+        inactiveColor: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(CupertinoIcons.shopping_cart),
+        title: 'Food Delivery',
         activeColor: Theme.of(context).primaryColor,
         inactiveColor: CupertinoColors.systemGrey,
       ),

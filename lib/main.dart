@@ -24,6 +24,7 @@ import 'core/requests_bloc/requests_bloc.dart';
 import 'core/ride_sharing_bloc/ride_sharing_bloc.dart';
 import 'core/ride_sharing_bloc/ride_sharing_repository.dart';
 import 'core/user_collection_bloc/user_collection_bloc.dart';
+import 'features/food_delivery/bloc/merchant_bloc.dart';
 import 'features/pabili/blocs/cubit/checkout_cubit.dart';
 import 'features/pabili/blocs/store/bloc/store_bloc.dart';
 import 'features/pabili/repositories/store_repository.dart';
@@ -163,6 +164,11 @@ class _AppState extends State<App> {
           BlocProvider(
             create: (_) => StoreBloc(
               storeRepository: widget.storeRepository,
+            ),
+          ),
+                    BlocProvider(
+            create: (_) => MerchantBloc(
+              
             ),
           ),
           BlocProvider(

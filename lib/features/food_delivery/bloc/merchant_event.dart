@@ -7,4 +7,4 @@ abstract class MerchantEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchMerchants {}
+class FetchMerchants extends MerchantEvent{}

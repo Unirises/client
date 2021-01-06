@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:client/features/food_delivery/models/Merchant.dart';
+import 'package:client/features/parcel/built_models/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
@@ -31,25 +33,27 @@ class MerchantBloc extends Bloc<MerchantEvent, MerchantState> {
 
           var merchantData = element.data();
           var companyData = company.data();
+          if (companyData['place'] != null) {
+            var merchant = Merchant(
+              address: companyData['address'],
+              averageTimePreparation: companyData['averageTimePReparation'],
+              companyName: companyData['companyName'],
+              hero: companyData['hero'],
+              photo: companyData['photo'],
+              place: Location.fromJson(json.encode(companyData['place'])),
+              startTime: companyData['startTime'],
+              endTime: companyData['endTime'],
+              listing: merchantData['listing'],
+              phone: companyData['phone'],
+              representative: companyData['representative'],
+            );
 
-          var merchant = Merchant(
-            address: companyData['address'],
-            averageTimePreparation: companyData['averageTimePReparation'],
-            companyName: companyData['companyName'],
-            hero: companyData['hero'],
-            photo: companyData['photo'],
-            place: companyData['place'],
-            startTime: companyData['startTime'],
-            endTime: companyData['endTime'],
-            listing: merchantData['listing'],
-            phone: companyData['phone'],
-            representative: companyData['representative'],
-          );
-
-          listOfMerchants.add(merchant);
+            listOfMerchants.add(merchant);
+          }
         });
         yield MerchantLoadSuccess(listOfMerchants);
       } catch (e) {
+        print(e);
         yield MerchantLoadFailure();
       }
     }
