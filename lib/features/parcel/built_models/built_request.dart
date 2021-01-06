@@ -6,6 +6,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:client/core/models/Request.dart';
 import 'package:client/core/serializers.dart';
+import 'package:client/features/parcel/built_models/built_directions.dart';
 import 'package:client/features/parcel/models/Stop.dart';
 
 import 'built_position.dart';
@@ -37,6 +38,8 @@ abstract class BuiltRequest
   @nullable
   String get driverToken;
   String get clientToken;
+
+  BuiltDirections get directions;
 
   int get currentIndex;
   BuiltStop get pickup;

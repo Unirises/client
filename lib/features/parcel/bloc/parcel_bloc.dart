@@ -175,6 +175,7 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
             ..pickup = currentState.pickup.toBuilder()
             ..clientName = event.name
             ..clientNumber = event.number
+            ..directions = currentState.directions.toBuilder()
             ..rideType = event.type);
 
           var requestId = await _clientRepository.updateStatus(

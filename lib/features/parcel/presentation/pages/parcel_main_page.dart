@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:client/core/client_bloc/client_bloc.dart';
 import 'package:client/features/parcel/bloc/parcel_bloc.dart';
+import 'package:client/features/parcel/bloc/parcel_ride_bloc.dart';
 import 'package:client/features/parcel/presentation/pages/parcel_initial_page.dart';
+import 'package:client/features/parcel/presentation/pages/parcel_requesting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,18 +21,47 @@ class PabiliMainPage extends StatelessWidget {
         } else if (state is ParcelLoadSuccess) {
           return BlocBuilder<ClientBloc, ClientState>(
             builder: (context, clientState) {
-              if (clientState is ClientLoaded) {
-                if (clientState.client.status == 'idle') {
-                  return ParcelInitialPage();
-                } else if (clientState.client.status == 'requesting') {
-                  // TODO: Show requesting
-                  return Text('requesting');
-                } else if (clientState.client.status == 'transit') {
-                } else if (clientState.client.status == 'cancelled') {}
+              if (clientState is ClientInitial) {
+                return Center(
+                  child: Text('There was a problem accessing your user data.'),
+                );
+              } else {
+                return BlocBuilder<ParcelRideBloc, ParcelRideState>(
+                  builder: (context, rideState) {
+                    if (clientState is ClientLoaded) {
+                      if (clientState.client.status == 'idle') {
+                        return ParcelInitialPage();
+                      } else {
+                        if (rideState is ParcelRideInitial) {
+                          Future.delayed(Duration(seconds: 5), () {
+                            context.bloc<ParcelRideBloc>().add(
+                                StartListenOnParcelRide(
+                                    clientState.client.ride_id));
+                          });
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (rideState is ParcelRideLoaded) {
+                          print('shitfuckloaded');
+                          if (clientState.client.status == 'requesting') {
+                            return ParcelRequestingPage();
+                          } else if (clientState.client.status == 'transit') {
+                          } else if (clientState.client.status == 'arrived') {
+                          } else if (clientState.client.status == 'arriving') {
+                          } else if (clientState.client.status == 'cancelled' ||
+                              clientState.client.status == 'completed') {}
+                        } else {
+                          return Center(
+                            child: Text(
+                                'There was a trouble processing parcel data. Please try again.'),
+                          );
+                        }
+                      }
+                    }
+                    return Container();
+                  },
+                );
               }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
             },
           );
         }

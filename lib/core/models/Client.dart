@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:client/features/parcel/built_models/built_request.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -52,7 +55,10 @@ class Client extends Equatable {
       onRide: data['onRide'] == true,
       status: data['status'] ?? 'idle',
       ride_id: data['ride_id'].toString(),
-      rides: data['rides'].map((e) => Request.fromMap(e)).toList(),
+      // TODO: Load rides
+      rides: data['rides']
+          .map((e) => BuiltRequest.fromJson(json.encode(e)))
+          .toList(),
       delivery_id: data['delivery_id'] == false ? null : data['delivery_id'],
       delivery_status: data['delivery_status'],
       balance: data['balance'] != null ? data['balance'] : 0,

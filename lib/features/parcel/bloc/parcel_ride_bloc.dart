@@ -35,6 +35,10 @@ class ParcelRideBloc extends Bloc<ParcelRideEvent, ParcelRideState> {
       } catch (e) {
         print('Failed loading parcel');
         print(e);
+        await FirebaseFirestore.instance
+            .collection('clients')
+            .doc(FirebaseAuth.instance.currentUser.uid)
+            .update({'status': 'idle'});
         yield ParcelRideFailure();
       }
     } else if (event is ParcelRideUpdated) {
@@ -54,6 +58,10 @@ class ParcelRideBloc extends Bloc<ParcelRideEvent, ParcelRideState> {
       } catch (e) {
         print('Failed updating currentState ride on parcel');
         print(e);
+        await FirebaseFirestore.instance
+            .collection('clients')
+            .doc(FirebaseAuth.instance.currentUser.uid)
+            .update({'status': 'idle'});
         yield ParcelRideFailure();
       }
     } else if (event is StopListenOnParcelRide) {
@@ -64,14 +72,18 @@ class ParcelRideBloc extends Bloc<ParcelRideEvent, ParcelRideState> {
         await clientsRepository
             .doc(FirebaseAuth.instance.currentUser.uid)
             .update({
-          'rides': FieldValue.arrayUnion([json.encode(event.ride.toJson())])
+          'rides': FieldValue.arrayUnion([json.decode(event.ride.toJson())])
         });
         await driversRepository.doc(event.ride.driverId).update({
-          'rides': FieldValue.arrayUnion([json.encode(event.ride.toJson())]),
+          'rides': FieldValue.arrayUnion([json.decode(event.ride.toJson())]),
         });
       } catch (e) {
         print('Failed updating client and driver rides.');
         print(e);
+        await FirebaseFirestore.instance
+            .collection('clients')
+            .doc(FirebaseAuth.instance.currentUser.uid)
+            .update({'status': 'idle'});
         yield ParcelRideFailure();
       }
     }

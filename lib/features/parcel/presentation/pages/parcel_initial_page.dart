@@ -172,7 +172,8 @@ class ParcelInitialPage extends StatelessWidget {
                                           desiredAccuracy:
                                               LocationAccuracy.best,
                                         );
-                                        if (result == null) return;
+                                        if (result == null ||
+                                            result.address == null) return;
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(

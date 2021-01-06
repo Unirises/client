@@ -43,6 +43,9 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
       'clientToken',
       serializers.serialize(object.clientToken,
           specifiedType: const FullType(String)),
+      'directions',
+      serializers.serialize(object.directions,
+          specifiedType: const FullType(BuiltDirections)),
       'currentIndex',
       serializers.serialize(object.currentIndex,
           specifiedType: const FullType(int)),
@@ -154,6 +157,11 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
           result.clientToken = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'directions':
+          result.directions.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(BuiltDirections))
+              as BuiltDirections);
+          break;
         case 'currentIndex':
           result.currentIndex = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
@@ -203,6 +211,8 @@ class _$BuiltRequest extends BuiltRequest {
   @override
   final String clientToken;
   @override
+  final BuiltDirections directions;
+  @override
   final int currentIndex;
   @override
   final BuiltStop pickup;
@@ -226,6 +236,7 @@ class _$BuiltRequest extends BuiltRequest {
       this.vehicleData,
       this.driverToken,
       this.clientToken,
+      this.directions,
       this.currentIndex,
       this.pickup,
       this.points})
@@ -253,6 +264,9 @@ class _$BuiltRequest extends BuiltRequest {
     }
     if (clientToken == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'clientToken');
+    }
+    if (directions == null) {
+      throw new BuiltValueNullFieldError('BuiltRequest', 'directions');
     }
     if (currentIndex == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'currentIndex');
@@ -289,6 +303,7 @@ class _$BuiltRequest extends BuiltRequest {
         vehicleData == other.vehicleData &&
         driverToken == other.driverToken &&
         clientToken == other.clientToken &&
+        directions == other.directions &&
         currentIndex == other.currentIndex &&
         pickup == other.pickup &&
         points == other.points;
@@ -312,22 +327,25 @@ class _$BuiltRequest extends BuiltRequest {
                                                         $jc(
                                                             $jc(
                                                                 $jc(
-                                                                    0,
-                                                                    driverId
+                                                                    $jc(
+                                                                        0,
+                                                                        driverId
+                                                                            .hashCode),
+                                                                    userId
                                                                         .hashCode),
-                                                                userId
+                                                                status
                                                                     .hashCode),
-                                                            status.hashCode),
-                                                        position.hashCode),
-                                                    driverName.hashCode),
-                                                driverNumber.hashCode),
-                                            clientName.hashCode),
-                                        clientNumber.hashCode),
-                                    rideType.hashCode),
-                                isParcel.hashCode),
-                            vehicleData.hashCode),
-                        driverToken.hashCode),
-                    clientToken.hashCode),
+                                                            position.hashCode),
+                                                        driverName.hashCode),
+                                                    driverNumber.hashCode),
+                                                clientName.hashCode),
+                                            clientNumber.hashCode),
+                                        rideType.hashCode),
+                                    isParcel.hashCode),
+                                vehicleData.hashCode),
+                            driverToken.hashCode),
+                        clientToken.hashCode),
+                    directions.hashCode),
                 currentIndex.hashCode),
             pickup.hashCode),
         points.hashCode));
@@ -349,6 +367,7 @@ class _$BuiltRequest extends BuiltRequest {
           ..add('vehicleData', vehicleData)
           ..add('driverToken', driverToken)
           ..add('clientToken', clientToken)
+          ..add('directions', directions)
           ..add('currentIndex', currentIndex)
           ..add('pickup', pickup)
           ..add('points', points))
@@ -414,6 +433,12 @@ class BuiltRequestBuilder
   String get clientToken => _$this._clientToken;
   set clientToken(String clientToken) => _$this._clientToken = clientToken;
 
+  BuiltDirectionsBuilder _directions;
+  BuiltDirectionsBuilder get directions =>
+      _$this._directions ??= new BuiltDirectionsBuilder();
+  set directions(BuiltDirectionsBuilder directions) =>
+      _$this._directions = directions;
+
   int _currentIndex;
   int get currentIndex => _$this._currentIndex;
   set currentIndex(int currentIndex) => _$this._currentIndex = currentIndex;
@@ -444,6 +469,7 @@ class BuiltRequestBuilder
       _vehicleData = _$v.vehicleData;
       _driverToken = _$v.driverToken;
       _clientToken = _$v.clientToken;
+      _directions = _$v.directions?.toBuilder();
       _currentIndex = _$v.currentIndex;
       _pickup = _$v.pickup?.toBuilder();
       _points = _$v.points?.toBuilder();
@@ -484,6 +510,7 @@ class BuiltRequestBuilder
               vehicleData: vehicleData,
               driverToken: driverToken,
               clientToken: clientToken,
+              directions: directions.build(),
               currentIndex: currentIndex,
               pickup: pickup.build(),
               points: points.build());
@@ -492,6 +519,9 @@ class BuiltRequestBuilder
       try {
         _$failedField = 'position';
         position.build();
+
+        _$failedField = 'directions';
+        directions.build();
 
         _$failedField = 'pickup';
         pickup.build();
