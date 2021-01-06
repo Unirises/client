@@ -14,6 +14,15 @@ class Stop extends Equatable {
   final String type;
   final bool isCashOnDelivery;
 
+  final num distance;
+  final num price;
+
+  final Location startLocation;
+  final Location endLocation;
+
+  final String startAddress;
+  final String endAddress;
+
   const Stop({
     this.houseDetails,
     @required this.name,
@@ -24,6 +33,12 @@ class Stop extends Equatable {
     this.weight,
     this.type,
     this.isCashOnDelivery,
+    this.distance,
+    this.price,
+    this.startLocation,
+    this.endLocation,
+    this.startAddress,
+    this.endAddress,
   });
 
   @override
@@ -36,5 +51,12 @@ class Stop extends Equatable {
         address,
         weight,
         type,
+        isCashOnDelivery,
+        distance,
+        price,
+        startLocation,
+        endLocation,
+        startAddress,
+        endAddress,
       ];
 }

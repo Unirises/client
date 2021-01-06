@@ -49,3 +49,5 @@ class ParcelDeleted extends ParcelEvent {
 }
 
 class ComputeFare extends ParcelEvent {}
+
+class RequestParcel extends ParcelEvent {}

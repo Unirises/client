@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:client/core/models/Request.dart';
 import 'package:client/features/parcel/built_models/built_directions.dart';
 import 'package:client/features/parcel/built_models/location.dart';
 import 'package:client/features/parcel/models/Stop.dart';
@@ -94,11 +95,6 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
           if (builtDirections.routes.length != 1) {
             yield ParcelLoadFailure();
           } else {
-            // TODO: Compute fare here
-            num motorcycleFare = 0.00;
-            num car2Seaterfare = 0.00;
-            num car4SeaterFare = 0.00;
-            num car7SeaterFare = 0.00;
             num duration = 0;
             num distance = 0;
             num weight = 0;
@@ -111,14 +107,26 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
             });
 
             yield currentState.copyWith(directions: builtDirections, data: {
-              'motorcycleFare': motorcycleFare,
-              'car2Seaterfare': car2Seaterfare,
-              'car4SeaterFare': car4SeaterFare,
-              'car7SeaterFare': car7SeaterFare,
               'duration': duration,
               'distance': distance,
               'weight': weight,
             });
+          }
+        }
+      } catch (e) {
+        print(e);
+        yield ParcelLoadFailure();
+      }
+    } else if (event is RequestParcel) {
+      try {
+        if (currentState is ParcelLoadSuccess) {
+          yield ParcelLoadingInProgress();
+          var directions = currentState.directions;
+          var points = currentState.points;
+          var newPoints = [];
+          for (int i = 0; i < points.length; i++) {
+            var item = points[i];
+            newPoints.add(Stop());
           }
         }
       } catch (e) {

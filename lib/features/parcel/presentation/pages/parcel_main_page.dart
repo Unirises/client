@@ -239,6 +239,9 @@ class PabiliMainPage extends StatelessWidget {
                                           onSelected: (selected) {
                                             Navigator.pop(context);
                                             print('selected: ${selected}');
+                                            context
+                                                .bloc<ParcelBloc>()
+                                                .add(RequestParcel());
                                           },
                                         ),
                                       ),

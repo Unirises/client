@@ -11,10 +11,12 @@ class RequestData extends Equatable {
   final String userId;
   final String status;
   final FixedPos position;
+
   final String driverName;
   final String driverNumber;
   final String clientName;
   final String clientNumber;
+
   final String rideType;
   final bool isParcel;
   final Map<String, dynamic> vehicleData;
@@ -23,29 +25,46 @@ class RequestData extends Equatable {
 
   final int currentIndex;
   final Stop pickup;
-  final List<dynamic> points;
+  final List<Stop> points;
 
-  RequestData(
-      this.driverId,
-      this.userId,
-      this.status,
-      this.position,
-      this.driverName,
-      this.driverNumber,
-      this.clientName,
-      this.clientNumber,
-      this.rideType,
-      this.isParcel,
-      this.vehicleData,
-      this.driverToken,
-      this.clientToken,
-      this.currentIndex,
-      this.pickup,
-      this.points);
+  const RequestData({
+    this.driverId,
+    @required this.userId,
+    @required this.status,
+    this.position,
+    this.driverName,
+    this.driverNumber,
+    @required this.clientName,
+    @required this.clientNumber,
+    this.rideType,
+    this.isParcel,
+    this.vehicleData,
+    this.driverToken,
+    this.clientToken,
+    this.currentIndex,
+    this.pickup,
+    this.points,
+  });
 
   @override
-  // TODO: implement props
-  List<Object> get props => throw UnimplementedError();
+  List<Object> get props => [
+        driverId,
+        userId,
+        status,
+        position,
+        driverName,
+        driverNumber,
+        clientName,
+        clientNumber,
+        rideType,
+        isParcel,
+        vehicleData,
+        driverToken,
+        clientToken,
+        currentIndex,
+        pickup,
+        points,
+      ];
 }
 
 class Request extends Equatable {
