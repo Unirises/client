@@ -18,39 +18,38 @@ class MerchantBloc extends Bloc<MerchantEvent, MerchantState> {
     MerchantEvent event,
   ) async* {
     if (event is FetchMerchants) {
-      List<Merchant> listOfMerchants = [];
-
       try {
         yield MerchantLoading();
         var merchants =
             await FirebaseFirestore.instance.collection('merchants').get();
-
-        merchants.docs.forEach((element) async {
-          var company = await FirebaseFirestore.instance
-              .collection('users')
-              .doc(element.id)
-              .get();
-
-          var merchantData = element.data();
-          var companyData = company.data();
-          if (companyData['place'] != null) {
+        List<Merchant> listOfMerchants = [];
+        List<Map<String, dynamic>> companies = [];
+        var company =
+            await FirebaseFirestore.instance.collection('users').get();
+        company.docs.forEach(
+            (element) => companies.add({...element.data(), 'id': element.id}));
+            
+        merchants.docs.forEach((element) {
+          var finalCompany = companies.firstWhere(
+              (companyElement) => element.id == companyElement['id']);
+          if (finalCompany['place'] != null) {
             var merchant = Merchant(
-              address: companyData['address'],
-              averageTimePreparation: companyData['averageTimePReparation'],
-              companyName: companyData['companyName'],
-              hero: companyData['hero'],
-              photo: companyData['photo'],
-              place: Location.fromJson(json.encode(companyData['place'])),
-              startTime: companyData['startTime'],
-              endTime: companyData['endTime'],
-              listing: merchantData['listing'],
-              phone: companyData['phone'],
-              representative: companyData['representative'],
+              address: finalCompany['address'],
+              averageTimePreparation: finalCompany['averageTimePreparation'],
+              companyName: finalCompany['companyName'],
+              hero: finalCompany['hero'],
+              photo: finalCompany['photo'],
+              place: Location.fromJson(json.encode(finalCompany['place'])),
+              startTime: finalCompany['startTime'],
+              endTime: finalCompany['endTime'],
+              listing: element.data()['listing'],
+              phone: finalCompany['phone'],
+              representative: finalCompany['representative'],
             );
-
             listOfMerchants.add(merchant);
           }
         });
+        
         yield MerchantLoadSuccess(listOfMerchants);
       } catch (e) {
         print(e);
