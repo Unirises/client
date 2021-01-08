@@ -1,10 +1,11 @@
+import 'package:client/features/food_delivery/models/merchant_listing.dart';
 import 'package:client/features/parcel/built_models/location.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 class Merchant extends Equatable {
   final String id;
-  final List<dynamic> listing;
+  final MerchantListing listing;
   final String address;
   final num averageTimePreparation;
   final String companyName;
