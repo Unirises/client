@@ -1,7 +1,9 @@
 import 'package:client/features/parcel/built_models/location.dart';
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 
 class Merchant extends Equatable {
+  final String id;
   final List<dynamic> listing;
   final String address;
   final num averageTimePreparation;
@@ -16,6 +18,7 @@ class Merchant extends Equatable {
   final Map<String, dynamic> representative;
 
   const Merchant({
+    @required this.id,
     this.address,
     this.averageTimePreparation,
     this.companyName,
@@ -27,10 +30,11 @@ class Merchant extends Equatable {
     this.listing,
     this.phone,
     this.representative,
-  });
+  }) : assert(id != null);
 
   @override
   List<Object> get props => [
+        id,
         address,
         averageTimePreparation,
         companyName,

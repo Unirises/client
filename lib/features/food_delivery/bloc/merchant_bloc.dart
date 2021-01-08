@@ -28,12 +28,13 @@ class MerchantBloc extends Bloc<MerchantEvent, MerchantState> {
             await FirebaseFirestore.instance.collection('users').get();
         company.docs.forEach(
             (element) => companies.add({...element.data(), 'id': element.id}));
-            
+
         merchants.docs.forEach((element) {
           var finalCompany = companies.firstWhere(
               (companyElement) => element.id == companyElement['id']);
           if (finalCompany['place'] != null) {
             var merchant = Merchant(
+              id: element.id,
               address: finalCompany['address'],
               averageTimePreparation: finalCompany['averageTimePreparation'],
               companyName: finalCompany['companyName'],
@@ -49,7 +50,7 @@ class MerchantBloc extends Bloc<MerchantEvent, MerchantState> {
             listOfMerchants.add(merchant);
           }
         });
-        
+
         yield MerchantLoadSuccess(listOfMerchants);
       } catch (e) {
         print(e);
