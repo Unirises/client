@@ -19,6 +19,8 @@ abstract class AdditionalListing
   num get additionalPrice;
   @BuiltValueField(wireName: 'name')
   String get name;
+  @nullable
+  bool get isSelected;
   String toJson() {
     return json
         .encode(serializers.serializeWith(AdditionalListing.serializer, this));

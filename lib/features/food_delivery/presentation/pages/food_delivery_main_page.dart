@@ -1,5 +1,7 @@
+import 'package:client/features/food_delivery/presentation/pages/food_delivery_listing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../../bloc/merchant_bloc.dart';
 
@@ -18,7 +20,12 @@ class FoodDeliveryMainPage extends StatelessWidget {
             child: ListView.separated(
                 itemBuilder: (context, index) {
                   return ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      pushNewScreen(context,
+                          screen: FoodDeliveryListingPage(
+                            merchant: state.merchants[index],
+                          ));
+                    },
                     title: Text(state.merchants[index].companyName),
                   );
                 },

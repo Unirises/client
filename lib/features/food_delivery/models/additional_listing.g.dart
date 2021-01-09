@@ -26,7 +26,12 @@ class _$AdditionalListingSerializer
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
     ];
-
+    if (object.isSelected != null) {
+      result
+        ..add('isSelected')
+        ..add(serializers.serialize(object.isSelected,
+            specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -50,6 +55,10 @@ class _$AdditionalListingSerializer
           result.name = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'isSelected':
+          result.isSelected = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
+          break;
       }
     }
 
@@ -62,12 +71,15 @@ class _$AdditionalListing extends AdditionalListing {
   final num additionalPrice;
   @override
   final String name;
+  @override
+  final bool isSelected;
 
   factory _$AdditionalListing(
           [void Function(AdditionalListingBuilder) updates]) =>
       (new AdditionalListingBuilder()..update(updates)).build();
 
-  _$AdditionalListing._({this.additionalPrice, this.name}) : super._() {
+  _$AdditionalListing._({this.additionalPrice, this.name, this.isSelected})
+      : super._() {
     if (additionalPrice == null) {
       throw new BuiltValueNullFieldError(
           'AdditionalListing', 'additionalPrice');
@@ -90,19 +102,22 @@ class _$AdditionalListing extends AdditionalListing {
     if (identical(other, this)) return true;
     return other is AdditionalListing &&
         additionalPrice == other.additionalPrice &&
-        name == other.name;
+        name == other.name &&
+        isSelected == other.isSelected;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, additionalPrice.hashCode), name.hashCode));
+    return $jf($jc($jc($jc(0, additionalPrice.hashCode), name.hashCode),
+        isSelected.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('AdditionalListing')
           ..add('additionalPrice', additionalPrice)
-          ..add('name', name))
+          ..add('name', name)
+          ..add('isSelected', isSelected))
         .toString();
   }
 }
@@ -120,12 +135,17 @@ class AdditionalListingBuilder
   String get name => _$this._name;
   set name(String name) => _$this._name = name;
 
+  bool _isSelected;
+  bool get isSelected => _$this._isSelected;
+  set isSelected(bool isSelected) => _$this._isSelected = isSelected;
+
   AdditionalListingBuilder();
 
   AdditionalListingBuilder get _$this {
     if (_$v != null) {
       _additionalPrice = _$v.additionalPrice;
       _name = _$v.name;
+      _isSelected = _$v.isSelected;
       _$v = null;
     }
     return this;
@@ -147,7 +167,10 @@ class AdditionalListingBuilder
   @override
   _$AdditionalListing build() {
     final _$result = _$v ??
-        new _$AdditionalListing._(additionalPrice: additionalPrice, name: name);
+        new _$AdditionalListing._(
+            additionalPrice: additionalPrice,
+            name: name,
+            isSelected: isSelected);
     replace(_$result);
     return _$result;
   }

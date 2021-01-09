@@ -32,6 +32,9 @@ abstract class ClassificationListing
   String get itemSize;
   @nullable
   int get quantity;
+  @nullable
+  bool get isValid;
+
   String toJson() {
     return json.encode(
         serializers.serializeWith(ClassificationListing.serializer, this));
