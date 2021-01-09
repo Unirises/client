@@ -54,7 +54,6 @@ class Client extends Equatable {
       onRide: data['onRide'] == true,
       status: data['status'] ?? 'idle',
       ride_id: data['ride_id'].toString(),
-      // TODO: Load rides
       rides: data['rides']
           .map((e) => BuiltRequest.fromJson(json.encode(e)))
           .toList(),

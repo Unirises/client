@@ -52,50 +52,6 @@ class ItemListingSelectionPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: buildAdditionals(state.item.additionals),
-                      // children: state.item.additionals.map((additionals) {
-                      //   return Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     mainAxisAlignment: MainAxisAlignment.start,
-                      //     children: [
-                      //       Padding(
-                      //         padding: const EdgeInsets.all(18.0),
-                      //         child: Text(
-                      //           additionals.additionalName,
-                      //           style: TextStyle(
-                      //               fontWeight: FontWeight.bold, fontSize: 32),
-                      //         ),
-                      //       ),
-                      //       Text(additionals.type),
-                      //       ListView.builder(
-                      //         shrinkWrap: true,
-                      //         itemBuilder: (ctx, index) {
-                      //           return ListTile(
-                      //             onTap: () {
-                      //               // TODO: Get item index
-                      //               log('Classification: $classificationIndex | Item $itemIndex | Additional Index null | Additional Listing Index $index');
-                      //             },
-                      //             title: Text(additionals
-                      //                 .additionalListing[index].name),
-                      //             leading: Container(
-                      //               child: Text(additionals
-                      //                           .additionalListing[index]
-                      //                           .isSelected ??
-                      //                       false
-                      //                   ? 'Selected'
-                      //                   : ''),
-                      //             ),
-                      //             subtitle: Text(
-                      //                 '${additionals.additionalListing[index].isSelected} PHP ' +
-                      //                     additionals.additionalListing[index]
-                      //                         .additionalPrice
-                      //                         .toStringAsFixed(2)),
-                      //           );
-                      //         },
-                      //         itemCount: additionals.additionalListing.length,
-                      //       ),
-                      //     ],
-                      //   );
-                      // }).toList(),
                     ),
                   )),
               Positioned(

@@ -21,6 +21,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
   ) async* {
     final currentState = state;
     if (event is CheckoutItemAdded) {
+      log(event.item.toString());
       if (currentState is CheckoutLoadSuccess) {
         var forNewInit = new BuiltList<ClassificationListing>([]);
         final BuiltList<ClassificationListing> updatedItems =
