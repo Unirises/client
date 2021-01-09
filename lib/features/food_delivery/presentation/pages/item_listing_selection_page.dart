@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:client/features/food_delivery/bloc/item_bloc.dart';
 import 'package:client/features/food_delivery/models/additionals.dart';
 import 'package:client/features/food_delivery/models/classification_listing.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:built_collection/built_collection.dart';
@@ -197,19 +198,87 @@ class ItemListingSelectionPage extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(18.0),
-            child: Text(
-              additionals[i].additionalName,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  additionals[i].additionalName,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+                ),
+                buildMinMax(additionals[i].type, additionals[i].minMax.first,
+                    additionals[i].minMax.last),
+              ],
             ),
           ),
-          Text(additionals[i].type),
           ListView.builder(
             shrinkWrap: true,
             itemBuilder: (ctx, index) {
               return ListTile(
                 onTap: () {
-                  // TODO: Get item index
-                  log('Classification: $classificationIndex | Item $itemIndex | Additional Index $i | Additional Listing Index $index');
+                  bool didSelectOne = false;
+                  // log('Classification: $classificationIndex | Item $itemIndex | Additional Index $i | Additional Listing Index $index');
+                  List<ItemAdditionalUpdated> wow = [];
+                  if (additionals[i].type == 'radio') {
+                    for (int someRandomNum = 0;
+                        someRandomNum < additionals[i].additionalListing.length;
+                        someRandomNum++) {
+                      if (someRandomNum == index) {
+                        wow.add(ItemAdditionalUpdated(
+                            classificationIndex, itemIndex, i, index, true));
+                      } else {
+                        print('not selected ${someRandomNum}');
+                        wow.insert(
+                            0,
+                            ItemAdditionalUpdated(classificationIndex,
+                                itemIndex, i, someRandomNum, false));
+                      }
+                    }
+                  } else if (additionals[i].type == 'checkbox') {
+                    int numOfSelected = additionals[i]
+                        .additionalListing
+                        .where((element) =>
+                            element.isSelected != null &&
+                            element.isSelected == true)
+                        .length;
+                    if (additionals[i].additionalListing[index].isSelected !=
+                            null &&
+                        additionals[i].additionalListing[index].isSelected ==
+                            true) {
+                      if (numOfSelected - 1 < additionals[i].minMax.first) {
+                        return Flushbar(
+                          title: 'Item Action',
+                          message: 'You cannot delete.',
+                          progressIndicatorBackgroundColor:
+                              Theme.of(ctx).primaryColor,
+                          flushbarPosition: FlushbarPosition.TOP,
+                        )..show(ctx);
+                      } else {
+                        wow.insert(
+                            0,
+                            ItemAdditionalUpdated(classificationIndex,
+                                itemIndex, i, index, false));
+                        print('its trying to toggle it self dumbass');
+                      }
+                    } else if (numOfSelected + 1 > additionals[i].minMax.last) {
+                      return Flushbar(
+                        title: 'Item Action',
+                        message: 'You cannot add more data',
+                        duration: Duration(seconds: 5),
+                        progressIndicatorBackgroundColor:
+                            Theme.of(ctx).primaryColor,
+                        flushbarPosition: FlushbarPosition.TOP,
+                      )..show(ctx);
+                    } else {
+                      wow.insert(
+                          0,
+                          ItemAdditionalUpdated(
+                              classificationIndex, itemIndex, i, index, true));
+                    }
+                  }
+
+                  wow.forEach((element) {
+                    ctx.bloc<ItemBloc>().add(element);
+                  });
                 },
                 title: Text(additionals[i].additionalListing[index].name),
                 leading: Container(
@@ -219,12 +288,11 @@ class ItemListingSelectionPage extends StatelessWidget {
                           ? 'Selected'
                           : ''),
                 ),
-                subtitle: Text(
-                    '${additionals[i].additionalListing[index].isSelected} PHP ' +
-                        additionals[i]
-                            .additionalListing[index]
-                            .additionalPrice
-                            .toStringAsFixed(2)),
+                subtitle: Text('PHP ' +
+                    additionals[i]
+                        .additionalListing[index]
+                        .additionalPrice
+                        .toStringAsFixed(2)),
               );
             },
             itemCount: additionals[i].additionalListing.length,
@@ -233,5 +301,16 @@ class ItemListingSelectionPage extends StatelessWidget {
       ));
     }
     return list;
+  }
+
+  Text buildMinMax(String type, int min, int max) {
+    if (type == 'radio') {
+      return Text('Please select one of the following choices.');
+    } else if (type == 'checkbox') {
+      return Text(
+          'You could select up to ${max} of choices, with minimum of ${min} choices.');
+    } else {
+      return Text('Unknown type of selection');
+    }
   }
 }
