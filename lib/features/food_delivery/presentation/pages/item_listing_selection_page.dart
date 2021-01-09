@@ -43,11 +43,12 @@ class ItemListingSelectionPage extends StatelessWidget {
           body: Stack(
             children: [
               Positioned(
-                  bottom: 130,
+                  bottom: 140,
                   left: 0,
                   top: 0,
                   right: 0,
                   child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -168,10 +169,10 @@ class ItemListingSelectionPage extends StatelessWidget {
           ),
           ListView.builder(
             shrinkWrap: true,
+            primary: false,
             itemBuilder: (ctx, index) {
               return ListTile(
                 onTap: () {
-                  bool didSelectOne = false;
                   // log('Classification: $classificationIndex | Item $itemIndex | Additional Index $i | Additional Listing Index $index');
                   List<ItemAdditionalUpdated> wow = [];
                   if (additionals[i].type == 'radio') {

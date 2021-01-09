@@ -70,8 +70,6 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
             print(
                 'Num of selected: $numOfSelected | Min: ${additional.minMax.first} | Max: ${additional.minMax.last}');
 
-            if (additional.type == 'radio') return isNowValid = true;
-
             return isNowValid = (numOfSelected >= additional.minMax.first &&
                 numOfSelected <= additional.minMax.last);
           });
