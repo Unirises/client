@@ -264,8 +264,14 @@ class ItemListingSelectionPage extends StatelessWidget {
     if (type == 'radio') {
       return Text('Please select one of the following choices.');
     } else if (type == 'checkbox') {
+      if (min == max) {
+        return Text('Please select one of the following choices.');
+      }
+      if (min == 0) {
+        return Text('You could select up to ${max} choices.');
+      }
       return Text(
-          'You could select up to ${max} of choices, with minimum of ${min} choices.');
+          'You could select up to ${max} of the choices, with minimum of ${min} item/s.');
     } else {
       return Text('Unknown type of selection');
     }
