@@ -1,23 +1,22 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:built_collection/built_collection.dart';
+
 import 'package:bloc/bloc.dart';
-import 'package:client/core/client_bloc/client_repository.dart';
-import 'package:client/core/helpers.dart';
-import 'package:client/core/models/Request.dart';
-import 'package:client/features/parcel/bloc/parcel_ride_bloc.dart';
-import 'package:client/features/parcel/built_models/built_directions.dart';
-import 'package:client/features/parcel/built_models/built_position.dart';
-import 'package:client/features/parcel/built_models/built_request.dart';
-import 'package:client/features/parcel/built_models/built_stop.dart';
-import 'package:client/features/parcel/built_models/location.dart';
-import 'package:client/features/parcel/models/Stop.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
+
+import '../../../core/client_bloc/client_repository.dart';
+import '../../../core/helpers.dart';
+import '../built_models/built_directions.dart';
+import '../built_models/built_position.dart';
+import '../built_models/built_request.dart';
+import '../built_models/built_stop.dart';
+import 'parcel_ride_bloc.dart';
 
 part 'parcel_event.dart';
 part 'parcel_state.dart';
