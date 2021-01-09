@@ -27,12 +27,16 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(Additionals)]),
           () => new ListBuilder<Additionals>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(BuiltStop)]),
-          () => new ListBuilder<BuiltStop>())
+          const FullType(
+              BuiltList, const [const FullType(ClassificationListing)]),
+          () => new ListBuilder<ClassificationListing>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(ClassificationListing)]),
           () => new ListBuilder<ClassificationListing>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(BuiltStop)]),
+          () => new ListBuilder<BuiltStop>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Legs)]),
           () => new ListBuilder<Legs>())

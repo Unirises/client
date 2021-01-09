@@ -88,6 +88,19 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
         ..add(serializers.serialize(object.driverToken,
             specifiedType: const FullType(String)));
     }
+    if (object.destination != null) {
+      result
+        ..add('destination')
+        ..add(serializers.serialize(object.destination,
+            specifiedType: const FullType(BuiltStop)));
+    }
+    if (object.items != null) {
+      result
+        ..add('items')
+        ..add(serializers.serialize(object.items,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(ClassificationListing)])));
+    }
     return result;
   }
 
@@ -170,6 +183,16 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
           result.pickup.replace(serializers.deserialize(value,
               specifiedType: const FullType(BuiltStop)) as BuiltStop);
           break;
+        case 'destination':
+          result.destination.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltStop)) as BuiltStop);
+          break;
+        case 'items':
+          result.items.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(ClassificationListing)]))
+              as BuiltList<Object>);
+          break;
         case 'points':
           result.points.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
@@ -217,6 +240,10 @@ class _$BuiltRequest extends BuiltRequest {
   @override
   final BuiltStop pickup;
   @override
+  final BuiltStop destination;
+  @override
+  final BuiltList<ClassificationListing> items;
+  @override
   final BuiltList<BuiltStop> points;
 
   factory _$BuiltRequest([void Function(BuiltRequestBuilder) updates]) =>
@@ -239,6 +266,8 @@ class _$BuiltRequest extends BuiltRequest {
       this.directions,
       this.currentIndex,
       this.pickup,
+      this.destination,
+      this.items,
       this.points})
       : super._() {
     if (userId == null) {
@@ -306,6 +335,8 @@ class _$BuiltRequest extends BuiltRequest {
         directions == other.directions &&
         currentIndex == other.currentIndex &&
         pickup == other.pickup &&
+        destination == other.destination &&
+        items == other.items &&
         points == other.points;
   }
 
@@ -328,26 +359,33 @@ class _$BuiltRequest extends BuiltRequest {
                                                             $jc(
                                                                 $jc(
                                                                     $jc(
-                                                                        0,
-                                                                        driverId
+                                                                        $jc(
+                                                                            $jc(
+                                                                                0,
+                                                                                driverId
+                                                                                    .hashCode),
+                                                                            userId
+                                                                                .hashCode),
+                                                                        status
                                                                             .hashCode),
-                                                                    userId
+                                                                    position
                                                                         .hashCode),
-                                                                status
+                                                                driverName
                                                                     .hashCode),
-                                                            position.hashCode),
-                                                        driverName.hashCode),
-                                                    driverNumber.hashCode),
-                                                clientName.hashCode),
-                                            clientNumber.hashCode),
-                                        rideType.hashCode),
-                                    isParcel.hashCode),
-                                vehicleData.hashCode),
-                            driverToken.hashCode),
-                        clientToken.hashCode),
-                    directions.hashCode),
-                currentIndex.hashCode),
-            pickup.hashCode),
+                                                            driverNumber
+                                                                .hashCode),
+                                                        clientName.hashCode),
+                                                    clientNumber.hashCode),
+                                                rideType.hashCode),
+                                            isParcel.hashCode),
+                                        vehicleData.hashCode),
+                                    driverToken.hashCode),
+                                clientToken.hashCode),
+                            directions.hashCode),
+                        currentIndex.hashCode),
+                    pickup.hashCode),
+                destination.hashCode),
+            items.hashCode),
         points.hashCode));
   }
 
@@ -370,6 +408,8 @@ class _$BuiltRequest extends BuiltRequest {
           ..add('directions', directions)
           ..add('currentIndex', currentIndex)
           ..add('pickup', pickup)
+          ..add('destination', destination)
+          ..add('items', items)
           ..add('points', points))
         .toString();
   }
@@ -447,6 +487,17 @@ class BuiltRequestBuilder
   BuiltStopBuilder get pickup => _$this._pickup ??= new BuiltStopBuilder();
   set pickup(BuiltStopBuilder pickup) => _$this._pickup = pickup;
 
+  BuiltStopBuilder _destination;
+  BuiltStopBuilder get destination =>
+      _$this._destination ??= new BuiltStopBuilder();
+  set destination(BuiltStopBuilder destination) =>
+      _$this._destination = destination;
+
+  ListBuilder<ClassificationListing> _items;
+  ListBuilder<ClassificationListing> get items =>
+      _$this._items ??= new ListBuilder<ClassificationListing>();
+  set items(ListBuilder<ClassificationListing> items) => _$this._items = items;
+
   ListBuilder<BuiltStop> _points;
   ListBuilder<BuiltStop> get points =>
       _$this._points ??= new ListBuilder<BuiltStop>();
@@ -472,6 +523,8 @@ class BuiltRequestBuilder
       _directions = _$v.directions?.toBuilder();
       _currentIndex = _$v.currentIndex;
       _pickup = _$v.pickup?.toBuilder();
+      _destination = _$v.destination?.toBuilder();
+      _items = _$v.items?.toBuilder();
       _points = _$v.points?.toBuilder();
       _$v = null;
     }
@@ -513,6 +566,8 @@ class BuiltRequestBuilder
               directions: directions.build(),
               currentIndex: currentIndex,
               pickup: pickup.build(),
+              destination: _destination?.build(),
+              items: _items?.build(),
               points: points.build());
     } catch (_) {
       String _$failedField;
@@ -525,6 +580,10 @@ class BuiltRequestBuilder
 
         _$failedField = 'pickup';
         pickup.build();
+        _$failedField = 'destination';
+        _destination?.build();
+        _$failedField = 'items';
+        _items?.build();
         _$failedField = 'points';
         points.build();
       } catch (e) {

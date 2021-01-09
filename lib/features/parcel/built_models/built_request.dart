@@ -6,6 +6,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:client/core/serializers.dart';
+import 'package:client/features/food_delivery/models/classification_listing.dart';
 import 'package:client/features/parcel/built_models/built_directions.dart';
 
 import 'built_position.dart';
@@ -42,6 +43,11 @@ abstract class BuiltRequest
 
   int get currentIndex;
   BuiltStop get pickup;
+
+  @nullable
+  BuiltStop get destination;
+  @nullable
+  BuiltList<ClassificationListing> get items;
 
   BuiltList<BuiltStop> get points;
 
