@@ -1,12 +1,23 @@
+import 'dart:developer';
+
 import 'package:client/features/food_delivery/bloc/item_bloc.dart';
+import 'package:client/features/food_delivery/models/additionals.dart';
 import 'package:client/features/food_delivery/models/classification_listing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:built_collection/built_collection.dart';
 
 class ItemListingSelectionPage extends StatelessWidget {
+  final int classificationIndex;
+  final int itemIndex;
   final Function(ClassificationListing) onSuccess;
 
-  const ItemListingSelectionPage({Key key, this.onSuccess}) : super(key: key);
+  const ItemListingSelectionPage({
+    Key key,
+    this.onSuccess,
+    this.classificationIndex,
+    this.itemIndex,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ItemBloc, ItemState>(builder: (ctx, state) {
@@ -39,52 +50,51 @@ class ItemListingSelectionPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: state.item.additionals.map((additionals) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(18.0),
-                              child: Text(
-                                additionals.additionalName,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 32),
-                              ),
-                            ),
-                            Text(additionals.type),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              itemBuilder: (ctx, index) {
-                                return ListTile(
-                                  onTap: () {
-                                    print('tapped: ${state.item.additionals}');
-                                    print(additionals.additionalName ==
-                                        state.item.additionals[index]
-                                            .additionalName);
-                                  },
-                                  title: Text(additionals
-                                      .additionalListing[index].name),
-                                  leading: Container(
-                                    child: Text(additionals
-                                                .additionalListing[index]
-                                                .isSelected ??
-                                            false
-                                        ? 'Selected'
-                                        : ''),
-                                  ),
-                                  subtitle: Text(
-                                      '${additionals.additionalListing[index].isSelected} PHP ' +
-                                          additionals.additionalListing[index]
-                                              .additionalPrice
-                                              .toStringAsFixed(2)),
-                                );
-                              },
-                              itemCount: additionals.additionalListing.length,
-                            ),
-                          ],
-                        );
-                      }).toList(),
+                      children: buildAdditionals(state.item.additionals),
+                      // children: state.item.additionals.map((additionals) {
+                      //   return Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     mainAxisAlignment: MainAxisAlignment.start,
+                      //     children: [
+                      //       Padding(
+                      //         padding: const EdgeInsets.all(18.0),
+                      //         child: Text(
+                      //           additionals.additionalName,
+                      //           style: TextStyle(
+                      //               fontWeight: FontWeight.bold, fontSize: 32),
+                      //         ),
+                      //       ),
+                      //       Text(additionals.type),
+                      //       ListView.builder(
+                      //         shrinkWrap: true,
+                      //         itemBuilder: (ctx, index) {
+                      //           return ListTile(
+                      //             onTap: () {
+                      //               // TODO: Get item index
+                      //               log('Classification: $classificationIndex | Item $itemIndex | Additional Index null | Additional Listing Index $index');
+                      //             },
+                      //             title: Text(additionals
+                      //                 .additionalListing[index].name),
+                      //             leading: Container(
+                      //               child: Text(additionals
+                      //                           .additionalListing[index]
+                      //                           .isSelected ??
+                      //                       false
+                      //                   ? 'Selected'
+                      //                   : ''),
+                      //             ),
+                      //             subtitle: Text(
+                      //                 '${additionals.additionalListing[index].isSelected} PHP ' +
+                      //                     additionals.additionalListing[index]
+                      //                         .additionalPrice
+                      //                         .toStringAsFixed(2)),
+                      //           );
+                      //         },
+                      //         itemCount: additionals.additionalListing.length,
+                      //       ),
+                      //     ],
+                      //   );
+                      // }).toList(),
                     ),
                   )),
               Positioned(
@@ -176,5 +186,52 @@ class ItemListingSelectionPage extends StatelessWidget {
         );
       }
     });
+  }
+
+  List<Widget> buildAdditionals(BuiltList<Additionals> additionals) {
+    List<Widget> list = [];
+    for (int i = 0; i < additionals.length; i++) {
+      list.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Text(
+              additionals[i].additionalName,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+            ),
+          ),
+          Text(additionals[i].type),
+          ListView.builder(
+            shrinkWrap: true,
+            itemBuilder: (ctx, index) {
+              return ListTile(
+                onTap: () {
+                  // TODO: Get item index
+                  log('Classification: $classificationIndex | Item $itemIndex | Additional Index $i | Additional Listing Index $index');
+                },
+                title: Text(additionals[i].additionalListing[index].name),
+                leading: Container(
+                  child: Text(
+                      additionals[i].additionalListing[index].isSelected ??
+                              false
+                          ? 'Selected'
+                          : ''),
+                ),
+                subtitle: Text(
+                    '${additionals[i].additionalListing[index].isSelected} PHP ' +
+                        additionals[i]
+                            .additionalListing[index]
+                            .additionalPrice
+                            .toStringAsFixed(2)),
+              );
+            },
+            itemCount: additionals[i].additionalListing.length,
+          ),
+        ],
+      ));
+    }
+    return list;
   }
 }

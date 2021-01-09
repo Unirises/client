@@ -78,13 +78,16 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                                             .classificationListing[itemIndex]));
                                     pushNewScreen(context,
                                         screen: ItemListingSelectionPage(
-                                      onSuccess: (item) {
-                                        context
-                                            .bloc<CheckoutBloc>()
-                                            .add(CheckoutItemAdded(item));
-                                        Navigator.pop(context);
-                                      },
-                                    ));
+                                          itemIndex: itemIndex,
+                                          classificationIndex:
+                                              _tabController.index,
+                                          onSuccess: (item) {
+                                            context
+                                                .bloc<CheckoutBloc>()
+                                                .add(CheckoutItemAdded(item));
+                                            Navigator.pop(context);
+                                          },
+                                        ));
                                   },
                                   title: Text(listing
                                       .classificationListing[itemIndex]
