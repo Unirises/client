@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:client/features/parcel/built_models/built_request.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import 'Request.dart';
+import '../../features/parcel/built_models/built_request.dart';
 
 class Client extends Equatable {
   const Client({

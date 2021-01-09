@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:client/features/pabili/blocs/cubit/checkout_cubit.dart'
     as CheckoutCubit;
 import 'package:client/features/pabili/blocs/store/bloc/store_bloc.dart';
 import 'package:client/features/pabili/models/Store.dart';
 import 'package:client/features/pabili/pages/store_details_page.dart';
 import 'package:client/features/pabili/widgets/store_listing_item.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class StoresListingPage extends StatelessWidget {
   @override

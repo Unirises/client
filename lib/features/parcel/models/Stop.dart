@@ -1,6 +1,7 @@
-import 'package:client/features/parcel/built_models/location.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
+import '../built_models/location.dart';
 
 class Stop extends Equatable {
   final String houseDetails;

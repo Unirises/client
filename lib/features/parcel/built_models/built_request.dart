@@ -2,16 +2,15 @@ library built_request;
 
 import 'dart:convert';
 
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:client/core/models/Request.dart';
 import 'package:client/core/serializers.dart';
 import 'package:client/features/parcel/built_models/built_directions.dart';
-import 'package:client/features/parcel/models/Stop.dart';
 
 import 'built_position.dart';
 import 'built_stop.dart';
-import 'package:built_collection/built_collection.dart';
+
 part 'built_request.g.dart';
 
 abstract class BuiltRequest

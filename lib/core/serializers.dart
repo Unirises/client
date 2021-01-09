@@ -8,7 +8,6 @@ import 'package:client/features/food_delivery/models/additionals.dart';
 import 'package:client/features/food_delivery/models/classification_listing.dart';
 import 'package:client/features/food_delivery/models/listing.dart';
 import 'package:client/features/food_delivery/models/merchant_listing.dart';
-
 import 'package:client/features/parcel/built_models/bounds.dart';
 import 'package:client/features/parcel/built_models/built_directions.dart';
 import 'package:client/features/parcel/built_models/built_position.dart';

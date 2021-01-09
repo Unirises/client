@@ -1,7 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+
 import '../../core/client_bloc/client_bloc.dart';
 import '../../core/requests_bloc/requests_bloc.dart';
 import 'arrive_view.dart';

@@ -1,5 +1,3 @@
-import 'package:client/features/food_delivery/presentation/pages/food_delivery_main_page.dart';
-import 'package:client/features/parcel/presentation/pages/parcel_main_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,8 +10,8 @@ import '../../../../core/client_bloc/client_bloc.dart';
 import '../../../../core/splash_page.dart';
 import '../../../../core/user_collection_bloc/user_collection_bloc.dart';
 import '../../../account/presentation/pages/account_index_page.dart';
-import '../../../pabili/pages/initial_page.dart';
-import '../../../ride_sharing/initial_page.dart';
+import '../../../food_delivery/presentation/pages/food_delivery_main_page.dart';
+import '../../../parcel/presentation/pages/parcel_main_page.dart';
 
 class HomePage extends StatefulWidget {
   static Route route() {

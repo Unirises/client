@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:client/core/client_bloc/client_bloc.dart';
-import 'package:client/features/parcel/bloc/parcel_bloc.dart';
-import 'package:client/features/parcel/bloc/parcel_ride_bloc.dart';
-import 'package:client/features/parcel/presentation/pages/parcel_initial_page.dart';
-import 'package:client/features/parcel/presentation/pages/parcel_requesting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/client_bloc/client_bloc.dart';
+import '../../bloc/parcel_bloc.dart';
+import '../../bloc/parcel_ride_bloc.dart';
+import 'parcel_initial_page.dart';
+import 'parcel_requesting_page.dart';
 
 class PabiliMainPage extends StatelessWidget {
   @override

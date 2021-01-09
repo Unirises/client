@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:client/features/food_delivery/models/Merchant.dart';
-import 'package:client/features/food_delivery/models/merchant_listing.dart';
-import 'package:client/features/parcel/built_models/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../parcel/built_models/location.dart';
+import '../models/Merchant.dart';
+import '../models/merchant_listing.dart';
 
 part 'merchant_event.dart';
 part 'merchant_state.dart';
@@ -51,7 +52,7 @@ class MerchantBloc extends Bloc<MerchantEvent, MerchantState> {
                 representative: finalCompany['representative'],
               );
               log(merchant.listing.toString());
-              
+
               listOfMerchants.add(merchant);
             } catch (e, stacktrace) {
               log(e.toString());

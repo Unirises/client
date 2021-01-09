@@ -1,7 +1,3 @@
-import 'package:client/core/user_collection_bloc/user_collection_bloc.dart';
-import 'package:client/features/parcel/bloc/parcel_bloc.dart';
-import 'package:client/features/parcel/bloc/parcel_ride_bloc.dart';
-import 'package:client/features/parcel/presentation/pages/select_vehicle_page.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +5,11 @@ import 'package:flutter_dash/flutter_dash.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../../core/user_collection_bloc/user_collection_bloc.dart';
+import '../../bloc/parcel_bloc.dart';
+import '../../bloc/parcel_ride_bloc.dart';
 import 'add_stop_details_page.dart';
+import 'select_vehicle_page.dart';
 
 class ParcelInitialPage extends StatelessWidget {
   @override

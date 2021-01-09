@@ -1,6 +1,7 @@
-import 'package:client/features/food_delivery/bloc/merchant_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../bloc/merchant_bloc.dart';
 
 class FoodDeliveryMainPage extends StatelessWidget {
   @override

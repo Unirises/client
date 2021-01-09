@@ -1,5 +1,4 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:client/features/parcel/bloc/parcel_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -28,6 +27,7 @@ import 'features/food_delivery/bloc/merchant_bloc.dart';
 import 'features/pabili/blocs/cubit/checkout_cubit.dart';
 import 'features/pabili/blocs/store/bloc/store_bloc.dart';
 import 'features/pabili/repositories/store_repository.dart';
+import 'features/parcel/bloc/parcel_bloc.dart';
 import 'features/parcel/bloc/parcel_ride_bloc.dart';
 import 'features/ride_sharing/cubit/book_cubit.dart';
 
@@ -166,10 +166,8 @@ class _AppState extends State<App> {
               storeRepository: widget.storeRepository,
             ),
           ),
-                    BlocProvider(
-            create: (_) => MerchantBloc(
-              
-            ),
+          BlocProvider(
+            create: (_) => MerchantBloc(),
           ),
           BlocProvider(
             create: (_) => PabiliDeliveryBloc(

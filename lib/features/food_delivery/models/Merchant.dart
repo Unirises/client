@@ -1,7 +1,8 @@
-import 'package:client/features/food_delivery/models/merchant_listing.dart';
-import 'package:client/features/parcel/built_models/location.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
+import '../../parcel/built_models/location.dart';
+import 'merchant_listing.dart';
 
 class Merchant extends Equatable {
   final String id;

@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:client/features/parcel/bloc/parcel_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../bloc/parcel_bloc.dart';
 
 class SelectVehiclePage extends StatefulWidget {
   final Function(String) onSelected;

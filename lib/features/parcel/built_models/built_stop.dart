@@ -8,6 +8,7 @@ import 'package:client/core/serializers.dart';
 import 'package:client/features/parcel/built_models/distance_duration.dart';
 
 import 'location.dart';
+
 part 'built_stop.g.dart';
 
 abstract class BuiltStop implements Built<BuiltStop, BuiltStopBuilder> {

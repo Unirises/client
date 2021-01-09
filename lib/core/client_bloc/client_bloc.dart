@@ -1,19 +1,13 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:built_value/standard_json_plugin.dart';
-import 'package:client/features/parcel/built_models/built_directions.dart';
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
-import 'dart:convert';
+
 import '../models/Client.dart';
 import '../models/Request.dart';
-import '../pabili_delivery/pabili_delivery_bloc.dart' as PDB;
-import '../ride_sharing_bloc/ride_sharing_bloc.dart';
-import '../serializers.dart';
 import 'client_repository.dart';
 
 part 'client_event.dart';

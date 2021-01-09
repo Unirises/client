@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:client/features/parcel/built_models/built_request.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
 
+import '../../features/parcel/built_models/built_request.dart';
 import '../models/Client.dart';
 import '../models/Driver.dart';
 import '../models/Request.dart';
@@ -56,7 +56,8 @@ class ClientRepository {
         .update({'status': data});
 
     if (data == 'requesting' && request != null) {
-      var requestResponse = await requestsCollection.add(json.decode(request.toJson()));
+      var requestResponse =
+          await requestsCollection.add(json.decode(request.toJson()));
       await clientCollection
           .doc(FirebaseAuth.instance.currentUser.uid)
           .update({'ride_id': requestResponse.id});
@@ -82,7 +83,8 @@ class ClientRepository {
         .update({'delivery_status': data});
 
     if (data == 'requesting' && request != null) {
-      var requestResponse = await requestsCollection.add(json.decode(request.toJson()));
+      var requestResponse =
+          await requestsCollection.add(json.decode(request.toJson()));
       await clientCollection
           .doc(FirebaseAuth.instance.currentUser.uid)
           .update({'delivery_id': requestResponse.id});

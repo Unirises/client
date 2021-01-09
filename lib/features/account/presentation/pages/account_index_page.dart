@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info/package_info.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+
 import '../../../../core/authentication_bloc/authentication_bloc.dart';
 import '../../../../core/client_bloc/client_bloc.dart';
 import '../../../../core/user_collection_bloc/user_collection_bloc.dart';

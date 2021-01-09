@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:built_collection/built_collection.dart';
 import 'package:bloc/bloc.dart';
-import 'package:client/features/food_delivery/models/classification_listing.dart';
-import 'package:client/features/parcel/built_models/built_directions.dart';
-import 'package:client/features/parcel/built_models/built_stop.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../parcel/built_models/built_directions.dart';
+import '../../parcel/built_models/built_stop.dart';
+import '../models/classification_listing.dart';
 
 part 'checkout_event.dart';
 part 'checkout_state.dart';

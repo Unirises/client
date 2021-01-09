@@ -4,11 +4,7 @@ import 'dart:convert';
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:client/core/models/Request.dart';
 import 'package:client/core/serializers.dart';
-import 'package:client/features/parcel/models/Stop.dart';
-
-import 'built_stop.dart';
 
 part 'built_position.g.dart';
 

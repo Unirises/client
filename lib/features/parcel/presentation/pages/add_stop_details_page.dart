@@ -1,10 +1,11 @@
 import 'dart:math';
 
-import 'package:client/features/parcel/built_models/built_stop.dart';
-import 'package:client/features/parcel/built_models/location.dart';
 import 'package:flutter/material.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../built_models/built_stop.dart';
+import '../../built_models/location.dart';
 
 class AddStopDetailsPage extends StatefulWidget {
   final LocationResult location;
