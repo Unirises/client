@@ -281,7 +281,7 @@ class ItemListingSelectionPage extends StatelessWidget {
                   });
                 },
                 title: Text(additionals[i].additionalListing[index].name),
-                leading: Container(
+                trailing: Container(
                   child: Text(
                       additionals[i].additionalListing[index].isSelected ??
                               false
