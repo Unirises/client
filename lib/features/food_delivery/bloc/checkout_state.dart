@@ -25,6 +25,9 @@ class CheckoutLoadSuccess extends CheckoutState {
   ]);
 
   @override
+  List<Object> get props => [destination, pickup, items, data, directions];
+
+  @override
   String toString() =>
       'CheckoutLoadSuccess { pickup: $pickup, points: $destination }';
 

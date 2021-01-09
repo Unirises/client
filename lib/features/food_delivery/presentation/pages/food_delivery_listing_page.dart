@@ -1,4 +1,5 @@
 import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
+import 'package:client/features/food_delivery/bloc/item_bloc.dart';
 import 'package:client/features/food_delivery/models/Merchant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,17 +73,18 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                               itemBuilder: (context, itemIndex) {
                                 return ListTile(
                                   onTap: () {
+                                    context.bloc<ItemBloc>().add(ItemAdded(
+                                        listing
+                                            .classificationListing[itemIndex]));
                                     pushNewScreen(context,
                                         screen: ItemListingSelectionPage(
-                                          item: listing
-                                              .classificationListing[itemIndex],
-                                          onSuccess: (item) {
-                                            context
-                                                .bloc<CheckoutBloc>()
-                                                .add(CheckoutItemAdded(item));
-                                            Navigator.pop(context);
-                                          },
-                                        ));
+                                      onSuccess: (item) {
+                                        context
+                                            .bloc<CheckoutBloc>()
+                                            .add(CheckoutItemAdded(item));
+                                        Navigator.pop(context);
+                                      },
+                                    ));
                                   },
                                   title: Text(listing
                                       .classificationListing[itemIndex]
