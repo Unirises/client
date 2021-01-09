@@ -23,7 +23,7 @@ class ParcelLoadSuccess extends ParcelState {
   ]);
 
   @override
-  List<Object> get props => [pickup, points];
+  List<Object> get props => [pickup, points, data, directions];
 
   @override
   String toString() => 'ParcelLoadSuccess { pickup: $pickup, points: $points }';
