@@ -25,7 +25,21 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
         );
       } else if (state is CheckoutLoadSuccess) {
         return Scaffold(
-            appBar: AppBar(title: Text(state.merchant.companyName)),
+            appBar: AppBar(
+                title: Column(
+                  children: [
+                    Text(state.merchant.companyName),
+                    (state.destination != null &&
+                            state.destination.duration != null)
+                        ? Row(children: [
+                            Text(
+                                'Distance from you: ${(state.destination.distance / 1000).toStringAsFixed(2)} km'),
+                            Text(state.destination.duration.text),
+                          ])
+                        : Container(),
+                  ],
+                ),
+                centerTitle: true),
             body: SingleChildScrollView(
               child: Column(
                 children: [

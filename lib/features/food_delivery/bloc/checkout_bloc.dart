@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:client/features/food_delivery/models/Merchant.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../parcel/built_models/built_directions.dart';
@@ -73,8 +75,47 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       if (currentState is CheckoutLoadSuccess) {
         yield currentState.copyWith(destination: event.destination);
         if (currentState.pickup != null) {
-          // TODO: Compute fare here
-          log('should compute fare');
+          try {
+            var data = await Dio().get(
+                "https://maps.googleapis.com/maps/api/directions/json?origin=${currentState.pickup.location.lat},${currentState.pickup.location.lng}&destination=${currentState.destination.location.lat},${currentState.destination.location.lng}&key=AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU");
+            BuiltDirections builtDirections =
+                BuiltDirections.fromJson(json.encode(data.data));
+
+            if (builtDirections.routes.length != 1) {
+              yield CheckoutLoadFailure();
+            } else {
+              num distance = 0;
+
+              builtDirections.routes.first.legs.forEach((e) {
+                distance += e.distance.value;
+              });
+
+              var updatedDestination = currentState.destination.rebuild((b) => b
+                ..isCashOnDelivery = true
+                ..distance = distance
+                ..address = builtDirections.routes.first.legs.first.endAddress
+                ..startLocation = builtDirections
+                    .routes.first.legs.first.startLocation
+                    .toBuilder()
+                ..endLocation = builtDirections
+                    .routes.first.legs.first.endLocation
+                    .toBuilder()
+                ..startAddress =
+                    builtDirections.routes.first.legs.first.startAddress
+                ..endAddress =
+                    builtDirections.routes.first.legs.first.endAddress
+                ..duration = builtDirections.routes.first.legs.first.duration
+                    .toBuilder());
+              log(updatedDestination.toString());
+              yield currentState.copyWith(
+                directions: builtDirections,
+                destination: updatedDestination,
+             dream );
+            }
+          } catch (e) {
+            log(e);
+            yield CheckoutLoadFailure();
+          }
         }
       }
     } else if (event is ComputeFare) {
