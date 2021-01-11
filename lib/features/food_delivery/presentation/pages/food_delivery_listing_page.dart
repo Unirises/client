@@ -4,12 +4,14 @@ import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
 import 'package:client/features/food_delivery/bloc/item_bloc.dart';
 import 'package:client/features/food_delivery/models/Merchant.dart';
 import 'package:client/features/food_delivery/presentation/pages/company_info_data_page.dart';
+
 import 'package:client/features/food_delivery/presentation/widgets/time_location_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
+import 'food_delivery_checkout_page.dart';
 import 'item_listing_selection_page.dart';
 
 class FoodDeliveryListingPage extends StatefulWidget {
@@ -61,7 +63,12 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                     backgroundColor: Theme.of(context).primaryColor,
                     onPressed: (state.items != null && state.items.length > 0)
                         ? () {
-                            // TODO: Push new screen
+                            pushNewScreen(context,
+                                screen: FoodDeliveryCheckoutPage(
+                              onBooked: () {
+                                log('booked');
+                              },
+                            ));
                           }
                         : null,
                   )

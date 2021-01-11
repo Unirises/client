@@ -10,6 +10,8 @@ abstract class CheckoutState extends Equatable {
 class CheckoutLoadingInProgress extends CheckoutState {}
 
 class CheckoutLoadSuccess extends CheckoutState {
+  final Merchant merchant;
+  final num deliveryFee;
   final BuiltStop destination;
   final BuiltStop pickup;
   final BuiltList<ClassificationListing> items;
@@ -17,6 +19,8 @@ class CheckoutLoadSuccess extends CheckoutState {
   final BuiltDirections directions;
 
   const CheckoutLoadSuccess([
+    this.merchant,
+    this.deliveryFee,
     this.destination,
     this.pickup,
     this.items,
@@ -25,13 +29,15 @@ class CheckoutLoadSuccess extends CheckoutState {
   ]);
 
   @override
-  List<Object> get props => [destination, pickup, items, data, directions];
+  List<Object> get props =>
+      [merchant, deliveryFee, destination, pickup, items, data, directions];
 
   @override
   String toString() =>
       'CheckoutLoadSuccess { pickup: $pickup, points: $destination }';
 
   CheckoutLoadSuccess copyWith({
+    Merchant merchant,
     BuiltStop destination,
     BuiltStop pickup,
     BuiltList<ClassificationListing> items,
@@ -39,6 +45,8 @@ class CheckoutLoadSuccess extends CheckoutState {
     BuiltDirections directions,
   }) =>
       CheckoutLoadSuccess(
+        merchant ?? this.merchant,
+        deliveryFee ?? this.deliveryFee,
         destination ?? this.destination,
         pickup ?? this.pickup,
         items ?? this.items,
