@@ -110,7 +110,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
               yield currentState.copyWith(
                 directions: builtDirections,
                 destination: updatedDestination,
-             dream );
+              );
             }
           } catch (e) {
             log(e);
