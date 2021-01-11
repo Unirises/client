@@ -98,23 +98,6 @@ class FoodDeliveryMainPage extends StatelessWidget {
                             ),
                           ),
                         );
-                        // return ListTile(
-                        //   leading: SizedBox(
-                        //       height: 150,
-                        //       child: Image.asset('assets/default-hero.jpg')),
-                        //   onTap: () {
-                        //     pushNewScreen(context,
-                        //         screen: FoodDeliveryListingPage(
-                        //           merchant: state.merchants[index],
-                        //         ));
-                        //   },
-                        //   title: Text(state.merchants[index].companyName),
-                        //   subtitle: Expanded(
-                        //     child: TimeLocationWidget(
-                        //       merchant: state.merchants[index],
-                        //     ),
-                        //   ),
-                        // );
                       },
                       itemCount: state.merchants.length),
                 ),

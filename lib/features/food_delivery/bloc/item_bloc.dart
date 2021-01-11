@@ -58,24 +58,27 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
 
           yield currentState.copyWith(item: newItem);
 
+          num additionalPrice = 0;
           newItem.additionals.forEach((additional) {
             int numOfSelected = 0;
 
             additional.additionalListing.forEach((item) {
               if (item.isSelected != null && item.isSelected == true) {
                 numOfSelected += 1;
+                additionalPrice += item.additionalPrice;
               }
             });
-
-            print(
-                'Num of selected: $numOfSelected | Min: ${additional.minMax.first} | Max: ${additional.minMax.last}');
 
             return isNowValid = (numOfSelected >= additional.minMax.first &&
                 numOfSelected <= additional.minMax.last);
           });
-          print('Final validity check: ${isNowValid}');
-          newItem = newItem.rebuild((item) => item..isValid = isNowValid);
-          yield currentState.copyWith(item: newItem);
+          newItem = newItem.rebuild(
+            (item) => item
+              ..isValid = isNowValid
+              ..additionalPrice = additionalPrice,
+          );
+          yield currentState.copyWith(
+              item: newItem, additionalPrice: additionalPrice);
         } catch (e, stacktrace) {
           print('Cannot rebuild item.');
           print(e);

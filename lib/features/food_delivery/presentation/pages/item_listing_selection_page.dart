@@ -126,7 +126,7 @@ class ItemListingSelectionPage extends StatelessWidget {
                               ),
                               child: Center(
                                 child: Text(
-                                  'Add',
+                                  'Add to basket - PHP ${(state.additionalPrice != null && state.additionalPrice > 0) ? (state.item.itemPrice + state.additionalPrice).toStringAsFixed(2) : state.item.itemPrice.toStringAsFixed(2)}',
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),

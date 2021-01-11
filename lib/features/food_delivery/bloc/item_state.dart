@@ -13,20 +13,19 @@ class ItemLoadingInProgress extends ItemState {}
 
 class ItemLoaded extends ItemState {
   final ClassificationListing item;
+  final num additionalPrice;
 
-  ItemLoaded([this.item]);
-
-  @override
-  List<Object> get props => [item];
+  ItemLoaded([this.item, this.additionalPrice]);
 
   @override
-  String toString() => 'ItemLoaded { item: $item }';
+  List<Object> get props => [item, additionalPrice];
 
-  ItemLoaded copyWith({
-    ClassificationListing item,
-  }) =>
-      ItemLoaded(
+  @override
+  String toString() => 'ItemLoaded { item: $item, additionalPrice: $additionalPrice }';
+
+  ItemLoaded copyWith({ClassificationListing item, num additionalPrice}) => ItemLoaded(
         item ?? this.item,
+        additionalPrice ?? this.additionalPrice,
       );
 }
 

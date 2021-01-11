@@ -59,6 +59,12 @@ class _$ClassificationListingSerializer
         ..add(serializers.serialize(object.isValid,
             specifiedType: const FullType(bool)));
     }
+    if (object.additionalPrice != null) {
+      result
+        ..add('additionalPrice')
+        ..add(serializers.serialize(object.additionalPrice,
+            specifiedType: const FullType(num)));
+    }
     return result;
   }
 
@@ -104,6 +110,10 @@ class _$ClassificationListingSerializer
           result.isValid = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
           break;
+        case 'additionalPrice':
+          result.additionalPrice = serializers.deserialize(value,
+              specifiedType: const FullType(num)) as num;
+          break;
       }
     }
 
@@ -126,6 +136,8 @@ class _$ClassificationListing extends ClassificationListing {
   final int quantity;
   @override
   final bool isValid;
+  @override
+  final num additionalPrice;
 
   factory _$ClassificationListing(
           [void Function(ClassificationListingBuilder) updates]) =>
@@ -138,7 +150,8 @@ class _$ClassificationListing extends ClassificationListing {
       this.itemPrice,
       this.itemSize,
       this.quantity,
-      this.isValid})
+      this.isValid,
+      this.additionalPrice})
       : super._() {
     if (itemName == null) {
       throw new BuiltValueNullFieldError('ClassificationListing', 'itemName');
@@ -171,7 +184,8 @@ class _$ClassificationListing extends ClassificationListing {
         itemPrice == other.itemPrice &&
         itemSize == other.itemSize &&
         quantity == other.quantity &&
-        isValid == other.isValid;
+        isValid == other.isValid &&
+        additionalPrice == other.additionalPrice;
   }
 
   @override
@@ -180,12 +194,16 @@ class _$ClassificationListing extends ClassificationListing {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, itemName.hashCode), additionals.hashCode),
-                        itemPhoto.hashCode),
-                    itemPrice.hashCode),
-                itemSize.hashCode),
-            quantity.hashCode),
-        isValid.hashCode));
+                    $jc(
+                        $jc(
+                            $jc($jc(0, itemName.hashCode),
+                                additionals.hashCode),
+                            itemPhoto.hashCode),
+                        itemPrice.hashCode),
+                    itemSize.hashCode),
+                quantity.hashCode),
+            isValid.hashCode),
+        additionalPrice.hashCode));
   }
 
   @override
@@ -197,7 +215,8 @@ class _$ClassificationListing extends ClassificationListing {
           ..add('itemPrice', itemPrice)
           ..add('itemSize', itemSize)
           ..add('quantity', quantity)
-          ..add('isValid', isValid))
+          ..add('isValid', isValid)
+          ..add('additionalPrice', additionalPrice))
         .toString();
   }
 }
@@ -236,6 +255,11 @@ class ClassificationListingBuilder
   bool get isValid => _$this._isValid;
   set isValid(bool isValid) => _$this._isValid = isValid;
 
+  num _additionalPrice;
+  num get additionalPrice => _$this._additionalPrice;
+  set additionalPrice(num additionalPrice) =>
+      _$this._additionalPrice = additionalPrice;
+
   ClassificationListingBuilder();
 
   ClassificationListingBuilder get _$this {
@@ -247,6 +271,7 @@ class ClassificationListingBuilder
       _itemSize = _$v.itemSize;
       _quantity = _$v.quantity;
       _isValid = _$v.isValid;
+      _additionalPrice = _$v.additionalPrice;
       _$v = null;
     }
     return this;
@@ -277,7 +302,8 @@ class ClassificationListingBuilder
               itemPrice: itemPrice,
               itemSize: itemSize,
               quantity: quantity,
-              isValid: isValid);
+              isValid: isValid,
+              additionalPrice: additionalPrice);
     } catch (_) {
       String _$failedField;
       try {
