@@ -46,15 +46,15 @@ class CheckoutItemDeleted extends CheckoutEvent {
 }
 
 class CheckoutStoreUpdated extends CheckoutEvent {
-  final BuiltStop store;
+  final Merchant merchant;
 
-  CheckoutStoreUpdated(this.store);
-
-  @override
-  List<Object> get props => [store];
+  CheckoutStoreUpdated(this.merchant);
 
   @override
-  String toString() => 'CheckoutStoreUpdated { store: $store }';
+  List<Object> get props => [merchant];
+
+  @override
+  String toString() => 'CheckoutStoreUpdated { merchant: $merchant }';
 }
 
 class CheckoutDestinationUpdated extends CheckoutEvent {

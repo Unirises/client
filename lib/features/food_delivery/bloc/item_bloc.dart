@@ -46,7 +46,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
       yield ItemLoadingInProgress();
       if (currentState is ItemLoaded) {
         try {
-          var isNowValid = false;
+          var isValid = [];
 
           var newItem = currentState.item.rebuild((item) => item
             ..additionals[event.additionalIndex] = item
@@ -59,6 +59,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
           yield currentState.copyWith(item: newItem);
 
           num additionalPrice = 0;
+
           newItem.additionals.forEach((additional) {
             int numOfSelected = 0;
 
@@ -69,12 +70,14 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
               }
             });
 
-            return isNowValid = (numOfSelected >= additional.minMax.first &&
-                numOfSelected <= additional.minMax.last);
+            isValid.add(numOfSelected >= additional.minMax.first);
+            isValid.add(numOfSelected <= additional.minMax.last);
+            return true;
           });
+          print(isValid);
           newItem = newItem.rebuild(
             (item) => item
-              ..isValid = isNowValid
+              ..isValid = !isValid.contains(false)
               ..additionalPrice = additionalPrice,
           );
           yield currentState.copyWith(

@@ -11,7 +11,6 @@ class CheckoutLoadingInProgress extends CheckoutState {}
 
 class CheckoutLoadSuccess extends CheckoutState {
   final Merchant merchant;
-  final num deliveryFee;
   final BuiltStop destination;
   final BuiltStop pickup;
   final BuiltList<ClassificationListing> items;
@@ -20,7 +19,6 @@ class CheckoutLoadSuccess extends CheckoutState {
 
   const CheckoutLoadSuccess([
     this.merchant,
-    this.deliveryFee,
     this.destination,
     this.pickup,
     this.items,
@@ -30,7 +28,7 @@ class CheckoutLoadSuccess extends CheckoutState {
 
   @override
   List<Object> get props =>
-      [merchant, deliveryFee, destination, pickup, items, data, directions];
+      [merchant, destination, pickup, items, data, directions];
 
   @override
   String toString() =>
@@ -46,7 +44,6 @@ class CheckoutLoadSuccess extends CheckoutState {
   }) =>
       CheckoutLoadSuccess(
         merchant ?? this.merchant,
-        deliveryFee ?? this.deliveryFee,
         destination ?? this.destination,
         pickup ?? this.pickup,
         items ?? this.items,

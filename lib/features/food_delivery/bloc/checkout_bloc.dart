@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:client/features/food_delivery/models/Merchant.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../parcel/built_models/built_directions.dart';
@@ -49,14 +50,36 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       }
     } else if (event is CheckoutStoreUpdated) {
       if (currentState is CheckoutLoadSuccess) {
-        yield currentState.copyWith(pickup: event.store);
+        if (event.merchant.place != null) {
+          yield currentState.copyWith(
+              merchant: event.merchant,
+              pickup: BuiltStop((b) => b
+                ..address = event.merchant.address
+                ..houseDetails = event.merchant.address
+                ..location = event.merchant.place.toBuilder()
+                ..isCashOnDelivery = true
+                ..name = event.merchant.companyName
+                ..phone = event.merchant.phone
+                ..startAddress = event.merchant.address
+                ..startLocation = event.merchant.place.toBuilder()));
+        } else {
+          print('Only for empty merchants');
+          var newItems = currentState.items.rebuild((b) => b..clear());
+          yield currentState.copyWith(
+              merchant: event.merchant, items: newItems);
+        }
       }
     } else if (event is CheckoutDestinationUpdated) {
       if (currentState is CheckoutLoadSuccess) {
         yield currentState.copyWith(destination: event.destination);
+        if (currentState.pickup != null) {
+          // TODO: Compute fare here
+          log('should compute fare');
+        }
       }
     } else if (event is ComputeFare) {
       log('COMPUTE FARE TRIGGERED');
+      // TODO: Compute distance, fare, end location
     }
   }
 }

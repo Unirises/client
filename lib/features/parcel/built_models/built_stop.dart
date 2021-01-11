@@ -19,7 +19,7 @@ abstract class BuiltStop implements Built<BuiltStop, BuiltStopBuilder> {
   @nullable
   String get phone;
   @nullable
-  Location get location; // lat lng
+  Location get location;
   @nullable
   String get address;
   @nullable
