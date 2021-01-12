@@ -73,11 +73,13 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       }
     } else if (event is CheckoutDestinationUpdated) {
       if (currentState is CheckoutLoadSuccess) {
+        log(event.destination.toString());
         yield currentState.copyWith(destination: event.destination);
+
         if (currentState.pickup != null) {
           try {
             var data = await Dio().get(
-                "https://maps.googleapis.com/maps/api/directions/json?origin=${currentState.pickup.location.lat},${currentState.pickup.location.lng}&destination=${currentState.destination.location.lat},${currentState.destination.location.lng}&key=AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU");
+                "https://maps.googleapis.com/maps/api/directions/json?origin=${currentState.pickup.location.lat},${currentState.pickup.location.lng}&destination=${event.destination.location.lat},${event.destination.location.lng}&key=AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU");
             BuiltDirections builtDirections =
                 BuiltDirections.fromJson(json.encode(data.data));
 
@@ -90,7 +92,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
                 distance += e.distance.value;
               });
 
-              var updatedDestination = currentState.destination.rebuild((b) => b
+              var updatedDestination = event.destination.rebuild((b) => b
                 ..isCashOnDelivery = true
                 ..distance = distance
                 ..address = builtDirections.routes.first.legs.first.endAddress
@@ -112,8 +114,9 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
                 destination: updatedDestination,
               );
             }
-          } catch (e) {
-            log(e);
+          } catch (e, stacktrace) {
+            log(e.toString());
+            log(stacktrace.toString());
             yield CheckoutLoadFailure();
           }
         }

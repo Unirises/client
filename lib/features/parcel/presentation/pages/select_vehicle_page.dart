@@ -180,10 +180,12 @@ class _SelectVehiclePageState extends State<SelectVehiclePage> {
     }
 
     if (data['weight'] <= 1000 || data['weight'] >= 1000) {
-      list.add(DropdownMenuItem<String>(
-        value: 'car7Seater',
-        child: Text('Van'),
-      ));
+      list.add(
+        DropdownMenuItem<String>(
+          value: 'car7Seater',
+          child: Text('Van'),
+        ),
+      );
     }
 
     return list;
