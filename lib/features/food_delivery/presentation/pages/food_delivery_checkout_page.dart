@@ -79,6 +79,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                   bottom: 140,
                   child: SingleChildScrollView(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -264,6 +265,48 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                   )
                                 : Container(),
                           ]),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 4),
+                          child: Text('Items',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24)),
+                        ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Text(state.items[index].itemName),
+                              leading: Text('${state.items[index].quantity}x'),
+                              trailing: Text(
+                                  'PHP ${((state.items[index].additionalPrice + state.items[index].itemPrice) * state.items[index].quantity).toStringAsFixed(2)}'),
+                              subtitle: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  FlatButton(
+                                    onPressed: () {},
+                                    child: Text('Edit',
+                                        style: TextStyle(
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () {},
+                                    child: Text('Delete',
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold)),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                          itemCount: state.items.length,
                         ),
                       ],
                     ),
