@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
 import 'package:client/features/parcel/presentation/pages/add_stop_details_page.dart';
@@ -32,6 +33,21 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
           ),
         );
       } else if (state is CheckoutLoadSuccess) {
+        List<num> items = [];
+        num subtotal = 0.00;
+
+        state.items.forEach((item) {
+          var tmp = 0;
+          tmp += item.additionalPrice;
+          tmp += item.itemPrice;
+          tmp *= item.quantity;
+          items.add(tmp);
+        });
+
+        if (items.length > 0) {
+          subtotal = items.reduce((value, element) => value + element);
+        }
+
         return Scaffold(
             appBar: AppBar(
               title: Column(
@@ -168,8 +184,83 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                   ),
                                 ),
                               ]),
+                              Row(children: [
+                                Expanded(
+                                  child: RaisedButton(
+                                    child: Text('Select Vehicle Type'),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              FoodDeliverySelectVehicle(
+                                            onSelected: (selected) {
+                                              context.bloc<CheckoutBloc>().add(
+                                                  CheckoutVehicleUpdated(
+                                                      selectedVehicleType:
+                                                          selected));
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ]),
                             ],
                           ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 4),
+                          child: Column(children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Subtotal',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text('PHP ' + subtotal.toStringAsFixed(2))
+                              ],
+                            ),
+                            (state.deliveryFee != null)
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Delivery Fee (${buildType(state.selectedVehicleType)})',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text('PHP ' +
+                                          state.deliveryFee.toStringAsFixed(2))
+                                    ],
+                                  )
+                                : Container(),
+                            (state.deliveryFee != null)
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Total',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text('PHP ' +
+                                          (subtotal + state.deliveryFee)
+                                              .toStringAsFixed(2))
+                                    ],
+                                  )
+                                : Container(),
+                          ]),
                         ),
                       ],
                     ),
@@ -211,26 +302,6 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                                     selectedVehicleType:
                                                         selected));
                                             Navigator.pop(context);
-                                            // context.bloc<ParcelBloc>().add(
-                                            //       RequestParcel(
-                                            //           type: selected,
-                                            //           rideBloc: context.bloc<
-                                            //               ParcelRideBloc>(),
-                                            //           name: (context
-                                            //                       .bloc<
-                                            //                           UserCollectionBloc>()
-                                            //                       .state
-                                            //                   as UserCollectionLoaded)
-                                            //               .userCollection
-                                            //               .name,
-                                            //           number: (context
-                                            //                       .bloc<
-                                            //                           UserCollectionBloc>()
-                                            //                       .state
-                                            //                   as UserCollectionLoaded)
-                                            //               .userCollection
-                                            //               .phone),
-                                            //     );
                                           },
                                         ),
                                       ),
@@ -238,6 +309,27 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                   }
                                 : () {
                                     print('book ride');
+                                    // context.bloc<ParcelBloc>().add(
+                                    //       RequestParcel(
+                                    //           type: selected,
+                                    //           rideBloc: context.bloc<
+                                    //               ParcelRideBloc>(),
+                                    //           name: (context
+                                    //                       .bloc<
+                                    //                           UserCollectionBloc>()
+                                    //                       .state
+                                    //                   as UserCollectionLoaded)
+                                    //               .userCollection
+                                    //               .name,
+                                    //           number: (context
+                                    //                       .bloc<
+                                    //                           UserCollectionBloc>()
+                                    //                       .state
+                                    //                   as UserCollectionLoaded)
+                                    //               .userCollection
+                                    //               .phone),
+                                    //     );
+                                    Navigator.pop(context);
                                   }
                             : null,
                         child: Padding(
@@ -268,6 +360,21 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
             ));
       }
     });
+  }
+
+  String buildType(String type) {
+    switch (type) {
+      case 'motorcycle':
+        return 'Motorcycle';
+      case 'car2Seater':
+        return 'Sedan & SUV';
+      case 'car4Seater':
+        return 'Mini Van or MPV';
+      case 'car7Seater':
+        return 'Van';
+      default:
+        return 'Unknown type';
+    }
   }
 }
 

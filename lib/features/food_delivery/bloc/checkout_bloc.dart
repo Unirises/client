@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:client/core/helpers.dart';
 import 'package:client/features/food_delivery/models/Merchant.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -126,8 +127,14 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       // TODO: Compute distance, fare, end location
     } else if (event is CheckoutVehicleUpdated) {
       if (currentState is CheckoutLoadSuccess) {
+        var deliveryFee = computeFare(event.selectedVehicleType,
+            currentState.destination.distance, false);
+        var rebuildDestination =
+            currentState.destination.rebuild((b) => b..price = deliveryFee);
         yield currentState.copyWith(
           selectedVehicleType: event.selectedVehicleType,
+          deliveryFee: deliveryFee,
+          destination: rebuildDestination,
         );
       }
     }
