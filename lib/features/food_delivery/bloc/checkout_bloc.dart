@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:client/core/client_bloc/client_repository.dart';
 import 'package:client/core/helpers.dart';
+import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
 import 'package:client/features/food_delivery/models/Merchant.dart';
 import 'package:client/features/parcel/built_models/built_position.dart';
 import 'package:client/features/parcel/built_models/built_request.dart';
@@ -140,7 +141,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       log('BOOK REQUEST TRIGGERED');
       try {
         if (currentState is CheckoutLoadSuccess) {
-          // yield CheckoutLoadingInProgress();
+          yield CheckoutLoadingInProgress();
           var shittyPos = await Geolocator.getCurrentPosition();
           var goodPos = BuiltPosition.fromJson(json.encode(shittyPos.toJson()));
           var deviceToken = await FirebaseMessaging.instance.getToken();
@@ -160,11 +161,11 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
               ..rideType = currentState.selectedVehicleType,
           );
 
-          var requestId = await _clientRepository.updateStatus(
+          var requestId = await _clientRepository.updateDeliveryStatus(
             data: 'requesting',
             request: request,
           );
-          // event.rideBloc.add(StartListenOnParcelRide(requestId));
+          event.foodRideBloc.add(StartListenOnFoodRide(requestId));
           yield currentState.copyWith();
         }
       } catch (e) {

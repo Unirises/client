@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
+import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
 import 'package:client/features/food_delivery/bloc/item_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -180,6 +181,7 @@ class _AppState extends State<App> {
               create: (_) =>
                   ParcelBloc(clientRepository: widget.clientRepository)),
           BlocProvider(create: (_) => ParcelRideBloc()),
+          BlocProvider(create: (_) => FoodRideBloc()),
           BlocProvider(
             create: (_) => BookCubit(),
           ),
@@ -187,7 +189,8 @@ class _AppState extends State<App> {
             create: (_) => ItemBloc(),
           ),
           BlocProvider(
-            create: (_) => CheckoutBloc(clientRepository: widget.clientRepository),
+            create: (_) =>
+                CheckoutBloc(clientRepository: widget.clientRepository),
           ),
           BlocProvider(
             create: (_) => CheckoutCubit(),

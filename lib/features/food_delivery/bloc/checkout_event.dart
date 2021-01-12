@@ -74,8 +74,9 @@ class CheckoutDestinationUpdated extends CheckoutEvent {
 class CheckoutBookRide extends CheckoutEvent {
   final String name;
   final String number;
+  final FoodRideBloc foodRideBloc;
 
-  CheckoutBookRide({this.name, this.number});
+  CheckoutBookRide({this.name, this.number, this.foodRideBloc});
 
   @override
   List<Object> get props => [name, number];

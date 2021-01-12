@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:client/core/user_collection_bloc/user_collection_bloc.dart';
 import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
+import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
 import 'package:client/features/food_delivery/bloc/item_bloc.dart';
 import 'package:client/features/pabili/pages/checkout_page.dart';
 import 'package:client/features/parcel/presentation/pages/add_stop_details_page.dart';
@@ -385,20 +386,23 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                         print('book ride');
                                         context.bloc<CheckoutBloc>().add(
                                               CheckoutBookRide(
-                                                  name: (context
-                                                              .bloc<
-                                                                  UserCollectionBloc>()
-                                                              .state
-                                                          as UserCollectionLoaded)
-                                                      .userCollection
-                                                      .name,
-                                                  number: (context
-                                                              .bloc<
-                                                                  UserCollectionBloc>()
-                                                              .state
-                                                          as UserCollectionLoaded)
-                                                      .userCollection
-                                                      .phone),
+                                                name: (context
+                                                            .bloc<
+                                                                UserCollectionBloc>()
+                                                            .state
+                                                        as UserCollectionLoaded)
+                                                    .userCollection
+                                                    .name,
+                                                number: (context
+                                                            .bloc<
+                                                                UserCollectionBloc>()
+                                                            .state
+                                                        as UserCollectionLoaded)
+                                                    .userCollection
+                                                    .phone,
+                                                foodRideBloc: context
+                                                    .bloc<FoodRideBloc>(),
+                                              ),
                                             );
                                         // context.bloc<ParcelBloc>().add(
                                         //       RequestParcel(
