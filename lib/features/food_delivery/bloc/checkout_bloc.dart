@@ -4,10 +4,17 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:client/core/client_bloc/client_repository.dart';
 import 'package:client/core/helpers.dart';
 import 'package:client/features/food_delivery/models/Merchant.dart';
+import 'package:client/features/parcel/built_models/built_position.dart';
+import 'package:client/features/parcel/built_models/built_request.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:meta/meta.dart';
 
 import '../../parcel/built_models/built_directions.dart';
 import '../../parcel/built_models/built_stop.dart';
@@ -17,7 +24,11 @@ part 'checkout_event.dart';
 part 'checkout_state.dart';
 
 class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
-  CheckoutBloc() : super(CheckoutLoadSuccess());
+  final ClientRepository _clientRepository;
+  CheckoutBloc({@required ClientRepository clientRepository})
+      : assert(clientRepository != null),
+        _clientRepository = clientRepository,
+        super(CheckoutLoadSuccess());
 
   @override
   Stream<CheckoutState> mapEventToState(
@@ -125,9 +136,41 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
           }
         }
       }
-    } else if (event is ComputeFare) {
-      log('COMPUTE FARE TRIGGERED');
-      // TODO: Compute distance, fare, end location
+    } else if (event is CheckoutBookRide) {
+      log('BOOK REQUEST TRIGGERED');
+      try {
+        if (currentState is CheckoutLoadSuccess) {
+          // yield CheckoutLoadingInProgress();
+          var shittyPos = await Geolocator.getCurrentPosition();
+          var goodPos = BuiltPosition.fromJson(json.encode(shittyPos.toJson()));
+          var deviceToken = await FirebaseMessaging.instance.getToken();
+
+          var request = BuiltRequest(
+            (b) => b
+              ..clientToken = deviceToken
+              ..isParcel = false
+              ..userId = FirebaseAuth.instance.currentUser.uid
+              ..status = 'requesting'
+              ..position = goodPos.toBuilder()
+              ..currentIndex = 0
+              ..pickup = currentState.pickup.toBuilder()
+              ..clientName = event.name
+              ..clientNumber = event.number
+              ..directions = currentState.directions.toBuilder()
+              ..rideType = currentState.selectedVehicleType,
+          );
+
+          var requestId = await _clientRepository.updateStatus(
+            data: 'requesting',
+            request: request,
+          );
+          // event.rideBloc.add(StartListenOnParcelRide(requestId));
+          yield currentState.copyWith();
+        }
+      } catch (e) {
+        print('TROUBLE ON REQUESTING RIDE');
+        log(e.toString());
+      }
     } else if (event is CheckoutVehicleUpdated) {
       if (currentState is CheckoutLoadSuccess) {
         var deliveryFee = computeFare(event.selectedVehicleType,

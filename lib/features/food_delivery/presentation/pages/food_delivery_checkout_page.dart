@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:client/core/user_collection_bloc/user_collection_bloc.dart';
 import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
 import 'package:client/features/food_delivery/bloc/item_bloc.dart';
 import 'package:client/features/pabili/pages/checkout_page.dart';
@@ -382,25 +383,29 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                 : (state.items.length > 0)
                                     ? () {
                                         print('book ride');
+                                        context.bloc<CheckoutBloc>().add(
+                                              CheckoutBookRide(
+                                                  name: (context
+                                                              .bloc<
+                                                                  UserCollectionBloc>()
+                                                              .state
+                                                          as UserCollectionLoaded)
+                                                      .userCollection
+                                                      .name,
+                                                  number: (context
+                                                              .bloc<
+                                                                  UserCollectionBloc>()
+                                                              .state
+                                                          as UserCollectionLoaded)
+                                                      .userCollection
+                                                      .phone),
+                                            );
                                         // context.bloc<ParcelBloc>().add(
                                         //       RequestParcel(
                                         //           type: selected,
                                         //           rideBloc: context.bloc<
                                         //               ParcelRideBloc>(),
-                                        //           name: (context
-                                        //                       .bloc<
-                                        //                           UserCollectionBloc>()
-                                        //                       .state
-                                        //                   as UserCollectionLoaded)
-                                        //               .userCollection
-                                        //               .name,
-                                        //           number: (context
-                                        //                       .bloc<
-                                        //                           UserCollectionBloc>()
-                                        //                       .state
-                                        //                   as UserCollectionLoaded)
-                                        //               .userCollection
-                                        //               .phone),
+
                                         //     );
                                         Navigator.pop(context);
                                       }

@@ -187,7 +187,7 @@ class _AppState extends State<App> {
             create: (_) => ItemBloc(),
           ),
           BlocProvider(
-            create: (_) => CheckoutBloc(),
+            create: (_) => CheckoutBloc(clientRepository: widget.clientRepository),
           ),
           BlocProvider(
             create: (_) => CheckoutCubit(),

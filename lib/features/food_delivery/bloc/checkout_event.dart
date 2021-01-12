@@ -71,7 +71,18 @@ class CheckoutDestinationUpdated extends CheckoutEvent {
       'CheckoutDestinationUpdated { destination: $destination }';
 }
 
-class ComputeFare extends CheckoutEvent {}
+class CheckoutBookRide extends CheckoutEvent {
+  final String name;
+  final String number;
+
+  CheckoutBookRide({this.name, this.number});
+
+  @override
+  List<Object> get props => [name, number];
+
+  @override
+  String toString() => 'CheckoutBookRide { name: $name, number: $number }';
+}
 
 class CheckoutVehicleUpdated extends CheckoutEvent {
   final String selectedVehicleType;
