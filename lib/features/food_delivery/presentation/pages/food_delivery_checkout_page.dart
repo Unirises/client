@@ -184,30 +184,33 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                   ),
                                 ),
                               ]),
-                              Row(children: [
-                                Expanded(
-                                  child: RaisedButton(
-                                    child: Text('Select Vehicle Type'),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              FoodDeliverySelectVehicle(
-                                            onSelected: (selected) {
-                                              context.bloc<CheckoutBloc>().add(
-                                                  CheckoutVehicleUpdated(
-                                                      selectedVehicleType:
-                                                          selected));
-                                              Navigator.pop(context);
-                                            },
-                                          ),
+                              (state.selectedVehicleType != null)
+                                  ? Row(children: [
+                                      Expanded(
+                                        child: RaisedButton(
+                                          child: Text('Select Vehicle Type'),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    FoodDeliverySelectVehicle(
+                                                  onSelected: (selected) {
+                                                    context
+                                                        .bloc<CheckoutBloc>()
+                                                        .add(CheckoutVehicleUpdated(
+                                                            selectedVehicleType:
+                                                                selected));
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                              ),
+                                            );
+                                          },
                                         ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ]),
+                                      ),
+                                    ])
+                                  : Container(),
                             ],
                           ),
                         ),
