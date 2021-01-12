@@ -18,4 +18,4 @@ class FoodRideLoaded extends FoodRideState {
   List<Object> get props => [request];
 }
 
-class ParcelRideFailure extends FoodRideState {}
+class FoodRideFailure extends FoodRideState {}

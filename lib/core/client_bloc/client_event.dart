@@ -60,3 +60,11 @@ class ClientCancelRide extends ClientEvent {
   @override
   List<Object> get props => [requestID];
 }
+
+class ClientCancelFoodRide extends ClientEvent {
+  final String requestID;
+  const ClientCancelFoodRide(this.requestID);
+
+  @override
+  List<Object> get props => [requestID];
+}

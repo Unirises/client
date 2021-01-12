@@ -39,7 +39,7 @@ class FoodRideBloc extends Bloc<FoodRideEvent, FoodRideState> {
             .collection('clients')
             .doc(FirebaseAuth.instance.currentUser.uid)
             .update({'delivery_status': 'idle'});
-        yield ParcelRideFailure();
+        yield FoodRideFailure();
       }
     } else if (event is FoodRideUpdated) {
       try {
@@ -62,7 +62,7 @@ class FoodRideBloc extends Bloc<FoodRideEvent, FoodRideState> {
             .collection('clients')
             .doc(FirebaseAuth.instance.currentUser.uid)
             .update({'delivery_status': 'idle'});
-        yield ParcelRideFailure();
+        yield FoodRideFailure();
       }
     } else if (event is StopListenOnFoodRide) {
       _rideSubscription?.cancel();
@@ -84,7 +84,7 @@ class FoodRideBloc extends Bloc<FoodRideEvent, FoodRideState> {
             .collection('clients')
             .doc(FirebaseAuth.instance.currentUser.uid)
             .update({'delivery_status': 'idle'});
-        yield ParcelRideFailure();
+        yield FoodRideFailure();
       }
     }
   }

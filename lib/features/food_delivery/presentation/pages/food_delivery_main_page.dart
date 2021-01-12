@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:client/core/client_bloc/client_bloc.dart';
 import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
 import 'package:client/features/food_delivery/bloc/merchant_bloc.dart';
+import 'package:client/features/food_delivery/presentation/pages/food_delivery_requesting_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,9 +46,16 @@ class FoodDeliveryMainPage extends StatelessWidget {
                   log(clientState.client.delivery_status);
                   if (clientState.client.delivery_status == 'idle') {
                     return FoodIdlePage();
-                  } else {
-                    return Text('hotdog');
-                  }
+                  } else if (clientState.client.delivery_status ==
+                      'requesting') {
+                    return FoodDeliveryRequestingPage();
+                  } else if (clientState.client.delivery_status == 'transit') {
+                  } else if (clientState.client.delivery_status == 'arrived') {
+                  } else if (clientState.client.delivery_status == 'arriving') {
+                  } else if (clientState.client.delivery_status ==
+                          'cancelled' ||
+                      clientState.client.delivery_status == 'completed') {}
+                  return Text(clientState.client.delivery_status.toString());
                 }
               });
             }

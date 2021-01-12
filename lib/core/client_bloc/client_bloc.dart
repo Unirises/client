@@ -72,7 +72,7 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
       // );
 
       // event.pabiliDeliveryBloc.add(PDB.StartListenOnPabiliRide(requestId));
-    } else if (event is ClientCancelRide) {
+    } else if (event is ClientCancelFoodRide) {
       await _clientRepository.updateDeliveryStatus(
         data: 'idle',
         requestID: event.requestID,

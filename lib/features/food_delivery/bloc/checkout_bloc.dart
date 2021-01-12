@@ -158,6 +158,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
               ..clientName = event.name
               ..clientNumber = event.number
               ..directions = currentState.directions.toBuilder()
+              ..destination = currentState.destination.toBuilder()
               ..rideType = currentState.selectedVehicleType,
           );
 
