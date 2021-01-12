@@ -71,3 +71,16 @@ class CheckoutDestinationUpdated extends CheckoutEvent {
 }
 
 class ComputeFare extends CheckoutEvent {}
+
+class CheckoutVehicleUpdated extends CheckoutEvent {
+  final String selectedVehicleType;
+
+  CheckoutVehicleUpdated({this.selectedVehicleType});
+
+  @override
+  List<Object> get props => [selectedVehicleType];
+
+  @override
+  String toString() =>
+      'CheckoutVehicleUpdated { selectedVehicleType: $selectedVehicleType }';
+}

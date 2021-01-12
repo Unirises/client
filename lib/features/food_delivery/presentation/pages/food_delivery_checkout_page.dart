@@ -149,7 +149,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                                     return Flushbar(
                                                       title: 'Event cancelled',
                                                       message:
-                                                          'You cancelled adding a stop in your parcel data.',
+                                                          'You cancelled adding destination to your request.',
                                                       duration:
                                                           Duration(seconds: 5),
                                                       isDismissible: false,
@@ -198,40 +198,47 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                       child: GestureDetector(
                         onTap: (state.destination != null &&
                                 state.directions != null)
-                            ? () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        FoodDeliverySelectVehicle(
-                                      onSelected: (selected) {
-                                        print(selected);
-                                        Navigator.pop(context);
-                                        // context.bloc<ParcelBloc>().add(
-                                        //       RequestParcel(
-                                        //           type: selected,
-                                        //           rideBloc: context.bloc<
-                                        //               ParcelRideBloc>(),
-                                        //           name: (context
-                                        //                       .bloc<
-                                        //                           UserCollectionBloc>()
-                                        //                       .state
-                                        //                   as UserCollectionLoaded)
-                                        //               .userCollection
-                                        //               .name,
-                                        //           number: (context
-                                        //                       .bloc<
-                                        //                           UserCollectionBloc>()
-                                        //                       .state
-                                        //                   as UserCollectionLoaded)
-                                        //               .userCollection
-                                        //               .phone),
-                                        //     );
-                                      },
-                                    ),
-                                  ),
-                                );
-                              }
+                            ? (state.selectedVehicleType == null)
+                                ? () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            FoodDeliverySelectVehicle(
+                                          onSelected: (selected) {
+                                            context.bloc<CheckoutBloc>().add(
+                                                CheckoutVehicleUpdated(
+                                                    selectedVehicleType:
+                                                        selected));
+                                            Navigator.pop(context);
+                                            // context.bloc<ParcelBloc>().add(
+                                            //       RequestParcel(
+                                            //           type: selected,
+                                            //           rideBloc: context.bloc<
+                                            //               ParcelRideBloc>(),
+                                            //           name: (context
+                                            //                       .bloc<
+                                            //                           UserCollectionBloc>()
+                                            //                       .state
+                                            //                   as UserCollectionLoaded)
+                                            //               .userCollection
+                                            //               .name,
+                                            //           number: (context
+                                            //                       .bloc<
+                                            //                           UserCollectionBloc>()
+                                            //                       .state
+                                            //                   as UserCollectionLoaded)
+                                            //               .userCollection
+                                            //               .phone),
+                                            //     );
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                : () {
+                                    print('book ride');
+                                  }
                             : null,
                         child: Padding(
                           padding: const EdgeInsets.all(24),
@@ -244,7 +251,9 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                'Book Request',
+                                (state.selectedVehicleType == null)
+                                    ? 'Select Vehicle'
+                                    : 'Book Request',
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
@@ -400,7 +409,7 @@ class _FoodDeliverySelectVehicleState extends State<FoodDeliverySelectVehicle> {
                                     : null,
                                 color: Theme.of(context).primaryColor,
                                 textColor: Colors.white,
-                                child: Text('Book Ride'),
+                                child: Text('Select Vehicle'),
                               ),
                             ),
                           ),

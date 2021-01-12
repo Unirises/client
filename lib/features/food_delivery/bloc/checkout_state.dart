@@ -16,6 +16,7 @@ class CheckoutLoadSuccess extends CheckoutState {
   final BuiltList<ClassificationListing> items;
   final Map<String, dynamic> data;
   final BuiltDirections directions;
+  final String selectedVehicleType;
 
   const CheckoutLoadSuccess([
     this.merchant,
@@ -24,11 +25,12 @@ class CheckoutLoadSuccess extends CheckoutState {
     this.items,
     this.data,
     this.directions,
+    this.selectedVehicleType,
   ]);
 
   @override
   List<Object> get props =>
-      [merchant, destination, pickup, items, data, directions];
+      [merchant, destination, pickup, items, data, directions, selectedVehicleType,];
 
   @override
   String toString() =>
@@ -41,6 +43,7 @@ class CheckoutLoadSuccess extends CheckoutState {
     BuiltList<ClassificationListing> items,
     Map<String, dynamic> data,
     BuiltDirections directions,
+    String selectedVehicleType,
   }) =>
       CheckoutLoadSuccess(
         merchant ?? this.merchant,
@@ -49,6 +52,7 @@ class CheckoutLoadSuccess extends CheckoutState {
         items ?? this.items,
         data ?? this.data,
         directions ?? this.directions,
+        selectedVehicleType ?? this.selectedVehicleType,
       );
 }
 

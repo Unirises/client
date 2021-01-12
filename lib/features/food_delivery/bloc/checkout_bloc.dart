@@ -124,6 +124,12 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     } else if (event is ComputeFare) {
       log('COMPUTE FARE TRIGGERED');
       // TODO: Compute distance, fare, end location
+    } else if (event is CheckoutVehicleUpdated) {
+      if (currentState is CheckoutLoadSuccess) {
+        yield currentState.copyWith(
+          selectedVehicleType: event.selectedVehicleType,
+        );
+      }
     }
   }
 }
