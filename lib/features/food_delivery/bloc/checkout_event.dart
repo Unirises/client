@@ -35,14 +35,15 @@ class CheckoutItemUpdated extends CheckoutEvent {
 
 class CheckoutItemDeleted extends CheckoutEvent {
   final ClassificationListing item;
+  final int index;
 
-  CheckoutItemDeleted(this.item);
-
-  @override
-  List<Object> get props => [item];
+  CheckoutItemDeleted(this.item, this.index);
 
   @override
-  String toString() => 'CheckoutItemDeleted { item: $item }';
+  List<Object> get props => [item, index];
+
+  @override
+  String toString() => 'CheckoutItemDeleted { item: $item, index: $index }';
 }
 
 class CheckoutStoreUpdated extends CheckoutEvent {

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
+import 'package:client/features/pabili/pages/checkout_page.dart';
 import 'package:client/features/parcel/presentation/pages/add_stop_details_page.dart';
 import 'package:client/features/parcel/presentation/pages/select_vehicle_page.dart';
 import 'package:flushbar/flushbar.dart';
@@ -38,7 +39,9 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
 
         state.items.forEach((item) {
           var tmp = 0;
-          tmp += item.additionalPrice;
+          (item.additionalPrice != null)
+              ? tmp += (item?.additionalPrice ?? 0)
+              : null;
           tmp += item.itemPrice;
           tmp *= item.quantity;
           items.add(tmp);
@@ -283,7 +286,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                               title: Text(state.items[index].itemName),
                               leading: Text('${state.items[index].quantity}x'),
                               trailing: Text(
-                                  'PHP ${((state.items[index].additionalPrice + state.items[index].itemPrice) * state.items[index].quantity).toStringAsFixed(2)}'),
+                                  'PHP ${(((state.items[index]?.additionalPrice ?? 0) + state.items[index].itemPrice) * state.items[index].quantity).toStringAsFixed(2)}'),
                               subtitle: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -296,7 +299,11 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                             fontWeight: FontWeight.bold)),
                                   ),
                                   FlatButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      context.bloc<CheckoutBloc>().add(
+                                          CheckoutItemDeleted(
+                                              state.items[index], index));
+                                    },
                                     child: Text('Delete',
                                         style: TextStyle(
                                             color: Colors.red,
@@ -353,30 +360,32 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                       ),
                                     );
                                   }
-                                : () {
-                                    print('book ride');
-                                    // context.bloc<ParcelBloc>().add(
-                                    //       RequestParcel(
-                                    //           type: selected,
-                                    //           rideBloc: context.bloc<
-                                    //               ParcelRideBloc>(),
-                                    //           name: (context
-                                    //                       .bloc<
-                                    //                           UserCollectionBloc>()
-                                    //                       .state
-                                    //                   as UserCollectionLoaded)
-                                    //               .userCollection
-                                    //               .name,
-                                    //           number: (context
-                                    //                       .bloc<
-                                    //                           UserCollectionBloc>()
-                                    //                       .state
-                                    //                   as UserCollectionLoaded)
-                                    //               .userCollection
-                                    //               .phone),
-                                    //     );
-                                    Navigator.pop(context);
-                                  }
+                                : (state.items.length > 0)
+                                    ? () {
+                                        print('book ride');
+                                        // context.bloc<ParcelBloc>().add(
+                                        //       RequestParcel(
+                                        //           type: selected,
+                                        //           rideBloc: context.bloc<
+                                        //               ParcelRideBloc>(),
+                                        //           name: (context
+                                        //                       .bloc<
+                                        //                           UserCollectionBloc>()
+                                        //                       .state
+                                        //                   as UserCollectionLoaded)
+                                        //               .userCollection
+                                        //               .name,
+                                        //           number: (context
+                                        //                       .bloc<
+                                        //                           UserCollectionBloc>()
+                                        //                       .state
+                                        //                   as UserCollectionLoaded)
+                                        //               .userCollection
+                                        //               .phone),
+                                        //     );
+                                        Navigator.pop(context);
+                                      }
+                                    : null
                             : null,
                         child: Padding(
                           padding: const EdgeInsets.all(24),
@@ -384,7 +393,9 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(6),
                               color: (state.destination != null)
-                                  ? Colors.green
+                                  ? (state.items.length > 0)
+                                      ? Colors.green
+                                      : Colors.grey
                                   : Colors.grey,
                             ),
                             child: Center(
