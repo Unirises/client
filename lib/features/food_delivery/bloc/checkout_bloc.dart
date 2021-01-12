@@ -39,7 +39,10 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
         final BuiltList<ClassificationListing> updatedItems =
             currentState.items.rebuild((b) {
           b.map((item) {
-            return item == event.item ? event.item : item;
+            return item.itemName + item.itemPrice.toString() ==
+                    event.item.itemName + item.itemPrice.toString()
+                ? event.item
+                : item;
           });
         });
         yield currentState.copyWith(items: updatedItems);

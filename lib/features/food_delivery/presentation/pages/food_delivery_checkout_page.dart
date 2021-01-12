@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
+import 'package:client/features/food_delivery/bloc/item_bloc.dart';
 import 'package:client/features/pabili/pages/checkout_page.dart';
 import 'package:client/features/parcel/presentation/pages/add_stop_details_page.dart';
 import 'package:client/features/parcel/presentation/pages/select_vehicle_page.dart';
@@ -11,6 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+
+import 'item_listing_selection_page.dart';
 
 class FoodDeliveryCheckoutPage extends StatelessWidget {
   final Function onBooked;
@@ -292,7 +296,22 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   FlatButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      context.bloc<ItemBloc>().add(
+                                          ItemAdded(state.items[index], true));
+                                      pushNewScreen(context,
+                                          screen: ItemListingSelectionPage(
+                                            itemIndex: index,
+                                            classificationIndex: 0,
+                                            onSuccess: (item) {
+                                              // EDIT ITEM
+                                              log(item.toString());
+                                              context.bloc<CheckoutBloc>().add(
+                                                  CheckoutItemUpdated(item));
+                                              Navigator.pop(context);
+                                            },
+                                          ));
+                                    },
                                     child: Text('Edit',
                                         style: TextStyle(
                                             color: Colors.blue,

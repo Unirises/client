@@ -9,14 +9,15 @@ abstract class ItemEvent extends Equatable {
 
 class ItemAdded extends ItemEvent {
   final ClassificationListing item;
+  final bool onEditMode;
 
-  ItemAdded(this.item);
-
-  @override
-  List<Object> get props => [item];
+  ItemAdded(this.item, this.onEditMode);
 
   @override
-  String toString() => 'ItemAdded { item: $item }';
+  List<Object> get props => [item, onEditMode];
+
+  @override
+  String toString() => 'ItemAdded { item: $item, onEditMode: $onEditMode }';
 }
 
 class ItemQuantityUpdated extends ItemEvent {

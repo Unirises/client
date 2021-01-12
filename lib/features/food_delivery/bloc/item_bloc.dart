@@ -19,12 +19,16 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
     if (event is ItemAdded) {
       if (currentState is ItemLoaded) {
         yield ItemLoadingInProgress();
+
         bool isShouldBeValid = true;
         event.item.additionals.forEach((additional) {
           if (additional.minMax.first >= 1) {
             isShouldBeValid = false;
           }
         });
+
+        if (event.onEditMode) isShouldBeValid = true;
+
         var newItem = event.item.rebuild((b) => b
           ..isValid = isShouldBeValid
           ..quantity = 1);

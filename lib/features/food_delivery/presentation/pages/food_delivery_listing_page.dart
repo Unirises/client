@@ -163,7 +163,7 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                                     onTap: () {
                                       context.bloc<ItemBloc>().add(ItemAdded(
                                           listing.classificationListing[
-                                              itemIndex]));
+                                              itemIndex], false));
                                       pushNewScreen(context,
                                           screen: ItemListingSelectionPage(
                                             itemIndex: itemIndex,
