@@ -3,12 +3,14 @@ import 'dart:developer';
 import 'package:client/core/client_bloc/client_bloc.dart';
 import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
 import 'package:client/features/food_delivery/bloc/merchant_bloc.dart';
-import 'package:client/features/food_delivery/presentation/pages/food_delivery_requesting_page.dart';
+import 'package:client/features/food_delivery/presentation/state_pages/food_delivery_arrive_page.dart';
+import 'package:client/features/food_delivery/presentation/state_pages/food_delivery_in_transit_page.dart';
+import 'package:client/features/food_delivery/presentation/state_pages/food_delivery_requesting_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'food_idle_page.dart';
+import '../state_pages/food_idle_page.dart';
 
 class FoodDeliveryMainPage extends StatelessWidget {
   @override
@@ -50,12 +52,27 @@ class FoodDeliveryMainPage extends StatelessWidget {
                       'requesting') {
                     return FoodDeliveryRequestingPage();
                   } else if (clientState.client.delivery_status == 'transit') {
+                    return FoodDeliveryInTransitPage();
                   } else if (clientState.client.delivery_status == 'arrived') {
+                    return FoodDeliveryArrivePage();
                   } else if (clientState.client.delivery_status == 'arriving') {
+                    return FoodDeliveryArrivePage();
                   } else if (clientState.client.delivery_status ==
                           'cancelled' ||
-                      clientState.client.delivery_status == 'completed') {}
-                  return Text(clientState.client.delivery_status.toString());
+                      clientState.client.delivery_status == 'completed') {
+                    return Scaffold(
+                      body: Center(
+                        child: Text(
+                            'Your ride is already completed. Please wait or refresh app.'),
+                      ),
+                    );
+                  }
+                  return Scaffold(
+                    body: Center(
+                      child: Text(
+                          "Sorry, something wen't wrong processing your data. Please refresh app."),
+                    ),
+                  );
                 }
               });
             }
