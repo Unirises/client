@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-import 'food_delivery_listing_page.dart';
+import '../pages/food_delivery_listing_page.dart';
 
 class FoodIdlePage extends StatelessWidget {
   @override
