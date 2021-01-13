@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:client/features/parcel/presentation/state_pages/parcel_in_transit_page.dart';
+import 'package:client/features/parcel/presentation/state_pages/parcel_pickup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,7 +9,7 @@ import '../../../../core/client_bloc/client_bloc.dart';
 import '../../bloc/parcel_bloc.dart';
 import '../../bloc/parcel_ride_bloc.dart';
 import 'parcel_initial_page.dart';
-import 'parcel_requesting_page.dart';
+import '../state_pages/parcel_requesting_page.dart';
 
 class PabiliMainPage extends StatelessWidget {
   @override
@@ -47,10 +49,18 @@ class PabiliMainPage extends StatelessWidget {
                           if (clientState.client.status == 'requesting') {
                             return ParcelRequestingPage();
                           } else if (clientState.client.status == 'transit') {
+                            return ParcelInTransitPage();
                           } else if (clientState.client.status == 'arrived') {
+                            return ParcelPickupPage();
                           } else if (clientState.client.status == 'arriving') {
+                            return ParcelPickupPage();
                           } else if (clientState.client.status == 'cancelled' ||
-                              clientState.client.status == 'completed') {}
+                              clientState.client.status == 'completed') {
+                            return Center(
+                              child: Text(
+                                  'This ride is already cancelled/completed. Please wait or refresh app to reflect changes.'),
+                            );
+                          }
                         } else {
                           return Center(
                             child: Text(

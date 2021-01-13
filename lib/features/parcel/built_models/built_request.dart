@@ -41,6 +41,7 @@ abstract class BuiltRequest
 
   BuiltDirections get directions;
 
+  @nullable
   int get currentIndex;
   BuiltStop get pickup;
 
