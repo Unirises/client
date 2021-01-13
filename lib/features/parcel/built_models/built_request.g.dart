@@ -46,9 +46,6 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
       'directions',
       serializers.serialize(object.directions,
           specifiedType: const FullType(BuiltDirections)),
-      'currentIndex',
-      serializers.serialize(object.currentIndex,
-          specifiedType: const FullType(int)),
       'pickup',
       serializers.serialize(object.pickup,
           specifiedType: const FullType(BuiltStop)),
@@ -56,7 +53,16 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
       serializers.serialize(object.points,
           specifiedType:
               const FullType(BuiltList, const [const FullType(BuiltStop)])),
+      'timestamp',
+      serializers.serialize(object.timestamp,
+          specifiedType: const FullType(num)),
     ];
+    if (object.id != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(object.id,
+            specifiedType: const FullType(String)));
+    }
     if (object.driverId != null) {
       result
         ..add('driverId')
@@ -88,6 +94,12 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
         ..add(serializers.serialize(object.driverToken,
             specifiedType: const FullType(String)));
     }
+    if (object.currentIndex != null) {
+      result
+        ..add('currentIndex')
+        ..add(serializers.serialize(object.currentIndex,
+            specifiedType: const FullType(int)));
+    }
     if (object.destination != null) {
       result
         ..add('destination')
@@ -115,6 +127,10 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'driverId':
           result.driverId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
@@ -199,6 +215,10 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
                       BuiltList, const [const FullType(BuiltStop)]))
               as BuiltList<Object>);
           break;
+        case 'timestamp':
+          result.timestamp = serializers.deserialize(value,
+              specifiedType: const FullType(num)) as num;
+          break;
       }
     }
 
@@ -207,6 +227,8 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
 }
 
 class _$BuiltRequest extends BuiltRequest {
+  @override
+  final String id;
   @override
   final String driverId;
   @override
@@ -245,12 +267,15 @@ class _$BuiltRequest extends BuiltRequest {
   final BuiltList<ClassificationListing> items;
   @override
   final BuiltList<BuiltStop> points;
+  @override
+  final num timestamp;
 
   factory _$BuiltRequest([void Function(BuiltRequestBuilder) updates]) =>
       (new BuiltRequestBuilder()..update(updates)).build();
 
   _$BuiltRequest._(
-      {this.driverId,
+      {this.id,
+      this.driverId,
       this.userId,
       this.status,
       this.position,
@@ -268,7 +293,8 @@ class _$BuiltRequest extends BuiltRequest {
       this.pickup,
       this.destination,
       this.items,
-      this.points})
+      this.points,
+      this.timestamp})
       : super._() {
     if (userId == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'userId');
@@ -297,14 +323,14 @@ class _$BuiltRequest extends BuiltRequest {
     if (directions == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'directions');
     }
-    if (currentIndex == null) {
-      throw new BuiltValueNullFieldError('BuiltRequest', 'currentIndex');
-    }
     if (pickup == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'pickup');
     }
     if (points == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'points');
+    }
+    if (timestamp == null) {
+      throw new BuiltValueNullFieldError('BuiltRequest', 'timestamp');
     }
   }
 
@@ -319,6 +345,7 @@ class _$BuiltRequest extends BuiltRequest {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is BuiltRequest &&
+        id == other.id &&
         driverId == other.driverId &&
         userId == other.userId &&
         status == other.status &&
@@ -337,7 +364,8 @@ class _$BuiltRequest extends BuiltRequest {
         pickup == other.pickup &&
         destination == other.destination &&
         items == other.items &&
-        points == other.points;
+        points == other.points &&
+        timestamp == other.timestamp;
   }
 
   @override
@@ -360,38 +388,32 @@ class _$BuiltRequest extends BuiltRequest {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc(
-                                                                                0,
-                                                                                driverId
-                                                                                    .hashCode),
-                                                                            userId
-                                                                                .hashCode),
-                                                                        status
-                                                                            .hashCode),
-                                                                    position
-                                                                        .hashCode),
-                                                                driverName
-                                                                    .hashCode),
-                                                            driverNumber
-                                                                .hashCode),
-                                                        clientName.hashCode),
-                                                    clientNumber.hashCode),
-                                                rideType.hashCode),
-                                            isParcel.hashCode),
-                                        vehicleData.hashCode),
-                                    driverToken.hashCode),
-                                clientToken.hashCode),
-                            directions.hashCode),
-                        currentIndex.hashCode),
-                    pickup.hashCode),
-                destination.hashCode),
-            items.hashCode),
-        points.hashCode));
+                                                                            $jc($jc($jc(0, id.hashCode), driverId.hashCode),
+                                                                                userId.hashCode),
+                                                                            status.hashCode),
+                                                                        position.hashCode),
+                                                                    driverName.hashCode),
+                                                                driverNumber.hashCode),
+                                                            clientName.hashCode),
+                                                        clientNumber.hashCode),
+                                                    rideType.hashCode),
+                                                isParcel.hashCode),
+                                            vehicleData.hashCode),
+                                        driverToken.hashCode),
+                                    clientToken.hashCode),
+                                directions.hashCode),
+                            currentIndex.hashCode),
+                        pickup.hashCode),
+                    destination.hashCode),
+                items.hashCode),
+            points.hashCode),
+        timestamp.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('BuiltRequest')
+          ..add('id', id)
           ..add('driverId', driverId)
           ..add('userId', userId)
           ..add('status', status)
@@ -410,7 +432,8 @@ class _$BuiltRequest extends BuiltRequest {
           ..add('pickup', pickup)
           ..add('destination', destination)
           ..add('items', items)
-          ..add('points', points))
+          ..add('points', points)
+          ..add('timestamp', timestamp))
         .toString();
   }
 }
@@ -418,6 +441,10 @@ class _$BuiltRequest extends BuiltRequest {
 class BuiltRequestBuilder
     implements Builder<BuiltRequest, BuiltRequestBuilder> {
   _$BuiltRequest _$v;
+
+  String _id;
+  String get id => _$this._id;
+  set id(String id) => _$this._id = id;
 
   String _driverId;
   String get driverId => _$this._driverId;
@@ -503,10 +530,15 @@ class BuiltRequestBuilder
       _$this._points ??= new ListBuilder<BuiltStop>();
   set points(ListBuilder<BuiltStop> points) => _$this._points = points;
 
+  num _timestamp;
+  num get timestamp => _$this._timestamp;
+  set timestamp(num timestamp) => _$this._timestamp = timestamp;
+
   BuiltRequestBuilder();
 
   BuiltRequestBuilder get _$this {
     if (_$v != null) {
+      _id = _$v.id;
       _driverId = _$v.driverId;
       _userId = _$v.userId;
       _status = _$v.status;
@@ -526,6 +558,7 @@ class BuiltRequestBuilder
       _destination = _$v.destination?.toBuilder();
       _items = _$v.items?.toBuilder();
       _points = _$v.points?.toBuilder();
+      _timestamp = _$v.timestamp;
       _$v = null;
     }
     return this;
@@ -550,6 +583,7 @@ class BuiltRequestBuilder
     try {
       _$result = _$v ??
           new _$BuiltRequest._(
+              id: id,
               driverId: driverId,
               userId: userId,
               status: status,
@@ -568,7 +602,8 @@ class BuiltRequestBuilder
               pickup: pickup.build(),
               destination: _destination?.build(),
               items: _items?.build(),
-              points: points.build());
+              points: points.build(),
+              timestamp: timestamp);
     } catch (_) {
       String _$failedField;
       try {

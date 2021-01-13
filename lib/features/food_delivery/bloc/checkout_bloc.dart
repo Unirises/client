@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../core/client_bloc/client_repository.dart';
 import '../../../core/helpers.dart';
 import 'food_ride_bloc.dart';
@@ -148,6 +149,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
 
           var request = BuiltRequest(
             (b) => b
+              ..timestamp = DateTime.now().millisecondsSinceEpoch
               ..clientToken = deviceToken
               ..isParcel = false
               ..userId = FirebaseAuth.instance.currentUser.uid
@@ -166,6 +168,10 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
             data: 'requesting',
             request: request,
           );
+          await FirebaseFirestore.instance
+              .collection('requests')
+              .doc(requestId)
+              .set({'id': requestId});
           event.foodRideBloc.add(StartListenOnFoodRide(requestId));
           yield currentState.copyWith();
         }

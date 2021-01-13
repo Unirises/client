@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -164,6 +165,7 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
           var deviceToken = await FirebaseMessaging.instance.getToken();
 
           var request = BuiltRequest((b) => b
+            ..timestamp = DateTime.now().millisecondsSinceEpoch
             ..clientToken = deviceToken
             ..isParcel = true
             ..userId = FirebaseAuth.instance.currentUser.uid
@@ -181,7 +183,10 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
             data: 'requesting',
             request: request,
           );
-
+          await FirebaseFirestore.instance
+              .collection('requests')
+              .doc(requestId)
+              .set({'id': requestId});
           event.rideBloc.add(StartListenOnParcelRide(requestId));
           yield currentState.copyWith(points: mutatedPoints);
         }

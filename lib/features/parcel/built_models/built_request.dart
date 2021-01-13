@@ -17,6 +17,8 @@ part 'built_request.g.dart';
 abstract class BuiltRequest
     implements Built<BuiltRequest, BuiltRequestBuilder> {
   @nullable
+  String get id;
+  @nullable
   String get driverId;
   String get userId;
 
@@ -51,7 +53,7 @@ abstract class BuiltRequest
   BuiltList<ClassificationListing> get items;
 
   BuiltList<BuiltStop> get points;
-
+  num get timestamp;
   BuiltRequest._();
 
   factory BuiltRequest([updates(BuiltRequestBuilder b)]) = _$BuiltRequest;
