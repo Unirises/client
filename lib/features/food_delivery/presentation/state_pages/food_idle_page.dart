@@ -1,16 +1,15 @@
 import 'dart:developer';
 
-import 'package:client/core/client_bloc/client_bloc.dart';
-import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
-import 'package:client/features/food_delivery/bloc/merchant_bloc.dart';
-import 'package:client/features/food_delivery/models/Merchant.dart';
-import 'package:client/features/food_delivery/presentation/widgets/time_location_widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
+import '../../bloc/checkout_bloc.dart';
+import '../../bloc/merchant_bloc.dart';
+import '../../models/Merchant.dart';
 import '../pages/food_delivery_listing_page.dart';
+import '../widgets/time_location_widget.dart';
 
 class FoodIdlePage extends StatelessWidget {
   @override

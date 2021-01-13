@@ -1,11 +1,12 @@
 import 'dart:async';
 
-import 'package:client/core/client_bloc/client_bloc.dart';
-import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../../../core/client_bloc/client_bloc.dart';
+import '../../bloc/food_ride_bloc.dart';
 
 class FoodDeliveryRequestingPage extends StatefulWidget {
   @override

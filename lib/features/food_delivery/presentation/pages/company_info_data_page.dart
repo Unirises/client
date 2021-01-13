@@ -1,7 +1,8 @@
-import 'package:client/features/food_delivery/models/Merchant.dart';
-import 'package:client/features/food_delivery/presentation/widgets/time_location_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../models/Merchant.dart';
+import '../widgets/time_location_widget.dart';
 
 class CompanyInfoDataPage extends StatelessWidget {
   final Merchant merchant;

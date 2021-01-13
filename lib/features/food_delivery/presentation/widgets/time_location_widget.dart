@@ -1,6 +1,7 @@
-import 'package:client/features/food_delivery/models/Merchant.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+
+import '../../models/Merchant.dart';
 
 class TimeLocationWidget extends StatelessWidget {
   final Merchant merchant;

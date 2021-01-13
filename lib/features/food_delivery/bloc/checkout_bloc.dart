@@ -4,12 +4,12 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
-import 'package:client/core/client_bloc/client_repository.dart';
-import 'package:client/core/helpers.dart';
-import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
-import 'package:client/features/food_delivery/models/Merchant.dart';
-import 'package:client/features/parcel/built_models/built_position.dart';
-import 'package:client/features/parcel/built_models/built_request.dart';
+import '../../../core/client_bloc/client_repository.dart';
+import '../../../core/helpers.dart';
+import 'food_ride_bloc.dart';
+import '../models/Merchant.dart';
+import '../../parcel/built_models/built_position.dart';
+import '../../parcel/built_models/built_request.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';

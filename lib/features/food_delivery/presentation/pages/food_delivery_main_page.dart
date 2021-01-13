@@ -1,15 +1,14 @@
 import 'dart:developer';
 
-import 'package:client/core/client_bloc/client_bloc.dart';
-import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
-import 'package:client/features/food_delivery/bloc/merchant_bloc.dart';
-import 'package:client/features/food_delivery/presentation/state_pages/food_delivery_arrive_page.dart';
-import 'package:client/features/food_delivery/presentation/state_pages/food_delivery_in_transit_page.dart';
-import 'package:client/features/food_delivery/presentation/state_pages/food_delivery_requesting_page.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/client_bloc/client_bloc.dart';
+import '../../bloc/checkout_bloc.dart';
+import '../../bloc/merchant_bloc.dart';
+import '../state_pages/food_delivery_arrive_page.dart';
+import '../state_pages/food_delivery_in_transit_page.dart';
+import '../state_pages/food_delivery_requesting_page.dart';
 import '../state_pages/food_idle_page.dart';
 
 class FoodDeliveryMainPage extends StatelessWidget {

@@ -1,13 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:client/core/user_collection_bloc/user_collection_bloc.dart';
-import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
-import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
-import 'package:client/features/food_delivery/bloc/item_bloc.dart';
-import 'package:client/features/pabili/pages/checkout_page.dart';
-import 'package:client/features/parcel/presentation/pages/add_stop_details_page.dart';
-import 'package:client/features/parcel/presentation/pages/select_vehicle_page.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +9,11 @@ import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
+import '../../../../core/user_collection_bloc/user_collection_bloc.dart';
+import '../../../parcel/presentation/pages/add_stop_details_page.dart';
+import '../../bloc/checkout_bloc.dart';
+import '../../bloc/food_ride_bloc.dart';
+import '../../bloc/item_bloc.dart';
 import 'item_listing_selection_page.dart';
 
 class FoodDeliveryCheckoutPage extends StatelessWidget {

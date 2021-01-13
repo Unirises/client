@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:client/features/food_delivery/models/classification_listing.dart';
 import 'package:equatable/equatable.dart';
+
+import '../models/classification_listing.dart';
 
 part 'item_event.dart';
 part 'item_state.dart';

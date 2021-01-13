@@ -1,7 +1,4 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:client/features/food_delivery/bloc/checkout_bloc.dart';
-import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
-import 'package:client/features/food_delivery/bloc/item_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -26,6 +23,9 @@ import 'core/requests_bloc/requests_bloc.dart';
 import 'core/ride_sharing_bloc/ride_sharing_bloc.dart';
 import 'core/ride_sharing_bloc/ride_sharing_repository.dart';
 import 'core/user_collection_bloc/user_collection_bloc.dart';
+import 'features/food_delivery/bloc/checkout_bloc.dart';
+import 'features/food_delivery/bloc/food_ride_bloc.dart';
+import 'features/food_delivery/bloc/item_bloc.dart';
 import 'features/food_delivery/bloc/merchant_bloc.dart';
 import 'features/pabili/blocs/cubit/checkout_cubit.dart';
 import 'features/pabili/blocs/store/bloc/store_bloc.dart';

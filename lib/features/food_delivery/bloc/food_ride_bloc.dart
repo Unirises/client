@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:client/features/parcel/built_models/built_request.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../parcel/built_models/built_request.dart';
 
 part 'food_ride_event.dart';
 part 'food_ride_state.dart';
