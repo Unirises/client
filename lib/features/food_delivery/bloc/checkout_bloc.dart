@@ -147,8 +147,28 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
           var goodPos = BuiltPosition.fromJson(json.encode(shittyPos.toJson()));
           var deviceToken = await FirebaseMessaging.instance.getToken();
 
+          List<num> items = [];
+          num subtotal = 0.00;
+
+          currentState.items.forEach((item) {
+            var tmp = 0;
+            (item.additionalPrice != null)
+                ? tmp += (item?.additionalPrice ?? 0)
+                : null;
+            tmp += item.itemPrice;
+            tmp *= item.quantity;
+            items.add(tmp);
+          });
+
+          if (items.length > 0) {
+            subtotal = items.reduce((value, element) => value + element);
+          }
+
           var request = BuiltRequest(
             (b) => b
+              ..items = currentState.items.toBuilder()
+              ..subtotal = subtotal
+              ..fee = currentState.deliveryFee
               ..timestamp = DateTime.now().millisecondsSinceEpoch
               ..clientToken = deviceToken
               ..isParcel = false
@@ -171,7 +191,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
           await FirebaseFirestore.instance
               .collection('requests')
               .doc(requestId)
-              .set({'id': requestId});
+              .update({'id': requestId});
           event.foodRideBloc.add(StartListenOnFoodRide(requestId));
           yield currentState.copyWith();
         }

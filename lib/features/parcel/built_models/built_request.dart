@@ -53,7 +53,13 @@ abstract class BuiltRequest
   BuiltList<ClassificationListing> get items;
 
   BuiltList<BuiltStop> get points;
+  @nullable
   num get timestamp;
+
+  @nullable
+  num get subtotal;
+  num get fee;
+
   BuiltRequest._();
 
   factory BuiltRequest([updates(BuiltRequestBuilder b)]) = _$BuiltRequest;

@@ -53,9 +53,8 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
       serializers.serialize(object.points,
           specifiedType:
               const FullType(BuiltList, const [const FullType(BuiltStop)])),
-      'timestamp',
-      serializers.serialize(object.timestamp,
-          specifiedType: const FullType(num)),
+      'fee',
+      serializers.serialize(object.fee, specifiedType: const FullType(num)),
     ];
     if (object.id != null) {
       result
@@ -112,6 +111,18 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
         ..add(serializers.serialize(object.items,
             specifiedType: const FullType(
                 BuiltList, const [const FullType(ClassificationListing)])));
+    }
+    if (object.timestamp != null) {
+      result
+        ..add('timestamp')
+        ..add(serializers.serialize(object.timestamp,
+            specifiedType: const FullType(num)));
+    }
+    if (object.subtotal != null) {
+      result
+        ..add('subtotal')
+        ..add(serializers.serialize(object.subtotal,
+            specifiedType: const FullType(num)));
     }
     return result;
   }
@@ -219,6 +230,14 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
           result.timestamp = serializers.deserialize(value,
               specifiedType: const FullType(num)) as num;
           break;
+        case 'subtotal':
+          result.subtotal = serializers.deserialize(value,
+              specifiedType: const FullType(num)) as num;
+          break;
+        case 'fee':
+          result.fee = serializers.deserialize(value,
+              specifiedType: const FullType(num)) as num;
+          break;
       }
     }
 
@@ -269,6 +288,10 @@ class _$BuiltRequest extends BuiltRequest {
   final BuiltList<BuiltStop> points;
   @override
   final num timestamp;
+  @override
+  final num subtotal;
+  @override
+  final num fee;
 
   factory _$BuiltRequest([void Function(BuiltRequestBuilder) updates]) =>
       (new BuiltRequestBuilder()..update(updates)).build();
@@ -294,7 +317,9 @@ class _$BuiltRequest extends BuiltRequest {
       this.destination,
       this.items,
       this.points,
-      this.timestamp})
+      this.timestamp,
+      this.subtotal,
+      this.fee})
       : super._() {
     if (userId == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'userId');
@@ -329,8 +354,8 @@ class _$BuiltRequest extends BuiltRequest {
     if (points == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'points');
     }
-    if (timestamp == null) {
-      throw new BuiltValueNullFieldError('BuiltRequest', 'timestamp');
+    if (fee == null) {
+      throw new BuiltValueNullFieldError('BuiltRequest', 'fee');
     }
   }
 
@@ -365,7 +390,9 @@ class _$BuiltRequest extends BuiltRequest {
         destination == other.destination &&
         items == other.items &&
         points == other.points &&
-        timestamp == other.timestamp;
+        timestamp == other.timestamp &&
+        subtotal == other.subtotal &&
+        fee == other.fee;
   }
 
   @override
@@ -388,26 +415,26 @@ class _$BuiltRequest extends BuiltRequest {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc(0, id.hashCode), driverId.hashCode),
-                                                                                userId.hashCode),
-                                                                            status.hashCode),
-                                                                        position.hashCode),
-                                                                    driverName.hashCode),
-                                                                driverNumber.hashCode),
-                                                            clientName.hashCode),
-                                                        clientNumber.hashCode),
-                                                    rideType.hashCode),
-                                                isParcel.hashCode),
-                                            vehicleData.hashCode),
-                                        driverToken.hashCode),
-                                    clientToken.hashCode),
-                                directions.hashCode),
-                            currentIndex.hashCode),
-                        pickup.hashCode),
-                    destination.hashCode),
-                items.hashCode),
-            points.hashCode),
-        timestamp.hashCode));
+                                                                            $jc($jc($jc($jc($jc(0, id.hashCode), driverId.hashCode), userId.hashCode), status.hashCode),
+                                                                                position.hashCode),
+                                                                            driverName.hashCode),
+                                                                        driverNumber.hashCode),
+                                                                    clientName.hashCode),
+                                                                clientNumber.hashCode),
+                                                            rideType.hashCode),
+                                                        isParcel.hashCode),
+                                                    vehicleData.hashCode),
+                                                driverToken.hashCode),
+                                            clientToken.hashCode),
+                                        directions.hashCode),
+                                    currentIndex.hashCode),
+                                pickup.hashCode),
+                            destination.hashCode),
+                        items.hashCode),
+                    points.hashCode),
+                timestamp.hashCode),
+            subtotal.hashCode),
+        fee.hashCode));
   }
 
   @override
@@ -433,7 +460,9 @@ class _$BuiltRequest extends BuiltRequest {
           ..add('destination', destination)
           ..add('items', items)
           ..add('points', points)
-          ..add('timestamp', timestamp))
+          ..add('timestamp', timestamp)
+          ..add('subtotal', subtotal)
+          ..add('fee', fee))
         .toString();
   }
 }
@@ -534,6 +563,14 @@ class BuiltRequestBuilder
   num get timestamp => _$this._timestamp;
   set timestamp(num timestamp) => _$this._timestamp = timestamp;
 
+  num _subtotal;
+  num get subtotal => _$this._subtotal;
+  set subtotal(num subtotal) => _$this._subtotal = subtotal;
+
+  num _fee;
+  num get fee => _$this._fee;
+  set fee(num fee) => _$this._fee = fee;
+
   BuiltRequestBuilder();
 
   BuiltRequestBuilder get _$this {
@@ -559,6 +596,8 @@ class BuiltRequestBuilder
       _items = _$v.items?.toBuilder();
       _points = _$v.points?.toBuilder();
       _timestamp = _$v.timestamp;
+      _subtotal = _$v.subtotal;
+      _fee = _$v.fee;
       _$v = null;
     }
     return this;
@@ -603,7 +642,9 @@ class BuiltRequestBuilder
               destination: _destination?.build(),
               items: _items?.build(),
               points: points.build(),
-              timestamp: timestamp);
+              timestamp: timestamp,
+              subtotal: subtotal,
+              fee: fee);
     } catch (_) {
       String _$failedField;
       try {
