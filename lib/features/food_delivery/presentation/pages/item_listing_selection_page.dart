@@ -35,25 +35,63 @@ class ItemListingSelectionPage extends StatelessWidget {
         );
       } else if (state is ItemLoaded) {
         return Scaffold(
-          appBar: AppBar(
-            leading: CloseButton(),
-            title: Text(state.item.itemName),
-          ),
+          appBar: (state.item.itemPhoto != null)
+              ? AppBar(
+                  leading: CloseButton(),
+                  title: Text(state.item.itemName),
+                )
+              : null,
           body: Stack(
             children: [
               Positioned(
-                  bottom: 140,
-                  left: 0,
-                  top: 0,
-                  right: 0,
-                  child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
+                bottom: 130,
+                left: 0,
+                top: 0,
+                right: 0,
+                child: NestedScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  headerSliverBuilder: (context, _) {
+                    if (state.item.itemPhoto != null)
+                      return [
+                        SliverAppBar(
+                          leading: Container(),
+                          expandedHeight: 200.0,
+                          floating: false,
+                          pinned: false,
+                          flexibleSpace: FlexibleSpaceBar(
+                              stretchModes: [
+                                StretchMode.zoomBackground,
+                                StretchMode.blurBackground,
+                              ],
+                              background: state.item.itemPhoto != null
+                                  ? Image.network(
+                                      state.item.itemPhoto ??
+                                          "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset(
+                                      'assets/default-hero.jpg',
+                                      fit: BoxFit.cover,
+                                    )),
+                        ),
+                      ];
+
+                    return [
+                      SliverAppBar(
+                        title: Text(state.item.itemName),
+                      ),
+                    ];
+                  },
+                  body: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: buildAdditionals(state.item.additionals),
                     ),
-                  )),
+                  ),
+                ),
+              ),
               Positioned(
                 bottom: 0,
                 left: 0,
