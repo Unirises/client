@@ -9,10 +9,8 @@ import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-import '../../../../core/user_collection_bloc/user_collection_bloc.dart';
 import '../../../parcel/presentation/pages/add_stop_details_page.dart';
 import '../../bloc/checkout_bloc.dart';
-import '../../bloc/food_ride_bloc.dart';
 import '../../bloc/item_bloc.dart';
 import 'item_listing_selection_page.dart';
 
@@ -380,37 +378,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                     );
                                   }
                                 : (state.items.length > 0)
-                                    ? () {
-                                        print('book ride');
-                                        context.bloc<CheckoutBloc>().add(
-                                              CheckoutBookRide(
-                                                name: (context
-                                                            .bloc<
-                                                                UserCollectionBloc>()
-                                                            .state
-                                                        as UserCollectionLoaded)
-                                                    .userCollection
-                                                    .name,
-                                                number: (context
-                                                            .bloc<
-                                                                UserCollectionBloc>()
-                                                            .state
-                                                        as UserCollectionLoaded)
-                                                    .userCollection
-                                                    .phone,
-                                                foodRideBloc: context
-                                                    .bloc<FoodRideBloc>(),
-                                              ),
-                                            );
-                                        // context.bloc<ParcelBloc>().add(
-                                        //       RequestParcel(
-                                        //           type: selected,
-                                        //           rideBloc: context.bloc<
-                                        //               ParcelRideBloc>(),
-
-                                        //     );
-                                        Navigator.pop(context);
-                                      }
+                                    ? onBooked
                                     : null
                             : null,
                         child: Padding(

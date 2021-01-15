@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:client/core/user_collection_bloc/user_collection_bloc.dart';
+import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -65,6 +67,13 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
               } else if (clientState is ClientLoaded) {
                 if (clientState.client.delivery_status != 'idle') {
                   return Scaffold(
+                    appBar: AppBar(
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
+                      leading: BackButton(
+                        color: Colors.white,
+                      ),
+                    ),
                     body: Center(
                       child: Text('Please go back to see your ride details.'),
                     ),
@@ -82,7 +91,27 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                                         pushNewScreen(context,
                                             screen: FoodDeliveryCheckoutPage(
                                           onBooked: () {
-                                            log('booked');
+                                            context.bloc<CheckoutBloc>().add(
+                                                  CheckoutBookRide(
+                                                    name: (context
+                                                                .bloc<
+                                                                    UserCollectionBloc>()
+                                                                .state
+                                                            as UserCollectionLoaded)
+                                                        .userCollection
+                                                        .name,
+                                                    number: (context
+                                                                .bloc<
+                                                                    UserCollectionBloc>()
+                                                                .state
+                                                            as UserCollectionLoaded)
+                                                        .userCollection
+                                                        .phone,
+                                                    foodRideBloc: context
+                                                        .bloc<FoodRideBloc>(),
+                                                  ),
+                                                );
+                                            Navigator.pop(context);
                                           },
                                         ));
                                       }
