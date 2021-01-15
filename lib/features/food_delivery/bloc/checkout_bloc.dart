@@ -5,12 +5,6 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../../core/client_bloc/client_repository.dart';
-import '../../../core/helpers.dart';
-import 'food_ride_bloc.dart';
-import '../models/Merchant.dart';
-import '../../parcel/built_models/built_position.dart';
-import '../../parcel/built_models/built_request.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,9 +12,15 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
 
+import '../../../core/client_bloc/client_repository.dart';
+import '../../../core/helpers.dart';
 import '../../parcel/built_models/built_directions.dart';
+import '../../parcel/built_models/built_position.dart';
+import '../../parcel/built_models/built_request.dart';
 import '../../parcel/built_models/built_stop.dart';
+import '../models/Merchant.dart';
 import '../models/classification_listing.dart';
+import 'food_ride_bloc.dart';
 
 part 'checkout_event.dart';
 part 'checkout_state.dart';
