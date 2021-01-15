@@ -92,32 +92,10 @@ class ClientRepository {
     }
 
     if (data == 'idle' && requestID != null) {
-      await requestsCollection
-          .doc(requestID)
-          .set({'delivery_status': 'cancelled'}, SetOptions(merge: true));
+      await requestsCollection.doc(requestID).update({'status': 'cancelled'});
     }
 
     return;
-    // await clientCollection
-    //     .doc(FirebaseAuth.instance.currentUser.uid)
-    //     .update({'delivery_status': data});
-
-    // if (data == 'requesting' && request != null) {
-    //   var requestResponse =
-    //       await requestsCollection.add(json.decode(request.toJson()));
-    //   await clientCollection
-    //       .doc(FirebaseAuth.instance.currentUser.uid)
-    //       .update({'delivery_id': requestResponse.id});
-    //   return requestResponse.id;
-    // }
-
-    // if (data == 'idle' && requestID != null) {
-    //   await requestsCollection
-    //       .doc(requestID)
-    //       .set({'delivery_status': 'cancelled'}, SetOptions(merge: true));
-    // }
-
-    // return;
   }
 
   Stream<List<Driver>> drivers() {
