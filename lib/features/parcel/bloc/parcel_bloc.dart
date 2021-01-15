@@ -163,8 +163,18 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
           var shittyPos = await Geolocator.getCurrentPosition();
           var goodPos = BuiltPosition.fromJson(json.encode(shittyPos.toJson()));
           var deviceToken = await FirebaseMessaging.instance.getToken();
+          List<num> items = [];
+          num subtotal = 0.00;
+          mutatedPoints.forEach((item) {
+            items.add(item.price);
+          });
+
+          if (items.length > 0) {
+            subtotal = items.reduce((value, element) => value + element);
+          }
 
           var request = BuiltRequest((b) => b
+            ..fee = subtotal
             ..timestamp = DateTime.now().millisecondsSinceEpoch
             ..clientToken = deviceToken
             ..isParcel = true
@@ -186,7 +196,7 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
           await FirebaseFirestore.instance
               .collection('requests')
               .doc(requestId)
-              .set({'id': requestId});
+              .update({'id': requestId});
           event.rideBloc.add(StartListenOnParcelRide(requestId));
           yield currentState.copyWith(points: mutatedPoints);
         }

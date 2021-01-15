@@ -23,10 +23,15 @@ import 'core/requests_bloc/requests_bloc.dart';
 import 'core/ride_sharing_bloc/ride_sharing_bloc.dart';
 import 'core/ride_sharing_bloc/ride_sharing_repository.dart';
 import 'core/user_collection_bloc/user_collection_bloc.dart';
+import 'features/food_delivery/bloc/checkout_bloc.dart';
+import 'features/food_delivery/bloc/food_ride_bloc.dart';
+import 'features/food_delivery/bloc/item_bloc.dart';
+import 'features/food_delivery/bloc/merchant_bloc.dart';
 import 'features/pabili/blocs/cubit/checkout_cubit.dart';
 import 'features/pabili/blocs/store/bloc/store_bloc.dart';
 import 'features/pabili/repositories/store_repository.dart';
 import 'features/parcel/bloc/parcel_bloc.dart';
+import 'features/parcel/bloc/parcel_ride_bloc.dart';
 import 'features/ride_sharing/cubit/book_cubit.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -41,9 +46,7 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
   'This channel is used for important notifications.', // description
-  importance: Importance.high,
-  enableVibration: true,
-  playSound: true,
+  importance: Importance.max,
 );
 
 /// Initalize the [FlutterLocalNotificationsPlugin] package.
@@ -120,7 +123,6 @@ class _AppState extends State<App> {
   }
 
   getPerms() async {
-    await FirebaseMessaging.instance.requestPermission();
     return await Geolocator.requestPermission();
   }
 
@@ -166,15 +168,27 @@ class _AppState extends State<App> {
             ),
           ),
           BlocProvider(
+            create: (_) => MerchantBloc(),
+          ),
+          BlocProvider(
             create: (_) => PabiliDeliveryBloc(
               repository: widget.pabiliDeliveryRepository,
             ),
           ),
           BlocProvider(
-            create: (_) => ParcelBloc(),
-          ),
+              create: (_) =>
+                  ParcelBloc(clientRepository: widget.clientRepository)),
+          BlocProvider(create: (_) => ParcelRideBloc()),
+          BlocProvider(create: (_) => FoodRideBloc()),
           BlocProvider(
             create: (_) => BookCubit(),
+          ),
+          BlocProvider(
+            create: (_) => ItemBloc(),
+          ),
+          BlocProvider(
+            create: (_) =>
+                CheckoutBloc(clientRepository: widget.clientRepository),
           ),
           BlocProvider(
             create: (_) => CheckoutCubit(),
