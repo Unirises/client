@@ -23,6 +23,10 @@ class ParcelInitialPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  (state.pickup == null && state.points == null)
+                      ? Text(
+                          'Start booking a parcel delivery by adding your pickup location.')
+                      : Container(),
                   (state.pickup?.id != null)
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

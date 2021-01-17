@@ -90,27 +90,27 @@ class AccountIndexPage extends StatelessWidget {
                         },
                         title: 'Transactions',
                       ),
-                      BlocBuilder<ClientBloc, ClientState>(
-                        builder: (context, walletState) {
-                          if (walletState is ClientLoaded) {
-                            return AccountPageListItemTemplate(
-                              onTap: () {
-                                pushNewScreen(
-                                  context,
-                                  screen: WalletPage(),
-                                  withNavBar: false,
-                                  pageTransitionAnimation:
-                                      PageTransitionAnimation.cupertino,
-                                );
-                              },
-                              title: 'Wallet',
-                              trailingText:
-                                  'PHP ${walletState.client.balance.toStringAsFixed(2)}',
-                            );
-                          }
-                          return Container();
-                        },
-                      ),
+                      // BlocBuilder<ClientBloc, ClientState>(
+                      //   builder: (context, walletState) {
+                      //     if (walletState is ClientLoaded) {
+                      //       return AccountPageListItemTemplate(
+                      //         onTap: () {
+                      //           pushNewScreen(
+                      //             context,
+                      //             screen: WalletPage(),
+                      //             withNavBar: false,
+                      //             pageTransitionAnimation:
+                      //                 PageTransitionAnimation.cupertino,
+                      //           );
+                      //         },
+                      //         title: 'Wallet',
+                      //         trailingText:
+                      //             'PHP ${walletState.client.balance.toStringAsFixed(2)}',
+                      //       );
+                      //     }
+                      //     return Container();
+                      //   },
+                      // ),
                       AccountPageListItemTemplate(
                         onTap: () => context
                             .bloc<AuthenticationBloc>()
