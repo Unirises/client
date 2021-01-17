@@ -45,7 +45,6 @@ class PabiliMainPage extends StatelessWidget {
                             child: CircularProgressIndicator(),
                           );
                         } else if (rideState is ParcelRideLoaded) {
-                          print('shitfuckloaded');
                           if (clientState.client.status == 'requesting') {
                             return ParcelRequestingPage();
                           } else if (clientState.client.status == 'transit') {

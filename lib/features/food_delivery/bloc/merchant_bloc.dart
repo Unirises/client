@@ -51,9 +51,35 @@ class MerchantBloc extends Bloc<MerchantEvent, MerchantState> {
                 phone: finalCompany['phone'],
                 representative: finalCompany['representative'],
               );
-              log(merchant.listing.toString());
 
-              listOfMerchants.add(merchant);
+              List<String> startTimeTmp = [];
+              List<String> startTimeList = [];
+              startTimeTmp = merchant.startTime.split(" ");
+              startTimeList = startTimeTmp[0].split(":");
+
+              List<String> endTimeTmp = [];
+              List<String> endTimeList = [];
+              endTimeTmp = merchant.endTime.split(" ");
+              endTimeList = endTimeTmp[0].split(":");
+
+              var startTime = DateTime.now().copyWith(
+                hour: (startTimeTmp[1].contains('AM'))
+                    ? int.parse(startTimeList[0])
+                    : int.parse(startTimeList[0]) + 12,
+                minute: int.parse(endTimeList[1]),
+              );
+
+              var endTime = DateTime.now().copyWith(
+                hour: (endTimeTmp[1].contains('AM'))
+                    ? int.parse(endTimeList[0])
+                    : int.parse(endTimeList[0]) + 12,
+                minute: int.parse(endTimeList[1]),
+              );
+
+              if (DateTime.now().isAfter(startTime) &&
+                  DateTime.now().isBefore(endTime)) {
+                listOfMerchants.add(merchant);
+              }
             } catch (e, stacktrace) {
               log(e.toString());
               log(stacktrace.toString());
@@ -68,5 +94,28 @@ class MerchantBloc extends Bloc<MerchantEvent, MerchantState> {
         yield MerchantLoadFailure();
       }
     }
+  }
+}
+
+extension MyDateUtils on DateTime {
+  DateTime copyWith(
+      {int year,
+      int month,
+      int day,
+      int hour,
+      int minute,
+      int second,
+      int millisecond,
+      int microsecond}) {
+    return DateTime(
+      year ?? this.year,
+      month ?? this.month,
+      day ?? this.day,
+      hour ?? this.hour,
+      minute ?? this.minute,
+      second ?? this.second,
+      millisecond ?? this.millisecond,
+      microsecond ?? this.microsecond,
+    );
   }
 }
