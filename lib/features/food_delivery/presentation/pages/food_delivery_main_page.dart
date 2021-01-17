@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,34 +48,87 @@ class FoodDeliveryMainPage extends StatelessWidget {
                   log(clientState.client.delivery_status);
                   if (clientState.client.delivery_status == 'idle') {
                     return FoodIdlePage();
-                  } else if (clientState.client.delivery_status ==
-                      'requesting') {
-                    return FoodDeliveryRequestingPage();
-                  } else if (clientState.client.delivery_status == 'transit') {
-                    return FoodDeliveryInTransitPage();
-                  } else if (clientState.client.delivery_status == 'arrived') {
-                    return FoodDeliveryArrivePage();
-                  } else if (clientState.client.delivery_status == 'arriving') {
-                    return FoodDeliveryArrivePage();
-                  } else if (clientState.client.delivery_status ==
-                          'cancelled' ||
-                      clientState.client.delivery_status == 'completed') {
-                    return Scaffold(
-                      body: Center(
-                        child: Text(
-                            'Your ride is already completed. Please wait or refresh app.'),
-                      ),
+                  } else {
+                    return BlocBuilder<FoodRideBloc, FoodRideState>(
+                      builder: (context, foodRideState) {
+                        if (foodRideState is FoodRideInitial) {
+                          Future.delayed(Duration(seconds: 5), () {
+                            context.bloc<FoodRideBloc>().add(
+                                StartListenOnFoodRide((context
+                                        .bloc<ClientBloc>()
+                                        .state as ClientLoaded)
+                                    .client
+                                    .delivery_id));
+                          });
+                          return Scaffold(
+                            body: Center(
+                              child: Text(
+                                  "Please wait, making a fetch request to your current ride."),
+                            ),
+                          );
+                        } else if (foodRideState is FoodRideLoading) {
+                          return Scaffold(
+                            body: Center(
+                              child: Text(
+                                  "Please wait, loading your current data."),
+                            ),
+                          );
+                        } else if (foodRideState is FoodRideFailure) {
+                          return Scaffold(
+                            body: Center(
+                              child: Text(
+                                  "Sorry, there has been a problem loading your data. Please contact support."),
+                            ),
+                          );
+                        } else if (foodRideState is FoodRideLoaded) {
+                          if (clientState.client.delivery_status ==
+                              'requesting') {
+                            return FoodDeliveryRequestingPage();
+                          } else if (clientState.client.delivery_status ==
+                              'transit') {
+                            return FoodDeliveryInTransitPage();
+                          } else if (clientState.client.delivery_status ==
+                              'arrived') {
+                            return FoodDeliveryArrivePage();
+                          } else if (clientState.client.delivery_status ==
+                              'arriving') {
+                            return FoodDeliveryArrivePage();
+                          } else if (clientState.client.delivery_status ==
+                                  'cancelled' ||
+                              clientState.client.delivery_status ==
+                                  'completed') {
+                            return Scaffold(
+                              body: Center(
+                                child: Text(
+                                    'Your ride is already completed. Please wait or refresh app.'),
+                              ),
+                            );
+                          }
+                        }
+                        return Scaffold(
+                          body: Center(
+                            child: Text(
+                                "Sorry, something wen't wrong processing your data. Please refresh app."),
+                          ),
+                        );
+                      },
                     );
                   }
-                  return Scaffold(
-                    body: Center(
-                      child: Text(
-                          "Sorry, something wen't wrong processing your data. Please refresh app."),
-                    ),
-                  );
                 }
+                return Scaffold(
+                  body: Center(
+                    child: Text(
+                        "Sorry, something wen't wrong loading your client data. Please refresh app."),
+                  ),
+                );
               });
             }
+            return Scaffold(
+              body: Center(
+                child: Text(
+                    "Sorry, something wen't wrong processing your checkout data. Please refresh app."),
+              ),
+            );
           });
         } else if (state is MerchantLoadFailure) {
           return Center(

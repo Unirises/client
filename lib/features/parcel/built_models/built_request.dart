@@ -8,6 +8,7 @@ import 'package:built_value/serializer.dart';
 import 'package:client/core/serializers.dart';
 import 'package:client/features/food_delivery/models/classification_listing.dart';
 import 'package:client/features/parcel/built_models/built_directions.dart';
+import 'package:client/features/parcel/built_models/built_vehicle_data.dart';
 
 import 'built_position.dart';
 import 'built_stop.dart';
@@ -36,7 +37,7 @@ abstract class BuiltRequest
   String get rideType;
   bool get isParcel;
   @nullable
-  Map<String, dynamic> get vehicleData;
+  BuiltVehicleData get vehicleData;
   @nullable
   String get driverToken;
   String get clientToken;

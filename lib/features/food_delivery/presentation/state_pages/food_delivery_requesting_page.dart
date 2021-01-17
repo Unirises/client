@@ -23,21 +23,7 @@ class _FoodDeliveryRequestingPageState
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FoodRideBloc, FoodRideState>(builder: (context, state) {
-      if (state is FoodRideInitial) {
-        Future.delayed(Duration(seconds: 5), () {
-          context.bloc<FoodRideBloc>().add(StartListenOnFoodRide(
-              (context.bloc<ClientBloc>().state as ClientLoaded)
-                  .client
-                  .delivery_id));
-        });
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state is FoodRideFailure) {
-        return Center(
-          child: Text('There was a problem loading your data.'),
-        );
-      } else if (state is FoodRideLoaded) {
+      if (state is FoodRideLoaded) {
         final bounds = LatLngBounds(
           southwest: LatLng(
             state.request.directions.routes.first.bounds.southwest.lat,
@@ -175,6 +161,10 @@ class _FoodDeliveryRequestingPageState
           ),
         );
       }
+      return Scaffold(
+          body: Center(
+              child:
+                  Text("Something went wrong loading your requesting data.")));
     });
   }
 }

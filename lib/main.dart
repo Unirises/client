@@ -22,6 +22,7 @@ import 'core/requests_bloc/request_repository.dart';
 import 'core/requests_bloc/requests_bloc.dart';
 import 'core/ride_sharing_bloc/ride_sharing_bloc.dart';
 import 'core/ride_sharing_bloc/ride_sharing_repository.dart';
+import 'core/simple_bloc_observer.dart';
 import 'core/user_collection_bloc/user_collection_bloc.dart';
 import 'features/food_delivery/bloc/checkout_bloc.dart';
 import 'features/food_delivery/bloc/food_ride_bloc.dart';
@@ -56,7 +57,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   EquatableConfig.stringify = kDebugMode;
-  // Bloc.observer = SimpleBlocObserver();
+  Bloc.observer = SimpleBlocObserver();
 
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

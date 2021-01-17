@@ -13,6 +13,7 @@ import 'package:client/features/parcel/built_models/built_directions.dart';
 import 'package:client/features/parcel/built_models/built_position.dart';
 import 'package:client/features/parcel/built_models/built_request.dart';
 import 'package:client/features/parcel/built_models/built_stop.dart';
+import 'package:client/features/parcel/built_models/built_vehicle_data.dart';
 import 'package:client/features/parcel/built_models/distance.dart';
 import 'package:client/features/parcel/built_models/distance_duration.dart';
 import 'package:client/features/parcel/built_models/legs.dart';
@@ -39,6 +40,7 @@ part 'serializers.g.dart';
   BuiltRequest,
   BuiltPosition,
   MerchantListing,
+  BuiltVehicleData,
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

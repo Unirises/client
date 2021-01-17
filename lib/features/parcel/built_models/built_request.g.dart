@@ -84,8 +84,7 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
       result
         ..add('vehicleData')
         ..add(serializers.serialize(object.vehicleData,
-            specifiedType: const FullType(
-                Map, const [const FullType(String), const FullType(dynamic)])));
+            specifiedType: const FullType(BuiltVehicleData)));
     }
     if (object.driverToken != null) {
       result
@@ -183,11 +182,9 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
               specifiedType: const FullType(bool)) as bool;
           break;
         case 'vehicleData':
-          result.vehicleData = serializers.deserialize(value,
-              specifiedType: const FullType(Map, const [
-                const FullType(String),
-                const FullType(dynamic)
-              ])) as Map<String, dynamic>;
+          result.vehicleData.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(BuiltVehicleData))
+              as BuiltVehicleData);
           break;
         case 'driverToken':
           result.driverToken = serializers.deserialize(value,
@@ -269,7 +266,7 @@ class _$BuiltRequest extends BuiltRequest {
   @override
   final bool isParcel;
   @override
-  final Map<String, dynamic> vehicleData;
+  final BuiltVehicleData vehicleData;
   @override
   final String driverToken;
   @override
@@ -516,9 +513,10 @@ class BuiltRequestBuilder
   bool get isParcel => _$this._isParcel;
   set isParcel(bool isParcel) => _$this._isParcel = isParcel;
 
-  Map<String, dynamic> _vehicleData;
-  Map<String, dynamic> get vehicleData => _$this._vehicleData;
-  set vehicleData(Map<String, dynamic> vehicleData) =>
+  BuiltVehicleDataBuilder _vehicleData;
+  BuiltVehicleDataBuilder get vehicleData =>
+      _$this._vehicleData ??= new BuiltVehicleDataBuilder();
+  set vehicleData(BuiltVehicleDataBuilder vehicleData) =>
       _$this._vehicleData = vehicleData;
 
   String _driverToken;
@@ -586,7 +584,7 @@ class BuiltRequestBuilder
       _clientNumber = _$v.clientNumber;
       _rideType = _$v.rideType;
       _isParcel = _$v.isParcel;
-      _vehicleData = _$v.vehicleData;
+      _vehicleData = _$v.vehicleData?.toBuilder();
       _driverToken = _$v.driverToken;
       _clientToken = _$v.clientToken;
       _directions = _$v.directions?.toBuilder();
@@ -633,7 +631,7 @@ class BuiltRequestBuilder
               clientNumber: clientNumber,
               rideType: rideType,
               isParcel: isParcel,
-              vehicleData: vehicleData,
+              vehicleData: _vehicleData?.build(),
               driverToken: driverToken,
               clientToken: clientToken,
               directions: directions.build(),
@@ -650,6 +648,9 @@ class BuiltRequestBuilder
       try {
         _$failedField = 'position';
         position.build();
+
+        _$failedField = 'vehicleData';
+        _vehicleData?.build();
 
         _$failedField = 'directions';
         directions.build();

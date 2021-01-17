@@ -9,6 +9,8 @@ abstract class FoodRideState extends Equatable {
 
 class FoodRideInitial extends FoodRideState {}
 
+class FoodRideLoading extends FoodRideState {}
+
 class FoodRideLoaded extends FoodRideState {
   final BuiltRequest request;
 

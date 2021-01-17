@@ -25,6 +25,7 @@ class FoodRideBloc extends Bloc<FoodRideEvent, FoodRideState> {
     FoodRideEvent event,
   ) async* {
     if (event is StartListenOnFoodRide) {
+      yield FoodRideLoading();
       try {
         _rideSubscription?.cancel();
         _rideSubscription =
