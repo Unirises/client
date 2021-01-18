@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 class FoodDeliveryArrivePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var state = (context.bloc<FoodRideBloc>().state as FoodRideLoaded);
+    var state = (context.watch<FoodRideBloc>().state as FoodRideLoaded);
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -23,7 +23,7 @@ class FoodDeliveryArrivePage extends StatelessWidget {
               child: Container(
                 child: state.request.status == 'arriving'
                     ? Image.asset('assets/onboarding/driver.png')
-                    : Image.asset('assets/picking_up.png'),
+                    : Image.asset('assets/barbecue.png'),
               ),
             ),
             Container(
@@ -56,7 +56,7 @@ class FoodDeliveryArrivePage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                      '${state.request.status == 'arriving' ? 'Found you a driver! On the way to the restaurant' : 'The driver has arrived. Waiting for your order to finish.'}'),
+                      '${state.request.status == 'arriving' ? 'Found you a driver! On the way to the restaurant' : 'The driver has arrived. Waiting for your order to cook.'}'),
                 ],
               ),
             ),

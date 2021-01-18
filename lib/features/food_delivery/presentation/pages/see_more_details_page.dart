@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SeeMoreDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var state = (context.bloc<FoodRideBloc>().state as FoodRideLoaded);
+    var state = (context.watch<FoodRideBloc>().state as FoodRideLoaded);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
