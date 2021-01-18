@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:client/core/widgets/profile_picture.dart';
 import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
+import 'package:client/features/food_delivery/presentation/pages/see_more_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FoodDeliveryArrivePage extends StatelessWidget {
@@ -164,7 +166,7 @@ class FoodDeliveryArrivePage extends StatelessWidget {
                       children: [
                         Text('Total'),
                         Text(
-                          'PHP ${state.request.subtotal.toStringAsFixed(2)}',
+                          'PHP ${(state.request.subtotal + state.request.fee).toStringAsFixed(2)}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -192,9 +194,8 @@ class FoodDeliveryArrivePage extends StatelessWidget {
                     Divider(),
                     FlatButton.icon(
                       icon: Icon(Icons.chevron_right),
-                      onPressed: () {
-                        // TODO: implement see more
-                      },
+                      onPressed: () =>
+                          pushNewScreen(context, screen: SeeMoreDetailsPage()),
                       textColor: Theme.of(context).primaryColor,
                       label: Text(
                         'See More Details',
