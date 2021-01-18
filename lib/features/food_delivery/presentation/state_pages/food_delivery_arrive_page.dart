@@ -14,8 +14,11 @@ class FoodDeliveryArrivePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var state = (context.watch<FoodRideBloc>().state as FoodRideLoaded);
     var now = DateTime.fromMillisecondsSinceEpoch(state.request.timestamp);
-    now.add(Duration(minutes: state.request?.averageTimePreparation ?? 0));
-    now.add(Duration(minutes: 3));
+    now = now.add(Duration(
+        minutes: (state.request.averageTimePreparation == null)
+            ? 0
+            : state.request.averageTimePreparation));
+    now = now.add(Duration(minutes: 3));
     var optimistic = DateFormat('hh:mm a').format(
         now.add(Duration(seconds: state.request.destination.duration.value)));
     var pessmistic = DateFormat('hh:mm a').format(now
@@ -78,7 +81,7 @@ class FoodDeliveryArrivePage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                          '${state.request.status == 'arriving' ? 'Found you a driver! On the way to the restaurant' : 'The driver has arrived. Waiting for your order to cook.'}'),
+                          '${state.request.status == 'arriving' ? 'Found you a driver! On the way to the restaurant' : 'The driver has arrived. Waiting for your order to finish.'}'),
                     ],
                   ),
                 ),
