@@ -166,6 +166,8 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
 
           var request = BuiltRequest(
             (b) => b
+              ..averageTimePreparation =
+                  currentState.merchant.averageTimePreparation
               ..items = currentState.items.toBuilder()
               ..subtotal = subtotal
               ..fee = currentState.deliveryFee

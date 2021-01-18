@@ -42,6 +42,9 @@ abstract class BuiltRequest
   String get driverToken;
   String get clientToken;
 
+  @nullable
+  num get averageTimePreparation;
+
   BuiltDirections get directions;
 
   @nullable

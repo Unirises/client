@@ -92,6 +92,12 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
         ..add(serializers.serialize(object.driverToken,
             specifiedType: const FullType(String)));
     }
+    if (object.averageTimePreparation != null) {
+      result
+        ..add('averageTimePreparation')
+        ..add(serializers.serialize(object.averageTimePreparation,
+            specifiedType: const FullType(num)));
+    }
     if (object.currentIndex != null) {
       result
         ..add('currentIndex')
@@ -194,6 +200,10 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
           result.clientToken = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'averageTimePreparation':
+          result.averageTimePreparation = serializers.deserialize(value,
+              specifiedType: const FullType(num)) as num;
+          break;
         case 'directions':
           result.directions.replace(serializers.deserialize(value,
                   specifiedType: const FullType(BuiltDirections))
@@ -272,6 +282,8 @@ class _$BuiltRequest extends BuiltRequest {
   @override
   final String clientToken;
   @override
+  final num averageTimePreparation;
+  @override
   final BuiltDirections directions;
   @override
   final int currentIndex;
@@ -308,6 +320,7 @@ class _$BuiltRequest extends BuiltRequest {
       this.vehicleData,
       this.driverToken,
       this.clientToken,
+      this.averageTimePreparation,
       this.directions,
       this.currentIndex,
       this.pickup,
@@ -381,6 +394,7 @@ class _$BuiltRequest extends BuiltRequest {
         vehicleData == other.vehicleData &&
         driverToken == other.driverToken &&
         clientToken == other.clientToken &&
+        averageTimePreparation == other.averageTimePreparation &&
         directions == other.directions &&
         currentIndex == other.currentIndex &&
         pickup == other.pickup &&
@@ -412,17 +426,17 @@ class _$BuiltRequest extends BuiltRequest {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc(0, id.hashCode), driverId.hashCode), userId.hashCode), status.hashCode),
-                                                                                position.hashCode),
-                                                                            driverName.hashCode),
-                                                                        driverNumber.hashCode),
-                                                                    clientName.hashCode),
-                                                                clientNumber.hashCode),
-                                                            rideType.hashCode),
-                                                        isParcel.hashCode),
-                                                    vehicleData.hashCode),
-                                                driverToken.hashCode),
-                                            clientToken.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc(0, id.hashCode), driverId.hashCode), userId.hashCode), status.hashCode), position.hashCode),
+                                                                                driverName.hashCode),
+                                                                            driverNumber.hashCode),
+                                                                        clientName.hashCode),
+                                                                    clientNumber.hashCode),
+                                                                rideType.hashCode),
+                                                            isParcel.hashCode),
+                                                        vehicleData.hashCode),
+                                                    driverToken.hashCode),
+                                                clientToken.hashCode),
+                                            averageTimePreparation.hashCode),
                                         directions.hashCode),
                                     currentIndex.hashCode),
                                 pickup.hashCode),
@@ -451,6 +465,7 @@ class _$BuiltRequest extends BuiltRequest {
           ..add('vehicleData', vehicleData)
           ..add('driverToken', driverToken)
           ..add('clientToken', clientToken)
+          ..add('averageTimePreparation', averageTimePreparation)
           ..add('directions', directions)
           ..add('currentIndex', currentIndex)
           ..add('pickup', pickup)
@@ -527,6 +542,11 @@ class BuiltRequestBuilder
   String get clientToken => _$this._clientToken;
   set clientToken(String clientToken) => _$this._clientToken = clientToken;
 
+  num _averageTimePreparation;
+  num get averageTimePreparation => _$this._averageTimePreparation;
+  set averageTimePreparation(num averageTimePreparation) =>
+      _$this._averageTimePreparation = averageTimePreparation;
+
   BuiltDirectionsBuilder _directions;
   BuiltDirectionsBuilder get directions =>
       _$this._directions ??= new BuiltDirectionsBuilder();
@@ -587,6 +607,7 @@ class BuiltRequestBuilder
       _vehicleData = _$v.vehicleData?.toBuilder();
       _driverToken = _$v.driverToken;
       _clientToken = _$v.clientToken;
+      _averageTimePreparation = _$v.averageTimePreparation;
       _directions = _$v.directions?.toBuilder();
       _currentIndex = _$v.currentIndex;
       _pickup = _$v.pickup?.toBuilder();
@@ -634,6 +655,7 @@ class BuiltRequestBuilder
               vehicleData: _vehicleData?.build(),
               driverToken: driverToken,
               clientToken: clientToken,
+              averageTimePreparation: averageTimePreparation,
               directions: directions.build(),
               currentIndex: currentIndex,
               pickup: pickup.build(),
