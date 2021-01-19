@@ -36,6 +36,7 @@ dependencies:
   flutter_polyline_points: ^0.2.1
   geolocator:
 
+  timeago: ^2.0.29
   equatable: ^1.2.5
   flutter_bloc: ^6.1.0
   persistent_bottom_nav_bar: ^3.1.0
