@@ -48,7 +48,7 @@ class PabiliMainPage extends StatelessWidget {
                           if (clientState.client.status == 'requesting') {
                             return ParcelRequestingPage();
                           } else if (clientState.client.status == 'transit') {
-                            return ParcelInTransitPage();
+                            return ParcelPickupPage();
                           } else if (clientState.client.status == 'arrived') {
                             return ParcelPickupPage();
                           } else if (clientState.client.status == 'arriving') {

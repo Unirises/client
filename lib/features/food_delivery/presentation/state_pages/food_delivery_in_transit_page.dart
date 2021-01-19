@@ -96,7 +96,7 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
                         ),
                         Divider(),
                         Text(
-                          'Arriving',
+                          'In Transit',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
