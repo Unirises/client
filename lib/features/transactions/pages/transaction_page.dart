@@ -131,7 +131,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                       'tel:${widget.ride.driverNumber}');
                                 },
                                 child: Text(
-                                  '${widget.ride.clientNumber}',
+                                  '${widget.ride.driverNumber}',
                                   style: const TextStyle(
                                       color: Colors.blueGrey,
                                       decoration: TextDecoration.underline),
@@ -306,7 +306,7 @@ class _TransactionPageState extends State<TransactionPage> {
         Expanded(
           flex: 2,
           child: Text(
-            'PHP ${widget.ride.fee}',
+            'PHP ${widget.ride.fee.toStringAsFixed(2)}',
             style: const TextStyle(color: Colors.grey),
           ),
         ),
