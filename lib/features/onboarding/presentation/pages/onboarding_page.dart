@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../login/presentation/pages/login_page.dart';
 import '../../../sign_up/presentation/pages/sign_up_page.dart';
@@ -21,7 +23,7 @@ class OnboardingPage extends StatelessWidget {
             left: 0,
             right: 0,
             child: OnboardingActionScreen(),
-          )
+          ),
         ],
       ),
     );
@@ -142,6 +144,41 @@ class OnboardingActionScreen extends StatelessWidget {
               ),
             ],
           ),
+          Container(
+            child: Text.rich(
+              TextSpan(
+                  text: 'By continuing, you agree to our ',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'Terms of Service',
+                        style: TextStyle(
+                          color: Colors.black,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async =>
+                              launch('https://jgexpress.com.ph/tos')),
+                    TextSpan(
+                        text: ' and ',
+                        style: TextStyle(color: Colors.black),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: 'Privacy Policy',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  decoration: TextDecoration.underline),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () async =>
+                                    launch('https://jgexpress.com.ph/policy'))
+                        ])
+                  ]),
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12),
+            ),
+          )
         ],
       ),
     );
