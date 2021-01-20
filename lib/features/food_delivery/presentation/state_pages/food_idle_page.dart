@@ -56,127 +56,150 @@ class FoodIdlePage extends StatelessWidget {
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  if (checkoutState.merchant == null) {
-                                    log((checkoutState.merchant?.companyName ==
-                                            null)
-                                        .toString());
-                                    if (checkoutState.merchant?.companyName ==
-                                        null) {
-                                      context.bloc<CheckoutBloc>().add(
-                                          CheckoutStoreUpdated(
-                                              state.merchants[index]));
-                                      pushNewScreen(context,
-                                          screen: FoodDeliveryListingPage(
-                                            merchant: state.merchants[index],
-                                          ));
-                                    }
-                                  } else {
-                                    if (state.merchants[index].companyName ==
-                                        checkoutState.merchant.companyName) {
-                                      context.bloc<CheckoutBloc>().add(
-                                          CheckoutStoreUpdated(
-                                              state.merchants[index]));
-                                      pushNewScreen(context,
-                                          screen: FoodDeliveryListingPage(
-                                            merchant: state.merchants[index],
-                                          ));
-                                    } else {
-                                      if (checkoutState.items == null ||
-                                          checkoutState.items.length < 1) {
-                                        context.bloc<CheckoutBloc>().add(
-                                            CheckoutStoreUpdated(
-                                                state.merchants[index]));
-                                        pushNewScreen(context,
-                                            screen: FoodDeliveryListingPage(
-                                              merchant: state.merchants[index],
-                                            ));
-                                      } else {
-                                        return Flushbar(
-                                          title: 'Restaurant Selection Failed',
-                                          message:
-                                              'Sorry but you still have items from other restaurants.',
-                                          progressIndicatorBackgroundColor:
-                                              Theme.of(context).primaryColor,
-                                          flushbarPosition:
-                                              FlushbarPosition.TOP,
-                                        )..show(context);
-                                      }
-                                    }
-                                  }
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Card(
-                                    clipBehavior: Clip.antiAlias,
-                                    child: Container(
-                                      height: 120,
-                                      padding: const EdgeInsets.all(0),
-                                      child: Row(children: [
-                                        Expanded(
-                                          flex: 6,
+                      (state.merchants == null || state.merchants.length < 1)
+                          ? Center(
+                              child: Text(
+                                'No restaurants available.',
+                                textAlign: TextAlign.center,
+                              ),
+                            )
+                          : Expanded(
+                              child: ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (checkoutState.merchant == null) {
+                                          log((checkoutState
+                                                      .merchant?.companyName ==
+                                                  null)
+                                              .toString());
+                                          if (checkoutState
+                                                  .merchant?.companyName ==
+                                              null) {
+                                            context.bloc<CheckoutBloc>().add(
+                                                CheckoutStoreUpdated(
+                                                    state.merchants[index]));
+                                            pushNewScreen(context,
+                                                screen: FoodDeliveryListingPage(
+                                                  merchant:
+                                                      state.merchants[index],
+                                                ));
+                                          }
+                                        } else {
+                                          if (state.merchants[index]
+                                                  .companyName ==
+                                              checkoutState
+                                                  .merchant.companyName) {
+                                            context.bloc<CheckoutBloc>().add(
+                                                CheckoutStoreUpdated(
+                                                    state.merchants[index]));
+                                            pushNewScreen(context,
+                                                screen: FoodDeliveryListingPage(
+                                                  merchant:
+                                                      state.merchants[index],
+                                                ));
+                                          } else {
+                                            if (checkoutState.items == null ||
+                                                checkoutState.items.length <
+                                                    1) {
+                                              context.bloc<CheckoutBloc>().add(
+                                                  CheckoutStoreUpdated(
+                                                      state.merchants[index]));
+                                              pushNewScreen(context,
+                                                  screen:
+                                                      FoodDeliveryListingPage(
+                                                    merchant:
+                                                        state.merchants[index],
+                                                  ));
+                                            } else {
+                                              return Flushbar(
+                                                title:
+                                                    'Restaurant Selection Failed',
+                                                message:
+                                                    'Sorry but you still have items from other restaurants.',
+                                                progressIndicatorBackgroundColor:
+                                                    Theme.of(context)
+                                                        .primaryColor,
+                                                flushbarPosition:
+                                                    FlushbarPosition.TOP,
+                                              )..show(context);
+                                            }
+                                          }
+                                        }
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Card(
+                                          clipBehavior: Clip.antiAlias,
                                           child: Container(
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: state
-                                                                .merchants[
-                                                                    index]
-                                                                .hero !=
-                                                            null
-                                                        ? NetworkImage(state
-                                                                .merchants[
-                                                                    index]
-                                                                .hero ??
-                                                            'https://live.staticflickr.com/3780/9134266649_3d2f1af95b_z.jpg')
-                                                        : AssetImage(
-                                                            'assets/default-hero.jpg'),
-                                                    fit: BoxFit.cover)),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 10,
-                                          child: Container(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(16.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    state.merchants[index]
-                                                        .companyName,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 24,
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: TimeLocationWidget(
-                                                      merchant: state
-                                                          .merchants[index],
-                                                    ),
-                                                  ),
-                                                ],
+                                            height: 120,
+                                            padding: const EdgeInsets.all(0),
+                                            child: Row(children: [
+                                              Expanded(
+                                                flex: 6,
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image: state
+                                                                      .merchants[
+                                                                          index]
+                                                                      .hero !=
+                                                                  null
+                                                              ? NetworkImage(state
+                                                                      .merchants[
+                                                                          index]
+                                                                      .hero ??
+                                                                  'https://live.staticflickr.com/3780/9134266649_3d2f1af95b_z.jpg')
+                                                              : AssetImage(
+                                                                  'assets/default-hero.jpg'),
+                                                          fit: BoxFit.cover)),
+                                                ),
                                               ),
-                                            ),
+                                              Expanded(
+                                                flex: 10,
+                                                child: Container(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16.0),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          state.merchants[index]
+                                                              .companyName,
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 24,
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child:
+                                                              TimeLocationWidget(
+                                                            merchant:
+                                                                state.merchants[
+                                                                    index],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ]),
                                           ),
                                         ),
-                                      ]),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                            itemCount: state.merchants.length),
-                      ),
+                                      ),
+                                    );
+                                  },
+                                  itemCount: state.merchants.length),
+                            ),
                     ],
                   ),
                 ),
