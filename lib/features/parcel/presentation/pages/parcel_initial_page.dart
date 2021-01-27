@@ -64,14 +64,25 @@ class ParcelInitialPage extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              trailing: IconButton(
-                                color: Colors.red,
-                                onPressed: () {
-                                  context
-                                      .bloc<ParcelBloc>()
-                                      .add(ParcelDeleted(state.pickup, true));
-                                },
-                                icon: Icon(Icons.delete_forever),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    color: Colors.blue,
+                                    onPressed: () {
+                                      throw UnimplementedError();
+                                    },
+                                    icon: Icon(Icons.edit),
+                                  ),
+                                  IconButton(
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      context.bloc<ParcelBloc>().add(
+                                          ParcelDeleted(state.pickup, true));
+                                    },
+                                    icon: Icon(Icons.delete_forever),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -141,13 +152,25 @@ class ParcelInitialPage extends StatelessWidget {
                                   : Container(),
                             ],
                           ),
-                          trailing: IconButton(
-                            color: Colors.red,
-                            onPressed: () {
-                              context.bloc<ParcelBloc>().add(
-                                  ParcelDeleted(state.points[index], false));
-                            },
-                            icon: Icon(Icons.delete_forever),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                color: Colors.blue,
+                                onPressed: () {
+                                  throw UnimplementedError();
+                                },
+                                icon: Icon(Icons.edit),
+                              ),
+                              IconButton(
+                                color: Colors.red,
+                                onPressed: () {
+                                  context.bloc<ParcelBloc>().add(ParcelDeleted(
+                                      state.points[index], false));
+                                },
+                                icon: Icon(Icons.delete_forever),
+                              ),
+                            ],
                           ),
                         );
                       },
