@@ -23,7 +23,7 @@ class ParcelInitialPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  (state.pickup == null && state.points == null)
+                  (state.pickup == null || state.pickup.id == null)
                       ? Text(
                           'Start booking a parcel delivery by adding your pickup location.')
                       : Container(),
@@ -37,6 +37,10 @@ class ParcelInitialPage extends StatelessWidget {
                                   color: Theme.of(context).primaryColor),
                             ),
                             ListTile(
+                              leading: Icon(
+                                Icons.pin_drop_sharp,
+                                color: Color(0xff424242),
+                              ),
                               title: Text(
                                 state.pickup.name,
                                 style: TextStyle(
@@ -73,80 +77,82 @@ class ParcelInitialPage extends StatelessWidget {
                           ],
                         )
                       : Container(),
+                  (state.points != null)
+                      ? Text(
+                          state.points.length > 1
+                              ? 'Destinations'
+                              : 'Destination',
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                        )
+                      : (state.pickup != null && state.pickup.id != null)
+                          ? Text(
+                              'Add your destinations to your parcel delivery.',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
+                            )
+                          : Container(),
                   Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Container(
-                              margin: EdgeInsets.only(top: 56),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: buildLeadingIcons(
-                                    context, state.points?.length),
-                              ),
+                    child: ListView.separated(
+                      physics: BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Divider(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: Icon(
+                            Icons.circle,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          title: Text(
+                            state.points[index].name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 18,
                             ),
                           ),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: ListView.separated(
-                            separatorBuilder: (context, index) => Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Divider(
-                                color: Colors.grey,
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                state.points[index].houseDetails +
+                                    ' ' +
+                                    state.points[index].address,
+                                style: TextStyle(color: Colors.grey),
                               ),
-                            ),
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text(
-                                  state.points[index].name,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryColor,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      state.points[index].houseDetails +
-                                          ' ' +
-                                          state.points[index].address,
+                              Text(
+                                state.points[index].phone,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              Text(
+                                state.points[index].type +
+                                    ' - ${state.points[index].weight.toStringAsFixed(2)} kg',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              state.points[index].price != null
+                                  ? Text(
+                                      'Price: ${state.points[index].price.toStringAsFixed(2)}',
                                       style: TextStyle(color: Colors.grey),
-                                    ),
-                                    Text(
-                                      state.points[index].phone,
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                    Text(
-                                      state.points[index].type +
-                                          ' - ${state.points[index].weight.toStringAsFixed(2)} kg',
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                                trailing: IconButton(
-                                  color: Colors.red,
-                                  onPressed: () {
-                                    context.bloc<ParcelBloc>().add(
-                                        ParcelDeleted(
-                                            state.points[index], false));
-                                  },
-                                  icon: Icon(Icons.delete_forever),
-                                ),
-                              );
+                                    )
+                                  : Container(),
+                            ],
+                          ),
+                          trailing: IconButton(
+                            color: Colors.red,
+                            onPressed: () {
+                              context.bloc<ParcelBloc>().add(
+                                  ParcelDeleted(state.points[index], false));
                             },
-                            itemCount: (state.points != null)
-                                ? state.points?.length
-                                : 0,
+                            icon: Icon(Icons.delete_forever),
                           ),
-                        ),
-                      ],
+                        );
+                      },
+                      itemCount:
+                          (state.points != null) ? state.points?.length : 0,
                     ),
                   ),
                   Column(
@@ -264,7 +270,11 @@ class ParcelInitialPage extends StatelessWidget {
                               ),
                             )
                           : Container(),
-                      ((state?.subtotal ?? 0) > 0)
+                      ((state?.subtotal ?? 0) > 0 &&
+                              state.points.length != null &&
+                              state.points.length > 0 &&
+                              state.pickup != null &&
+                              state.pickup.id != null)
                           ? Container(
                               width: double.infinity,
                               child: Padding(
@@ -308,7 +318,8 @@ class ParcelInitialPage extends StatelessWidget {
                                   },
                                   color: Theme.of(context).primaryColor,
                                   textColor: Colors.white,
-                                  child: Text('Book Request'),
+                                  child: Text(
+                                      'Request Parcel Delivery - PHP ${state.subtotal.toStringAsFixed(2)}'),
                                 ),
                               ),
                             )

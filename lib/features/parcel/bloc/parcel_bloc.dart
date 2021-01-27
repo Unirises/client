@@ -48,6 +48,8 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
           final BuiltStop updatedPickup = event.point;
           yield currentState.copyWith(pickup: updatedPickup);
         }
+        if (currentState.points != null && currentState.points.length > 0)
+          add(ComputeFare());
       }
     } else if (event is ParcelUpdated) {
       if (currentState is ParcelLoadSuccess) {
@@ -63,6 +65,8 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
           final BuiltStop updatedPickup = event.point;
           yield currentState.copyWith(pickup: updatedPickup);
         }
+        if (currentState.points != null && currentState.points.length > 0)
+          add(ComputeFare());
       }
     } else if (event is ParcelDeleted) {
       if (currentState is ParcelLoadSuccess) {
@@ -70,8 +74,6 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
           final updatedPoints = (state as ParcelLoadSuccess)
               .points
               .rebuild((b) => b.where((point) => point.id != event.point.id));
-          // .where((point) => point.id != event.point.id)
-          // .toList();
           yield currentState.copyWith(points: updatedPoints);
         } else {
           yield currentState.copyWith(pickup: BuiltStop((b) => b..id = null));
@@ -131,6 +133,8 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
               'distance': distance,
               'weight': weight,
             });
+
+            if (currentState.type != null) add(TypeUpdated(currentState.type));
           }
         }
       } catch (e) {
