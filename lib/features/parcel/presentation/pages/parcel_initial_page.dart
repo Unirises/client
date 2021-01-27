@@ -225,17 +225,17 @@ class ParcelInitialPage extends StatelessWidget {
                                 label: Text(
                                     'Add ${state.pickup?.id == null ? 'Starting Point' : 'Stop'}'))),
                       ),
-                      Container(
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                          ),
-                          child: RaisedButton(
-                            onPressed: (state.points != null &&
-                                    state.points.length >= 1 &&
-                                    state.pickup.id != null)
-                                ? () {
+                      (state.points != null &&
+                              state.points.length >= 1 &&
+                              state.pickup.id != null)
+                          ? Container(
+                              width: double.infinity,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                ),
+                                child: RaisedButton(
+                                  onPressed: () {
                                     context
                                         .bloc<ParcelBloc>()
                                         .add(ComputeFare());
@@ -252,25 +252,27 @@ class ParcelInitialPage extends StatelessWidget {
                                         ),
                                       ),
                                     );
-                                  }
-                                : null,
-                            color: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
-                            child: Text('Select Vehicle'),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                          ),
-                          child: RaisedButton(
-                            onPressed: (state.points != null &&
-                                    state.points.length >= 1 &&
-                                    state.pickup.id != null)
-                                ? () {
+                                  },
+                                  color: state.type != null
+                                      ? null
+                                      : Theme.of(context).primaryColor,
+                                  textColor:
+                                      state.type != null ? null : Colors.white,
+                                  child: Text(
+                                      '${state.type != null ? 'Change Vehicle' : 'Select Vehicle'}'),
+                                ),
+                              ),
+                            )
+                          : Container(),
+                      ((state?.subtotal ?? 0) > 0)
+                          ? Container(
+                              width: double.infinity,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                ),
+                                child: RaisedButton(
+                                  onPressed: () {
                                     context
                                         .bloc<ParcelBloc>()
                                         .add(ComputeFare());
@@ -303,14 +305,14 @@ class ParcelInitialPage extends StatelessWidget {
                                         ),
                                       ),
                                     );
-                                  }
-                                : null,
-                            color: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
-                            child: Text('Book Request'),
-                          ),
-                        ),
-                      ),
+                                  },
+                                  color: Theme.of(context).primaryColor,
+                                  textColor: Colors.white,
+                                  child: Text('Book Request'),
+                                ),
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
                 ],
