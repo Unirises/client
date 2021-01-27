@@ -141,40 +141,13 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
       try {
         if (currentState is ParcelLoadSuccess) {
           yield ParcelLoadingInProgress();
-          var directions = currentState.directions;
-          var points = currentState.points;
-          BuiltList<BuiltStop> mutatedPoints = new BuiltList<BuiltStop>([]);
           print('request triggered');
-          for (int i = 0; i < points.length; i++) {
-            mutatedPoints = mutatedPoints.rebuild((b) => b.add(points[i]
-                .rebuild((b) => b
-                  ..distance = directions.routes.first.legs[i].distance.value
-                  ..duration =
-                      directions.routes.first.legs[i].duration.toBuilder()
-                  ..price = computeFare(event.type,
-                      directions.routes.first.legs[i].distance.value, i > 1)
-                  ..startLocation =
-                      directions.routes.first.legs[i].startLocation.toBuilder()
-                  ..endLocation =
-                      directions.routes.first.legs[i].endLocation.toBuilder()
-                  ..startAddress = directions.routes.first.legs[i].startAddress
-                  ..endAddress = directions.routes.first.legs[i].endAddress)));
-          }
           var shittyPos = await Geolocator.getCurrentPosition();
           var goodPos = BuiltPosition.fromJson(json.encode(shittyPos.toJson()));
           var deviceToken = await FirebaseMessaging.instance.getToken();
-          List<num> items = [];
-          num subtotal = 0.00;
-          mutatedPoints.forEach((item) {
-            items.add(item.price);
-          });
-
-          if (items.length > 0) {
-            subtotal = items.reduce((value, element) => value + element);
-          }
 
           var request = BuiltRequest((b) => b
-            ..fee = subtotal
+            ..fee = currentState.subtotal
             ..timestamp = DateTime.now().millisecondsSinceEpoch
             ..clientToken = deviceToken
             ..isParcel = true
@@ -182,12 +155,12 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
             ..status = 'requesting'
             ..position = goodPos.toBuilder()
             ..currentIndex = 0
-            ..points = mutatedPoints.toBuilder()
+            ..points = currentState.points.toBuilder()
             ..pickup = currentState.pickup.toBuilder()
             ..clientName = event.name
             ..clientNumber = event.number
             ..directions = currentState.directions.toBuilder()
-            ..rideType = event.type);
+            ..rideType = currentState.type);
 
           var requestId = await _clientRepository.updateStatus(
             data: 'requesting',
@@ -198,11 +171,52 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
               .doc(requestId)
               .update({'id': requestId});
           event.rideBloc.add(StartListenOnParcelRide(requestId));
-          yield currentState.copyWith(points: mutatedPoints);
+
+          yield currentState.copyWith();
         }
       } catch (e) {
         print(e);
         yield ParcelLoadFailure();
+      }
+    } else if (event is TypeUpdated) {
+      if (currentState is ParcelLoadSuccess) {
+        var directions = currentState.directions;
+        var points = currentState.points;
+        BuiltList<BuiltStop> mutatedPoints = new BuiltList<BuiltStop>([]);
+
+        for (int i = 0; i < points.length; i++) {
+          mutatedPoints = mutatedPoints.rebuild((b) => b.add(points[i].rebuild(
+              (b) => b
+                ..distance = directions.routes.first.legs[i].distance.value
+                ..duration =
+                    directions.routes.first.legs[i].duration.toBuilder()
+                ..price = computeFare(event.type,
+                    directions.routes.first.legs[i].distance.value, i > 1)
+                ..startLocation =
+                    directions.routes.first.legs[i].startLocation.toBuilder()
+                ..endLocation =
+                    directions.routes.first.legs[i].endLocation.toBuilder()
+                ..startAddress = directions.routes.first.legs[i].startAddress
+                ..endAddress = directions.routes.first.legs[i].endAddress)));
+        }
+
+        List<num> items = [];
+
+        num subtotal = 0.00;
+
+        mutatedPoints.forEach((item) {
+          items.add(item.price);
+        });
+
+        if (items.length > 0) {
+          subtotal = items.reduce((value, element) => value + element);
+        }
+
+        yield currentState.copyWith(
+          type: event.type,
+          points: mutatedPoints,
+          subtotal: subtotal,
+        );
       }
     }
   }

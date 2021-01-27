@@ -69,23 +69,26 @@ class ParcelRideBloc extends Bloc<ParcelRideEvent, ParcelRideState> {
       _rideSubscription?.cancel();
       yield ParcelRideInitial();
     } else if (event is AddFinishedParcelRideToUser) {
-      try {
-        await clientsRepository
-            .doc(FirebaseAuth.instance.currentUser.uid)
-            .update({
-          'rides': FieldValue.arrayUnion([json.decode(event.ride.toJson())])
-        });
-        await driversRepository.doc(event.ride.driverId).update({
-          'rides': FieldValue.arrayUnion([json.decode(event.ride.toJson())]),
-        });
-      } catch (e) {
-        print('Failed updating client and driver rides.');
-        print(e);
-        await FirebaseFirestore.instance
-            .collection('clients')
-            .doc(FirebaseAuth.instance.currentUser.uid)
-            .update({'status': 'idle'});
-        yield ParcelRideFailure();
+      if (event.ride.status == 'completed' ||
+          event.ride.status == 'cancelled') {
+        try {
+          await clientsRepository
+              .doc(FirebaseAuth.instance.currentUser.uid)
+              .update({
+            'rides': FieldValue.arrayUnion([json.decode(event.ride.toJson())])
+          });
+          await driversRepository.doc(event.ride.driverId).update({
+            'rides': FieldValue.arrayUnion([json.decode(event.ride.toJson())]),
+          });
+        } catch (e) {
+          print('Failed updating client and driver rides.');
+          print(e);
+          await FirebaseFirestore.instance
+              .collection('clients')
+              .doc(FirebaseAuth.instance.currentUser.uid)
+              .update({'status': 'idle'});
+          yield ParcelRideFailure();
+        }
       }
     }
   }

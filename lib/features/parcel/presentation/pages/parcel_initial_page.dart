@@ -245,9 +245,43 @@ class ParcelInitialPage extends StatelessWidget {
                                         builder: (context) => SelectVehiclePage(
                                           onSelected: (selected) {
                                             Navigator.pop(context);
+                                            context
+                                                .bloc<ParcelBloc>()
+                                                .add(TypeUpdated(selected));
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                : null,
+                            color: Theme.of(context).primaryColor,
+                            textColor: Colors.white,
+                            child: Text('Select Vehicle'),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                          ),
+                          child: RaisedButton(
+                            onPressed: (state.points != null &&
+                                    state.points.length >= 1 &&
+                                    state.pickup.id != null)
+                                ? () {
+                                    context
+                                        .bloc<ParcelBloc>()
+                                        .add(ComputeFare());
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SelectVehiclePage(
+                                          onSelected: (selected) {
+                                            Navigator.pop(context);
                                             context.bloc<ParcelBloc>().add(
                                                   RequestParcel(
-                                                      type: selected,
                                                       rideBloc: context.bloc<
                                                           ParcelRideBloc>(),
                                                       name: (context
@@ -273,7 +307,7 @@ class ParcelInitialPage extends StatelessWidget {
                                 : null,
                             color: Theme.of(context).primaryColor,
                             textColor: Colors.white,
-                            child: Text('Select Vehicle'),
+                            child: Text('Book Request'),
                           ),
                         ),
                       ),
