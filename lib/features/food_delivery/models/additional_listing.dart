@@ -21,6 +21,8 @@ abstract class AdditionalListing
   String get name;
   @nullable
   bool get isSelected;
+  String get additionalSKU;
+
   String toJson() {
     return json
         .encode(serializers.serializeWith(AdditionalListing.serializer, this));

@@ -25,6 +25,9 @@ class _$AdditionalListingSerializer
           specifiedType: const FullType(num)),
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
+      'additionalSKU',
+      serializers.serialize(object.additionalSKU,
+          specifiedType: const FullType(String)),
     ];
     if (object.isSelected != null) {
       result
@@ -59,6 +62,10 @@ class _$AdditionalListingSerializer
           result.isSelected = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
           break;
+        case 'additionalSKU':
+          result.additionalSKU = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
       }
     }
 
@@ -73,12 +80,15 @@ class _$AdditionalListing extends AdditionalListing {
   final String name;
   @override
   final bool isSelected;
+  @override
+  final String additionalSKU;
 
   factory _$AdditionalListing(
           [void Function(AdditionalListingBuilder) updates]) =>
       (new AdditionalListingBuilder()..update(updates)).build();
 
-  _$AdditionalListing._({this.additionalPrice, this.name, this.isSelected})
+  _$AdditionalListing._(
+      {this.additionalPrice, this.name, this.isSelected, this.additionalSKU})
       : super._() {
     if (additionalPrice == null) {
       throw new BuiltValueNullFieldError(
@@ -86,6 +96,9 @@ class _$AdditionalListing extends AdditionalListing {
     }
     if (name == null) {
       throw new BuiltValueNullFieldError('AdditionalListing', 'name');
+    }
+    if (additionalSKU == null) {
+      throw new BuiltValueNullFieldError('AdditionalListing', 'additionalSKU');
     }
   }
 
@@ -103,13 +116,16 @@ class _$AdditionalListing extends AdditionalListing {
     return other is AdditionalListing &&
         additionalPrice == other.additionalPrice &&
         name == other.name &&
-        isSelected == other.isSelected;
+        isSelected == other.isSelected &&
+        additionalSKU == other.additionalSKU;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc($jc(0, additionalPrice.hashCode), name.hashCode),
-        isSelected.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, additionalPrice.hashCode), name.hashCode),
+            isSelected.hashCode),
+        additionalSKU.hashCode));
   }
 
   @override
@@ -117,7 +133,8 @@ class _$AdditionalListing extends AdditionalListing {
     return (newBuiltValueToStringHelper('AdditionalListing')
           ..add('additionalPrice', additionalPrice)
           ..add('name', name)
-          ..add('isSelected', isSelected))
+          ..add('isSelected', isSelected)
+          ..add('additionalSKU', additionalSKU))
         .toString();
   }
 }
@@ -139,6 +156,11 @@ class AdditionalListingBuilder
   bool get isSelected => _$this._isSelected;
   set isSelected(bool isSelected) => _$this._isSelected = isSelected;
 
+  String _additionalSKU;
+  String get additionalSKU => _$this._additionalSKU;
+  set additionalSKU(String additionalSKU) =>
+      _$this._additionalSKU = additionalSKU;
+
   AdditionalListingBuilder();
 
   AdditionalListingBuilder get _$this {
@@ -146,6 +168,7 @@ class AdditionalListingBuilder
       _additionalPrice = _$v.additionalPrice;
       _name = _$v.name;
       _isSelected = _$v.isSelected;
+      _additionalSKU = _$v.additionalSKU;
       _$v = null;
     }
     return this;
@@ -170,7 +193,8 @@ class AdditionalListingBuilder
         new _$AdditionalListing._(
             additionalPrice: additionalPrice,
             name: name,
-            isSelected: isSelected);
+            isSelected: isSelected,
+            additionalSKU: additionalSKU);
     replace(_$result);
     return _$result;
   }

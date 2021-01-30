@@ -36,6 +36,7 @@ abstract class ClassificationListing
   bool get isValid;
   @nullable
   num get additionalPrice;
+  String get sku;
 
   String toJson() {
     return json.encode(

@@ -34,6 +34,8 @@ class _$ClassificationListingSerializer
       'itemPrice',
       serializers.serialize(object.itemPrice,
           specifiedType: const FullType(num)),
+      'sku',
+      serializers.serialize(object.sku, specifiedType: const FullType(String)),
     ];
     if (object.itemPhoto != null) {
       result
@@ -114,6 +116,10 @@ class _$ClassificationListingSerializer
           result.additionalPrice = serializers.deserialize(value,
               specifiedType: const FullType(num)) as num;
           break;
+        case 'sku':
+          result.sku = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
       }
     }
 
@@ -138,6 +144,8 @@ class _$ClassificationListing extends ClassificationListing {
   final bool isValid;
   @override
   final num additionalPrice;
+  @override
+  final String sku;
 
   factory _$ClassificationListing(
           [void Function(ClassificationListingBuilder) updates]) =>
@@ -151,7 +159,8 @@ class _$ClassificationListing extends ClassificationListing {
       this.itemSize,
       this.quantity,
       this.isValid,
-      this.additionalPrice})
+      this.additionalPrice,
+      this.sku})
       : super._() {
     if (itemName == null) {
       throw new BuiltValueNullFieldError('ClassificationListing', 'itemName');
@@ -162,6 +171,9 @@ class _$ClassificationListing extends ClassificationListing {
     }
     if (itemPrice == null) {
       throw new BuiltValueNullFieldError('ClassificationListing', 'itemPrice');
+    }
+    if (sku == null) {
+      throw new BuiltValueNullFieldError('ClassificationListing', 'sku');
     }
   }
 
@@ -185,7 +197,8 @@ class _$ClassificationListing extends ClassificationListing {
         itemSize == other.itemSize &&
         quantity == other.quantity &&
         isValid == other.isValid &&
-        additionalPrice == other.additionalPrice;
+        additionalPrice == other.additionalPrice &&
+        sku == other.sku;
   }
 
   @override
@@ -196,14 +209,16 @@ class _$ClassificationListing extends ClassificationListing {
                 $jc(
                     $jc(
                         $jc(
-                            $jc($jc(0, itemName.hashCode),
-                                additionals.hashCode),
-                            itemPhoto.hashCode),
-                        itemPrice.hashCode),
-                    itemSize.hashCode),
-                quantity.hashCode),
-            isValid.hashCode),
-        additionalPrice.hashCode));
+                            $jc(
+                                $jc($jc(0, itemName.hashCode),
+                                    additionals.hashCode),
+                                itemPhoto.hashCode),
+                            itemPrice.hashCode),
+                        itemSize.hashCode),
+                    quantity.hashCode),
+                isValid.hashCode),
+            additionalPrice.hashCode),
+        sku.hashCode));
   }
 
   @override
@@ -216,7 +231,8 @@ class _$ClassificationListing extends ClassificationListing {
           ..add('itemSize', itemSize)
           ..add('quantity', quantity)
           ..add('isValid', isValid)
-          ..add('additionalPrice', additionalPrice))
+          ..add('additionalPrice', additionalPrice)
+          ..add('sku', sku))
         .toString();
   }
 }
@@ -260,6 +276,10 @@ class ClassificationListingBuilder
   set additionalPrice(num additionalPrice) =>
       _$this._additionalPrice = additionalPrice;
 
+  String _sku;
+  String get sku => _$this._sku;
+  set sku(String sku) => _$this._sku = sku;
+
   ClassificationListingBuilder();
 
   ClassificationListingBuilder get _$this {
@@ -272,6 +292,7 @@ class ClassificationListingBuilder
       _quantity = _$v.quantity;
       _isValid = _$v.isValid;
       _additionalPrice = _$v.additionalPrice;
+      _sku = _$v.sku;
       _$v = null;
     }
     return this;
@@ -303,7 +324,8 @@ class ClassificationListingBuilder
               itemSize: itemSize,
               quantity: quantity,
               isValid: isValid,
-              additionalPrice: additionalPrice);
+              additionalPrice: additionalPrice,
+              sku: sku);
     } catch (_) {
       String _$failedField;
       try {
