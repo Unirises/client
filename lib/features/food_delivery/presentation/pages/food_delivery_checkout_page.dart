@@ -222,57 +222,6 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 4),
-                          child: Column(children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Subtotal',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text('PHP ' + subtotal.toStringAsFixed(2))
-                              ],
-                            ),
-                            (state.deliveryFee != null)
-                                ? Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'Delivery Fee (${buildType(state.selectedVehicleType)})',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text('PHP ' +
-                                          state.deliveryFee.toStringAsFixed(2))
-                                    ],
-                                  )
-                                : Container(),
-                            (state.deliveryFee != null)
-                                ? Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'Total',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text('PHP ' +
-                                          (subtotal + state.deliveryFee)
-                                              .toStringAsFixed(2))
-                                    ],
-                                  )
-                                : Container(),
-                          ]),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 4),
                           child: Text('Items',
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor,
@@ -328,6 +277,57 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                             );
                           },
                           itemCount: state.items.length,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 4),
+                          child: Column(children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Subtotal',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text('PHP ' + subtotal.toStringAsFixed(2))
+                              ],
+                            ),
+                            (state.deliveryFee != null)
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Delivery Fee (${buildType(state.selectedVehicleType)})',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text('PHP ' +
+                                          state.deliveryFee.toStringAsFixed(2))
+                                    ],
+                                  )
+                                : Container(),
+                            (state.deliveryFee != null)
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Total',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text('PHP ' +
+                                          (subtotal + state.deliveryFee)
+                                              .toStringAsFixed(2))
+                                    ],
+                                  )
+                                : Container(),
+                          ]),
                         ),
                       ],
                     ),
