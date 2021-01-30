@@ -28,6 +28,9 @@ abstract class BuiltRequest
   BuiltPosition get position;
 
   @nullable
+  String get storeID;
+
+  @nullable
   String get driverName;
   @nullable
   String get driverNumber;

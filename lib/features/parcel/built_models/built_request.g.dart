@@ -68,6 +68,12 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
         ..add(serializers.serialize(object.driverId,
             specifiedType: const FullType(String)));
     }
+    if (object.storeID != null) {
+      result
+        ..add('storeID')
+        ..add(serializers.serialize(object.storeID,
+            specifiedType: const FullType(String)));
+    }
     if (object.driverName != null) {
       result
         ..add('driverName')
@@ -162,6 +168,10 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
         case 'position':
           result.position.replace(serializers.deserialize(value,
               specifiedType: const FullType(BuiltPosition)) as BuiltPosition);
+          break;
+        case 'storeID':
+          result.storeID = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
           break;
         case 'driverName':
           result.driverName = serializers.deserialize(value,
@@ -264,6 +274,8 @@ class _$BuiltRequest extends BuiltRequest {
   @override
   final BuiltPosition position;
   @override
+  final String storeID;
+  @override
   final String driverName;
   @override
   final String driverNumber;
@@ -311,6 +323,7 @@ class _$BuiltRequest extends BuiltRequest {
       this.userId,
       this.status,
       this.position,
+      this.storeID,
       this.driverName,
       this.driverNumber,
       this.clientName,
@@ -385,6 +398,7 @@ class _$BuiltRequest extends BuiltRequest {
         userId == other.userId &&
         status == other.status &&
         position == other.position &&
+        storeID == other.storeID &&
         driverName == other.driverName &&
         driverNumber == other.driverNumber &&
         clientName == other.clientName &&
@@ -426,7 +440,7 @@ class _$BuiltRequest extends BuiltRequest {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc(0, id.hashCode), driverId.hashCode), userId.hashCode), status.hashCode), position.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc(0, id.hashCode), driverId.hashCode), userId.hashCode), status.hashCode), position.hashCode), storeID.hashCode),
                                                                                 driverName.hashCode),
                                                                             driverNumber.hashCode),
                                                                         clientName.hashCode),
@@ -456,6 +470,7 @@ class _$BuiltRequest extends BuiltRequest {
           ..add('userId', userId)
           ..add('status', status)
           ..add('position', position)
+          ..add('storeID', storeID)
           ..add('driverName', driverName)
           ..add('driverNumber', driverNumber)
           ..add('clientName', clientName)
@@ -503,6 +518,10 @@ class BuiltRequestBuilder
   BuiltPositionBuilder get position =>
       _$this._position ??= new BuiltPositionBuilder();
   set position(BuiltPositionBuilder position) => _$this._position = position;
+
+  String _storeID;
+  String get storeID => _$this._storeID;
+  set storeID(String storeID) => _$this._storeID = storeID;
 
   String _driverName;
   String get driverName => _$this._driverName;
@@ -598,6 +617,7 @@ class BuiltRequestBuilder
       _userId = _$v.userId;
       _status = _$v.status;
       _position = _$v.position?.toBuilder();
+      _storeID = _$v.storeID;
       _driverName = _$v.driverName;
       _driverNumber = _$v.driverNumber;
       _clientName = _$v.clientName;
@@ -646,6 +666,7 @@ class BuiltRequestBuilder
               userId: userId,
               status: status,
               position: position.build(),
+              storeID: storeID,
               driverName: driverName,
               driverNumber: driverNumber,
               clientName: clientName,

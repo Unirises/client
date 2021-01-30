@@ -91,6 +91,7 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                                           onBooked: () {
                                             context.bloc<CheckoutBloc>().add(
                                                   CheckoutBookRide(
+                                                    storeID: widget.merchant.id,
                                                     name: (context
                                                                 .bloc<
                                                                     UserCollectionBloc>()
