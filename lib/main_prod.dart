@@ -15,13 +15,6 @@ import 'core/Flavor.dart';
 import 'core/authentication_bloc/authentication_bloc.dart';
 import 'core/client_bloc/client_bloc.dart';
 import 'core/client_bloc/client_repository.dart';
-import 'core/initial_map_bloc/initial_map_bloc.dart';
-import 'core/pabili_delivery/pabili_delivery_bloc.dart';
-import 'core/pabili_delivery/pabili_delivery_repository.dart';
-import 'core/requests_bloc/request_repository.dart';
-import 'core/requests_bloc/requests_bloc.dart';
-import 'core/ride_sharing_bloc/ride_sharing_bloc.dart';
-import 'core/ride_sharing_bloc/ride_sharing_repository.dart';
 import 'core/user_collection_bloc/user_collection_bloc.dart';
 import 'features/food_delivery/bloc/checkout_bloc.dart';
 import 'features/food_delivery/bloc/food_ride_bloc.dart';
@@ -78,9 +71,6 @@ void main() async {
     authenticationRepository: AuthenticationRepository(),
     userFirestoreRepository: UserFirestoreRepository(),
     clientRepository: ClientRepository(),
-    rideSharingRepository: RideSharingRepository(),
-    requestRepository: RequestRepository(),
-    pabiliDeliveryRepository: PabiliDeliveryRepository(),
   ));
 }
 
@@ -90,9 +80,6 @@ class App extends StatefulWidget {
     @required this.authenticationRepository,
     @required this.userFirestoreRepository,
     @required this.clientRepository,
-    @required this.rideSharingRepository,
-    @required this.requestRepository,
-    @required this.pabiliDeliveryRepository,
   })  : assert(
             authenticationRepository != null, userFirestoreRepository != null),
         super(key: key);
@@ -100,9 +87,6 @@ class App extends StatefulWidget {
   final AuthenticationRepository authenticationRepository;
   final UserFirestoreRepository userFirestoreRepository;
   final ClientRepository clientRepository;
-  final RideSharingRepository rideSharingRepository;
-  final RequestRepository requestRepository;
-  final PabiliDeliveryRepository pabiliDeliveryRepository;
 
   @override
   _AppState createState() => _AppState();
@@ -141,27 +125,7 @@ class _AppState extends State<App> {
             ),
           ),
           BlocProvider(
-            create: (_) => InitialMapBloc(
-              clientRepository: widget.clientRepository,
-            ),
-          ),
-          BlocProvider(
-            create: (_) => RideSharingBloc(
-              rideSharingRepository: widget.rideSharingRepository,
-            ),
-          ),
-          BlocProvider(
-            create: (_) => RequestsBloc(
-              requestRepository: widget.requestRepository,
-            ),
-          ),
-          BlocProvider(
             create: (_) => MerchantBloc(),
-          ),
-          BlocProvider(
-            create: (_) => PabiliDeliveryBloc(
-              repository: widget.pabiliDeliveryRepository,
-            ),
           ),
           BlocProvider(
               create: (_) =>

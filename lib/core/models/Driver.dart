@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import 'Request.dart';
-
 class Driver extends Equatable {
   const Driver({
     @required this.id,
@@ -71,7 +69,6 @@ class Driver extends Equatable {
       token: data['token'].toString(),
       onRide: data['onRide'] == true,
       ride_id: data['ride_id'].toString(),
-      rides: data['rides'].map((e) => Request.fromMap(e)).toList(),
     );
   }
 }

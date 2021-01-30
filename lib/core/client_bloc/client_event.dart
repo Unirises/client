@@ -34,25 +34,6 @@ class StopLocationUpdate extends ClientEvent {
   List<Object> get props => [];
 }
 
-class ClientRequestsRide extends ClientEvent {
-  final Request request;
-  final Bloc rideSharingBloc;
-  const ClientRequestsRide(this.request, this.rideSharingBloc);
-
-  @override
-  List<Object> get props => [request, rideSharingBloc];
-}
-
-class ClientRequestFood extends ClientEvent {
-  final Request request;
-  final Bloc pabiliDeliveryBloc;
-
-  const ClientRequestFood(this.request, this.pabiliDeliveryBloc);
-
-  @override
-  List<Object> get props => [request, pabiliDeliveryBloc];
-}
-
 class ClientCancelRide extends ClientEvent {
   final String requestID;
   const ClientCancelRide(this.requestID);

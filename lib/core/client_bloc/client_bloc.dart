@@ -7,7 +7,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
 
 import '../models/Client.dart';
-import '../models/Request.dart';
 import 'client_repository.dart';
 
 part 'client_event.dart';
@@ -45,33 +44,11 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
       });
     } else if (event is StopLocationUpdate) {
       _positionSubscription?.cancel();
-    }
-
-    if (event is ClientRequestsRide) {
-      // var requestId = await _clientRepository.updateStatus(
-      //   data: 'requesting',
-      //   request: event.request,
-      // );
-
-      // event.rideSharingBloc.add(StartListenOnRide(requestId));
     } else if (event is ClientCancelRide) {
       await _clientRepository.updateStatus(
         data: 'idle',
         requestID: event.requestID,
       );
-
-      // await _clientRepository.deleteRequest(event.requestID);
-    }
-
-    if (event is ClientRequestFood) {
-      // event.pabiliDeliveryBloc.add(PDB.ResetYield());
-
-      // var requestId = await _clientRepository.updateDeliveryStatus(
-      //   data: 'requesting',
-      //   request: event.request,
-      // );
-
-      // event.pabiliDeliveryBloc.add(PDB.StartListenOnPabiliRide(requestId));
     } else if (event is ClientCancelFoodRide) {
       await _clientRepository.updateDeliveryStatus(
         data: 'idle',

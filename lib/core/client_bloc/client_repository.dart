@@ -8,7 +8,6 @@ import 'package:meta/meta.dart';
 import '../../features/parcel/built_models/built_request.dart';
 import '../models/Client.dart';
 import '../models/Driver.dart';
-import '../models/Request.dart';
 
 class ClientRepository {
   final clientCollection = FirebaseFirestore.instance.collection('clients');
@@ -104,5 +103,46 @@ class ClientRepository {
             return Driver.fromSnapshot(snapshot);
           }).toList(),
         );
+  }
+}
+
+class FixedPos {
+  final num heading;
+  final num latitude;
+  final num longitude;
+  final num timestamp;
+
+  const FixedPos({
+    @required this.heading,
+    @required this.latitude,
+    @required this.longitude,
+    this.timestamp,
+  });
+
+  static FixedPos fromPosition(Position data) {
+    return FixedPos(
+      heading: data?.heading ?? 0,
+      latitude: data?.latitude ?? 0,
+      longitude: data?.longitude ?? 0,
+      timestamp: data?.timestamp.millisecondsSinceEpoch ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'heading': heading,
+      'latitude': latitude,
+      'longitude': longitude,
+      'timestamp': timestamp,
+    };
+  }
+
+  static FixedPos fromMap(Map<String, dynamic> data) {
+    return FixedPos(
+      heading: data != null ? data['heading'] : 0,
+      latitude: data != null ? data['latitude'] : 0,
+      longitude: data != null ? data['longitude'] : 0,
+      timestamp: data != null ? data['timestamp'] : 0,
+    );
   }
 }
