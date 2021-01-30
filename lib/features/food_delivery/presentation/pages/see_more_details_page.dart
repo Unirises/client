@@ -1,7 +1,8 @@
-import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
-import 'package:client/features/food_delivery/models/classification_listing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../bloc/food_ride_bloc.dart';
+import '../../models/classification_listing.dart';
 
 class SeeMoreDetailsPage extends StatelessWidget {
   @override

@@ -4,12 +4,10 @@ import 'package:package_info/package_info.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../../../../core/authentication_bloc/authentication_bloc.dart';
-import '../../../../core/client_bloc/client_bloc.dart';
 import '../../../../core/user_collection_bloc/user_collection_bloc.dart';
 import '../../../../core/widgets/profile_picture.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
 import '../../../transactions/pages/transaction_list_page.dart';
-import '../../../wallet/presentation/wallet_page.dart';
 import '../widgets/account_page_list_item_template.dart';
 
 class AccountIndexPage extends StatelessWidget {

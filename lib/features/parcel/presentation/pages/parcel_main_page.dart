@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/client_bloc/client_bloc.dart';
 import '../../bloc/parcel_bloc.dart';
 import '../../bloc/parcel_ride_bloc.dart';
-import '../state_pages/parcel_in_transit_page.dart';
 import '../state_pages/parcel_pickup_page.dart';
 import '../state_pages/parcel_requesting_page.dart';
 import 'parcel_initial_page.dart';

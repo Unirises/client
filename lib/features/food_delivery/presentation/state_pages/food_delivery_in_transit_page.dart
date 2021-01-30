@@ -1,6 +1,3 @@
-import 'package:client/core/widgets/profile_picture.dart';
-import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
-import 'package:client/features/food_delivery/presentation/pages/see_more_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -8,6 +5,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../core/widgets/profile_picture.dart';
+import '../../bloc/food_ride_bloc.dart';
+import '../pages/see_more_details_page.dart';
 
 class FoodDeliveryInTransitPage extends StatelessWidget {
   @override

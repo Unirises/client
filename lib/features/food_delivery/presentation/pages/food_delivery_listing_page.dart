@@ -1,13 +1,11 @@
-import 'dart:developer';
-
-import 'package:client/core/user_collection_bloc/user_collection_bloc.dart';
-import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../../../../core/client_bloc/client_bloc.dart';
+import '../../../../core/user_collection_bloc/user_collection_bloc.dart';
 import '../../bloc/checkout_bloc.dart';
+import '../../bloc/food_ride_bloc.dart';
 import '../../bloc/item_bloc.dart';
 import '../../models/Merchant.dart';
 import '../widgets/time_location_widget.dart';

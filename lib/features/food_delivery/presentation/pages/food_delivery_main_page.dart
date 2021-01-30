@@ -1,9 +1,9 @@
-import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/client_bloc/client_bloc.dart';
 import '../../bloc/checkout_bloc.dart';
+import '../../bloc/food_ride_bloc.dart';
 import '../../bloc/merchant_bloc.dart';
 import '../state_pages/food_delivery_arrive_page.dart';
 import '../state_pages/food_delivery_in_transit_page.dart';
