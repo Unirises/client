@@ -86,29 +86,8 @@ class AccountIndexPage extends StatelessWidget {
                                 PageTransitionAnimation.cupertino,
                           );
                         },
-                        title: 'Transactions',
+                        title: 'Transactions & Ratings',
                       ),
-                      // BlocBuilder<ClientBloc, ClientState>(
-                      //   builder: (context, walletState) {
-                      //     if (walletState is ClientLoaded) {
-                      //       return AccountPageListItemTemplate(
-                      //         onTap: () {
-                      //           pushNewScreen(
-                      //             context,
-                      //             screen: WalletPage(),
-                      //             withNavBar: false,
-                      //             pageTransitionAnimation:
-                      //                 PageTransitionAnimation.cupertino,
-                      //           );
-                      //         },
-                      //         title: 'Wallet',
-                      //         trailingText:
-                      //             'PHP ${walletState.client.balance.toStringAsFixed(2)}',
-                      //       );
-                      //     }
-                      //     return Container();
-                      //   },
-                      // ),
                       AccountPageListItemTemplate(
                         onTap: () => context
                             .bloc<AuthenticationBloc>()
