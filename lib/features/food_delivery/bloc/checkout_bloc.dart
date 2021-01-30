@@ -38,7 +38,6 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
   ) async* {
     final currentState = state;
     if (event is CheckoutItemAdded) {
-      log(event.item.toString());
       if (currentState is CheckoutLoadSuccess) {
         var forNewInit = new BuiltList<ClassificationListing>([]);
         final BuiltList<ClassificationListing> updatedItems =
@@ -82,7 +81,6 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
                 ..startAddress = event.merchant.address
                 ..startLocation = event.merchant.place.toBuilder()));
         } else {
-          print('Only for empty merchants');
           var newItems = currentState.items.rebuild((b) => b..clear());
           yield currentState.copyWith(
               merchant: event.merchant, items: newItems);
@@ -90,7 +88,6 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       }
     } else if (event is CheckoutDestinationUpdated) {
       if (currentState is CheckoutLoadSuccess) {
-        log(event.destination.toString());
         yield currentState.copyWith(destination: event.destination);
 
         if (currentState.pickup != null) {
@@ -125,7 +122,6 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
                     builtDirections.routes.first.legs.first.endAddress
                 ..duration = builtDirections.routes.first.legs.first.duration
                     .toBuilder());
-              log(updatedDestination.toString());
               yield currentState.copyWith(
                 directions: builtDirections,
                 destination: updatedDestination,
@@ -139,7 +135,6 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
         }
       }
     } else if (event is CheckoutBookRide) {
-      log('BOOK REQUEST TRIGGERED');
       try {
         if (currentState is CheckoutLoadSuccess) {
           yield CheckoutLoadingInProgress();

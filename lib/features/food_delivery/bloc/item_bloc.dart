@@ -79,7 +79,6 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
             isValid.add(numOfSelected <= additional.minMax.last);
             return true;
           });
-          print(isValid);
           newItem = newItem.rebuild(
             (item) => item
               ..isValid = !isValid.contains(false)

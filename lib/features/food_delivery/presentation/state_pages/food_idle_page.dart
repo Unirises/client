@@ -67,66 +67,76 @@ class FoodIdlePage extends StatelessWidget {
                               child: ListView.builder(
                                   itemBuilder: (context, index) {
                                     return GestureDetector(
-                                      onTap: () {
-                                        if (checkoutState.merchant == null) {
-                                          log((checkoutState
-                                                      .merchant?.companyName ==
-                                                  null)
-                                              .toString());
-                                          if (checkoutState
-                                                  .merchant?.companyName ==
-                                              null) {
-                                            context.bloc<CheckoutBloc>().add(
-                                                CheckoutStoreUpdated(
-                                                    state.merchants[index]));
-                                            pushNewScreen(context,
-                                                screen: FoodDeliveryListingPage(
-                                                  merchant:
-                                                      state.merchants[index],
-                                                ));
-                                          }
-                                        } else {
-                                          if (state.merchants[index]
-                                                  .companyName ==
-                                              checkoutState
-                                                  .merchant.companyName) {
-                                            context.bloc<CheckoutBloc>().add(
-                                                CheckoutStoreUpdated(
-                                                    state.merchants[index]));
-                                            pushNewScreen(context,
-                                                screen: FoodDeliveryListingPage(
-                                                  merchant:
-                                                      state.merchants[index],
-                                                ));
-                                          } else {
-                                            if (checkoutState.items == null ||
-                                                checkoutState.items.length <
-                                                    1) {
-                                              context.bloc<CheckoutBloc>().add(
-                                                  CheckoutStoreUpdated(
-                                                      state.merchants[index]));
-                                              pushNewScreen(context,
-                                                  screen:
-                                                      FoodDeliveryListingPage(
-                                                    merchant:
-                                                        state.merchants[index],
-                                                  ));
-                                            } else {
-                                              return Flushbar(
-                                                title:
-                                                    'Restaurant Selection Failed',
-                                                message:
-                                                    'Sorry but you still have items from other restaurants.',
-                                                progressIndicatorBackgroundColor:
-                                                    Theme.of(context)
-                                                        .primaryColor,
-                                                flushbarPosition:
-                                                    FlushbarPosition.TOP,
-                                              )..show(context);
-                                            }
-                                          }
-                                        }
-                                      },
+                                      onTap: (!state.merchants[index].isOpen)
+                                          ? null
+                                          : () {
+                                              if (checkoutState.merchant ==
+                                                  null) {
+                                                if (checkoutState.merchant
+                                                        ?.companyName ==
+                                                    null) {
+                                                  context
+                                                      .bloc<CheckoutBloc>()
+                                                      .add(CheckoutStoreUpdated(
+                                                          state.merchants[
+                                                              index]));
+                                                  pushNewScreen(context,
+                                                      screen:
+                                                          FoodDeliveryListingPage(
+                                                        merchant: state
+                                                            .merchants[index],
+                                                      ));
+                                                }
+                                              } else {
+                                                if (state.merchants[index]
+                                                        .companyName ==
+                                                    checkoutState
+                                                        .merchant.companyName) {
+                                                  context
+                                                      .bloc<CheckoutBloc>()
+                                                      .add(CheckoutStoreUpdated(
+                                                          state.merchants[
+                                                              index]));
+                                                  pushNewScreen(context,
+                                                      screen:
+                                                          FoodDeliveryListingPage(
+                                                        merchant: state
+                                                            .merchants[index],
+                                                      ));
+                                                } else {
+                                                  if (checkoutState.items ==
+                                                          null ||
+                                                      checkoutState
+                                                              .items.length <
+                                                          1) {
+                                                    context
+                                                        .bloc<CheckoutBloc>()
+                                                        .add(
+                                                            CheckoutStoreUpdated(
+                                                                state.merchants[
+                                                                    index]));
+                                                    pushNewScreen(context,
+                                                        screen:
+                                                            FoodDeliveryListingPage(
+                                                          merchant: state
+                                                              .merchants[index],
+                                                        ));
+                                                  } else {
+                                                    return Flushbar(
+                                                      title:
+                                                          'Restaurant Selection Failed',
+                                                      message:
+                                                          'Sorry but you still have items from other restaurants.',
+                                                      progressIndicatorBackgroundColor:
+                                                          Theme.of(context)
+                                                              .primaryColor,
+                                                      flushbarPosition:
+                                                          FlushbarPosition.TOP,
+                                                    )..show(context);
+                                                  }
+                                                }
+                                              }
+                                            },
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Card(
@@ -180,12 +190,17 @@ class FoodIdlePage extends StatelessWidget {
                                                           ),
                                                         ),
                                                         Expanded(
-                                                          child:
-                                                              TimeLocationWidget(
-                                                            merchant:
-                                                                state.merchants[
-                                                                    index],
-                                                          ),
+                                                          child: (state
+                                                                  .merchants[
+                                                                      index]
+                                                                  .isOpen)
+                                                              ? TimeLocationWidget(
+                                                                  merchant: state
+                                                                          .merchants[
+                                                                      index],
+                                                                )
+                                                              : Text(
+                                                                  'Store unavailable, opens at: ${state.merchants[index].startTime}'),
                                                         ),
                                                       ],
                                                     ),

@@ -81,12 +81,10 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
       }
     } else if (event is ComputeFare) {
       try {
-        print('compute fare triggered');
         if (currentState is ParcelLoadSuccess) {
           yield ParcelLoadingInProgress();
           var data;
           if (currentState.points.length > 1) {
-            print('multiple waypoints');
             var stopsCoords = [];
             var stopCoordsString = '';
 
@@ -99,15 +97,10 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
 
             stopCoordsString =
                 stopsCoords.reduce((value, element) => value + '|' + element);
-            print(stopCoordsString);
 
             data = await Dio().get(
                 "https://maps.googleapis.com/maps/api/directions/json?origin=${currentState.pickup.location.lat},${currentState.pickup.location.lng}&destination=${currentState.points.last.location.lat},${currentState.points.last.location.lng}&waypoints=${stopCoordsString}&key=AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU");
           } else {
-            print('single waypoint');
-            print(currentState.pickup.location);
-            print(currentState.points);
-            print(currentState.points.first.location);
             data = await Dio().get(
                 "https://maps.googleapis.com/maps/api/directions/json?origin=${currentState.pickup.location.lat},${currentState.pickup.location.lng}&destination=${currentState.points.first.location.lat},${currentState.points.first.location.lng}&key=AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU");
           }
@@ -145,7 +138,6 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
       try {
         if (currentState is ParcelLoadSuccess) {
           yield ParcelLoadingInProgress();
-          print('request triggered');
           var shittyPos = await Geolocator.getCurrentPosition();
           var goodPos = BuiltPosition.fromJson(json.encode(shittyPos.toJson()));
           var deviceToken = await FirebaseMessaging.instance.getToken();

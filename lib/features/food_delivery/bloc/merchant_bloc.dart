@@ -37,29 +37,16 @@ class MerchantBloc extends Bloc<MerchantEvent, MerchantState> {
               (companyElement) => element.id == companyElement['id']);
           if (finalCompany['place'] != null) {
             try {
-              var merchant = Merchant(
-                id: element.id,
-                address: finalCompany['address'],
-                averageTimePreparation: finalCompany['averageTimePreparation'],
-                companyName: finalCompany['companyName'],
-                hero: finalCompany['hero'],
-                photo: finalCompany['photo'],
-                place: Location.fromJson(json.encode(finalCompany['place'])),
-                startTime: finalCompany['startTime'],
-                endTime: finalCompany['endTime'],
-                listing: MerchantListing.fromJson(json.encode(element.data())),
-                phone: finalCompany['phone'],
-                representative: finalCompany['representative'],
-              );
+              bool isAvailable = false;
 
               List<String> startTimeTmp = [];
               List<String> startTimeList = [];
-              startTimeTmp = merchant.startTime.split(" ");
+              startTimeTmp = finalCompany['startTime'].split(" ");
               startTimeList = startTimeTmp[0].split(":");
 
               List<String> endTimeTmp = [];
               List<String> endTimeList = [];
-              endTimeTmp = merchant.endTime.split(" ");
+              endTimeTmp = finalCompany['endTime'].split(" ");
               endTimeList = endTimeTmp[0].split(":");
 
               var startTime = DateTime.now().copyWith(
@@ -78,8 +65,24 @@ class MerchantBloc extends Bloc<MerchantEvent, MerchantState> {
 
               if (DateTime.now().isAfter(startTime) &&
                   DateTime.now().isBefore(endTime)) {
-                listOfMerchants.add(merchant);
+                isAvailable = true;
               }
+              var merchant = Merchant(
+                id: element.id,
+                address: finalCompany['address'],
+                averageTimePreparation: finalCompany['averageTimePreparation'],
+                companyName: finalCompany['companyName'],
+                hero: finalCompany['hero'],
+                photo: finalCompany['photo'],
+                place: Location.fromJson(json.encode(finalCompany['place'])),
+                startTime: finalCompany['startTime'],
+                endTime: finalCompany['endTime'],
+                listing: MerchantListing.fromJson(json.encode(element.data())),
+                phone: finalCompany['phone'],
+                representative: finalCompany['representative'],
+                isOpen: isAvailable,
+              );
+              listOfMerchants.add(merchant);
             } catch (e, stacktrace) {
               log(e.toString());
               log(stacktrace.toString());

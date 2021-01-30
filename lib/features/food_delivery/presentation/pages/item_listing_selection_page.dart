@@ -210,7 +210,6 @@ class ItemListingSelectionPage extends StatelessWidget {
             itemBuilder: (ctx, index) {
               return ListTile(
                 onTap: () {
-                  // log('Classification: $classificationIndex | Item $itemIndex | Additional Index $i | Additional Listing Index $index');
                   List<ItemAdditionalUpdated> wow = [];
                   if (additionals[i].type == 'radio') {
                     for (int someRandomNum = 0;
@@ -220,7 +219,6 @@ class ItemListingSelectionPage extends StatelessWidget {
                         wow.add(ItemAdditionalUpdated(
                             classificationIndex, itemIndex, i, index, true));
                       } else {
-                        print('not selected ${someRandomNum}');
                         wow.insert(
                             0,
                             ItemAdditionalUpdated(classificationIndex,
@@ -251,7 +249,6 @@ class ItemListingSelectionPage extends StatelessWidget {
                             0,
                             ItemAdditionalUpdated(classificationIndex,
                                 itemIndex, i, index, false));
-                        print('its trying to toggle it self dumbass');
                       }
                     } else if (numOfSelected + 1 > additionals[i].minMax.last) {
                       return Flushbar(

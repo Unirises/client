@@ -106,7 +106,7 @@ class BookCubit extends Cubit<BookState> {
     await remoteConfig.fetch(expiration: const Duration(minutes: 15));
     await remoteConfig.activateFetched();
     final finalMultiplier = remoteConfig.getDouble('multiplier');
-    print(finalMultiplier);
+
     if (state.status.isValid) {
       try {
         var distanceKm =

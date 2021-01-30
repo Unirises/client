@@ -30,37 +30,6 @@ class LoginPage extends StatelessWidget {
             color: Colors.black,
             onPressed: () => Navigator.pop(context),
           ),
-          actions: [
-            BlocBuilder<LoginCubit, LoginState>(
-              buildWhen: (previous, current) =>
-                  previous.status != current.status,
-              builder: (context, state) {
-                return state.status.isSubmissionInProgress
-                    ? const AspectRatio(
-                        aspectRatio: 1.0,
-                        child: Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: CircularProgressIndicator(),
-                        ))
-                    : FlatButton(
-                        onPressed: () => state.status.isInvalid ||
-                                state.status.isPure
-                            ? null
-                            : context.bloc<LoginCubit>().logInWithCredentials(),
-                        textColor: state.status.isInvalid || state.status.isPure
-                            ? Colors.grey
-                            : Colors.black,
-                        child: const Text(
-                          'Log In',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      );
-              },
-            ),
-          ],
         ),
         body: SafeArea(
           child: Stack(

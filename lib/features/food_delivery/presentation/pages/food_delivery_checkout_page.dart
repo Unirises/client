@@ -302,8 +302,6 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                             itemIndex: index,
                                             classificationIndex: 0,
                                             onSuccess: (item) {
-                                              // EDIT ITEM
-                                              log(item.toString());
                                               context.bloc<CheckoutBloc>().add(
                                                   CheckoutItemUpdated(item));
                                               Navigator.pop(context);

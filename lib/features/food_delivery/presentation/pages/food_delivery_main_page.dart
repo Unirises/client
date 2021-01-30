@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:client/features/food_delivery/bloc/food_ride_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +43,6 @@ class FoodDeliveryMainPage extends StatelessWidget {
                     ),
                   );
                 } else if (clientState is ClientLoaded) {
-                  log(clientState.client.delivery_status);
                   if (clientState.client.delivery_status == 'idle') {
                     return FoodIdlePage();
                   } else {

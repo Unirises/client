@@ -358,44 +358,4 @@ class ParcelInitialPage extends StatelessWidget {
       },
     );
   }
-
-  List<Widget> buildLeadingIcons(BuildContext context, int length) {
-    if (length == null) length = 0;
-    if (length < 1) return [Container()];
-    if (length < 2)
-      return [
-        Padding(
-          padding: const EdgeInsets.only(top: 32.0),
-          child: Icon(
-            Icons.location_on,
-            color: Theme.of(context).primaryColor,
-          ),
-        )
-      ];
-
-    List<Widget> widgets = [
-      Icon(
-        Icons.location_on,
-        color: Theme.of(context).primaryColor,
-      )
-    ];
-
-    for (int i = 0; i < length - 1; i++) {
-      if (widgets.length < 9)
-        widgets.insertAll(0, [
-          const Icon(
-            Icons.radio_button_checked,
-            color: Colors.black,
-          ),
-          Dash(
-              direction: Axis.vertical,
-              length: 110,
-              dashLength: 5,
-              dashThickness: 3.0,
-              dashColor: Colors.grey[400]),
-        ]);
-    }
-    print(widgets.length);
-    return widgets;
-  }
 }

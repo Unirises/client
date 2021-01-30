@@ -70,7 +70,7 @@ class _SelectVehiclePageState extends State<SelectVehiclePage> {
                     state.points[i].location.lat, state.points[i].location.lng),
                 infoWindow: InfoWindow(title: state.points[i].name)));
           }
-          print(state.data);
+
           CameraUpdate u2 = CameraUpdate.newLatLngBounds(bounds, 45);
           mapController?.animateCamera(u2);
           return Scaffold(

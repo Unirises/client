@@ -10,6 +10,7 @@ class Merchant extends Equatable {
   final String address;
   final num averageTimePreparation;
   final String companyName;
+  final bool isOpen;
 
   final String hero;
   final String phone;
@@ -32,6 +33,7 @@ class Merchant extends Equatable {
     this.listing,
     this.phone,
     this.representative,
+    this.isOpen,
   }) : assert(id != null);
 
   @override
@@ -48,5 +50,6 @@ class Merchant extends Equatable {
         listing,
         phone,
         representative,
+        isOpen,
       ];
 }
