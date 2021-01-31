@@ -34,6 +34,8 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
       'clientNumber',
       serializers.serialize(object.clientNumber,
           specifiedType: const FullType(String)),
+      'rating',
+      serializers.serialize(object.rating, specifiedType: const FullType(num)),
       'rideType',
       serializers.serialize(object.rideType,
           specifiedType: const FullType(String)),
@@ -189,6 +191,10 @@ class _$BuiltRequestSerializer implements StructuredSerializer<BuiltRequest> {
           result.clientNumber = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'rating':
+          result.rating = serializers.deserialize(value,
+              specifiedType: const FullType(num)) as num;
+          break;
         case 'rideType':
           result.rideType = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
@@ -284,6 +290,8 @@ class _$BuiltRequest extends BuiltRequest {
   @override
   final String clientNumber;
   @override
+  final num rating;
+  @override
   final String rideType;
   @override
   final bool isParcel;
@@ -328,6 +336,7 @@ class _$BuiltRequest extends BuiltRequest {
       this.driverNumber,
       this.clientName,
       this.clientNumber,
+      this.rating,
       this.rideType,
       this.isParcel,
       this.vehicleData,
@@ -358,6 +367,9 @@ class _$BuiltRequest extends BuiltRequest {
     }
     if (clientNumber == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'clientNumber');
+    }
+    if (rating == null) {
+      throw new BuiltValueNullFieldError('BuiltRequest', 'rating');
     }
     if (rideType == null) {
       throw new BuiltValueNullFieldError('BuiltRequest', 'rideType');
@@ -403,6 +415,7 @@ class _$BuiltRequest extends BuiltRequest {
         driverNumber == other.driverNumber &&
         clientName == other.clientName &&
         clientNumber == other.clientNumber &&
+        rating == other.rating &&
         rideType == other.rideType &&
         isParcel == other.isParcel &&
         vehicleData == other.vehicleData &&
@@ -440,11 +453,11 @@ class _$BuiltRequest extends BuiltRequest {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc(0, id.hashCode), driverId.hashCode), userId.hashCode), status.hashCode), position.hashCode), storeID.hashCode),
-                                                                                driverName.hashCode),
-                                                                            driverNumber.hashCode),
-                                                                        clientName.hashCode),
-                                                                    clientNumber.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc(0, id.hashCode), driverId.hashCode), userId.hashCode), status.hashCode), position.hashCode), storeID.hashCode), driverName.hashCode),
+                                                                                driverNumber.hashCode),
+                                                                            clientName.hashCode),
+                                                                        clientNumber.hashCode),
+                                                                    rating.hashCode),
                                                                 rideType.hashCode),
                                                             isParcel.hashCode),
                                                         vehicleData.hashCode),
@@ -475,6 +488,7 @@ class _$BuiltRequest extends BuiltRequest {
           ..add('driverNumber', driverNumber)
           ..add('clientName', clientName)
           ..add('clientNumber', clientNumber)
+          ..add('rating', rating)
           ..add('rideType', rideType)
           ..add('isParcel', isParcel)
           ..add('vehicleData', vehicleData)
@@ -538,6 +552,10 @@ class BuiltRequestBuilder
   String _clientNumber;
   String get clientNumber => _$this._clientNumber;
   set clientNumber(String clientNumber) => _$this._clientNumber = clientNumber;
+
+  num _rating;
+  num get rating => _$this._rating;
+  set rating(num rating) => _$this._rating = rating;
 
   String _rideType;
   String get rideType => _$this._rideType;
@@ -622,6 +640,7 @@ class BuiltRequestBuilder
       _driverNumber = _$v.driverNumber;
       _clientName = _$v.clientName;
       _clientNumber = _$v.clientNumber;
+      _rating = _$v.rating;
       _rideType = _$v.rideType;
       _isParcel = _$v.isParcel;
       _vehicleData = _$v.vehicleData?.toBuilder();
@@ -671,6 +690,7 @@ class BuiltRequestBuilder
               driverNumber: driverNumber,
               clientName: clientName,
               clientNumber: clientNumber,
+              rating: rating,
               rideType: rideType,
               isParcel: isParcel,
               vehicleData: _vehicleData?.build(),

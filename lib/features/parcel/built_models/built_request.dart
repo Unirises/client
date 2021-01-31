@@ -37,6 +37,8 @@ abstract class BuiltRequest
   String get clientName;
   String get clientNumber;
 
+  num get rating;
+
   String get rideType;
   bool get isParcel;
   @nullable

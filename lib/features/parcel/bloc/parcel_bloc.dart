@@ -143,6 +143,7 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
           var deviceToken = await FirebaseMessaging.instance.getToken();
 
           var request = BuiltRequest((b) => b
+            ..rating = 5
             ..fee = currentState.subtotal
             ..timestamp = DateTime.now().millisecondsSinceEpoch
             ..clientToken = deviceToken
