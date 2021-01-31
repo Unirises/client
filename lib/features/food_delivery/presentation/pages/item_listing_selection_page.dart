@@ -82,14 +82,16 @@ class ItemListingSelectionPage extends StatelessWidget {
                       ),
                     ];
                   },
-                  body: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: buildAdditionals(state.item.additionals),
-                    ),
-                  ),
+                  body: (state.item.additionals.length > 0)
+                      ? SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: buildAdditionals(state.item.additionals),
+                          ),
+                        )
+                      : Center(child: Text('No additionals available.')),
                 ),
               ),
               Positioned(

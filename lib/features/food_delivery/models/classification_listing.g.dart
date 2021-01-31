@@ -67,6 +67,12 @@ class _$ClassificationListingSerializer
         ..add(serializers.serialize(object.additionalPrice,
             specifiedType: const FullType(num)));
     }
+    if (object.isAvailable != null) {
+      result
+        ..add('isAvailable')
+        ..add(serializers.serialize(object.isAvailable,
+            specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -120,6 +126,10 @@ class _$ClassificationListingSerializer
           result.sku = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'isAvailable':
+          result.isAvailable = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
+          break;
       }
     }
 
@@ -146,6 +156,8 @@ class _$ClassificationListing extends ClassificationListing {
   final num additionalPrice;
   @override
   final String sku;
+  @override
+  final bool isAvailable;
 
   factory _$ClassificationListing(
           [void Function(ClassificationListingBuilder) updates]) =>
@@ -160,7 +172,8 @@ class _$ClassificationListing extends ClassificationListing {
       this.quantity,
       this.isValid,
       this.additionalPrice,
-      this.sku})
+      this.sku,
+      this.isAvailable})
       : super._() {
     if (itemName == null) {
       throw new BuiltValueNullFieldError('ClassificationListing', 'itemName');
@@ -198,7 +211,8 @@ class _$ClassificationListing extends ClassificationListing {
         quantity == other.quantity &&
         isValid == other.isValid &&
         additionalPrice == other.additionalPrice &&
-        sku == other.sku;
+        sku == other.sku &&
+        isAvailable == other.isAvailable;
   }
 
   @override
@@ -210,15 +224,17 @@ class _$ClassificationListing extends ClassificationListing {
                     $jc(
                         $jc(
                             $jc(
-                                $jc($jc(0, itemName.hashCode),
-                                    additionals.hashCode),
-                                itemPhoto.hashCode),
-                            itemPrice.hashCode),
-                        itemSize.hashCode),
-                    quantity.hashCode),
-                isValid.hashCode),
-            additionalPrice.hashCode),
-        sku.hashCode));
+                                $jc(
+                                    $jc($jc(0, itemName.hashCode),
+                                        additionals.hashCode),
+                                    itemPhoto.hashCode),
+                                itemPrice.hashCode),
+                            itemSize.hashCode),
+                        quantity.hashCode),
+                    isValid.hashCode),
+                additionalPrice.hashCode),
+            sku.hashCode),
+        isAvailable.hashCode));
   }
 
   @override
@@ -232,7 +248,8 @@ class _$ClassificationListing extends ClassificationListing {
           ..add('quantity', quantity)
           ..add('isValid', isValid)
           ..add('additionalPrice', additionalPrice)
-          ..add('sku', sku))
+          ..add('sku', sku)
+          ..add('isAvailable', isAvailable))
         .toString();
   }
 }
@@ -280,6 +297,10 @@ class ClassificationListingBuilder
   String get sku => _$this._sku;
   set sku(String sku) => _$this._sku = sku;
 
+  bool _isAvailable;
+  bool get isAvailable => _$this._isAvailable;
+  set isAvailable(bool isAvailable) => _$this._isAvailable = isAvailable;
+
   ClassificationListingBuilder();
 
   ClassificationListingBuilder get _$this {
@@ -293,6 +314,7 @@ class ClassificationListingBuilder
       _isValid = _$v.isValid;
       _additionalPrice = _$v.additionalPrice;
       _sku = _$v.sku;
+      _isAvailable = _$v.isAvailable;
       _$v = null;
     }
     return this;
@@ -325,7 +347,8 @@ class ClassificationListingBuilder
               quantity: quantity,
               isValid: isValid,
               additionalPrice: additionalPrice,
-              sku: sku);
+              sku: sku,
+              isAvailable: isAvailable);
     } catch (_) {
       String _$failedField;
       try {

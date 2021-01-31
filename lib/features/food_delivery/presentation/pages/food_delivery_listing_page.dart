@@ -205,32 +205,57 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                                       (listing) => ListView.builder(
                                         itemBuilder: (context, itemIndex) {
                                           return ListTile(
-                                            onTap: () {
-                                              context.bloc<ItemBloc>().add(
-                                                  ItemAdded(
-                                                      listing.classificationListing[
-                                                          itemIndex],
-                                                      false));
-                                              pushNewScreen(context,
-                                                  screen:
-                                                      ItemListingSelectionPage(
-                                                    itemIndex: itemIndex,
-                                                    classificationIndex:
-                                                        _tabController.index,
-                                                    onSuccess: (item) {
-                                                      context
-                                                          .bloc<CheckoutBloc>()
-                                                          .add(
-                                                              CheckoutItemAdded(
-                                                                  item));
-                                                      Navigator.pop(context);
-                                                    },
-                                                  ));
-                                            },
+                                            onTap: (listing
+                                                            .classificationListing[
+                                                                itemIndex]
+                                                            .isAvailable ==
+                                                        null ||
+                                                    !listing
+                                                        .classificationListing[
+                                                            itemIndex]
+                                                        .isAvailable)
+                                                ? null
+                                                : () {
+                                                    context
+                                                        .bloc<ItemBloc>()
+                                                        .add(ItemAdded(
+                                                            listing.classificationListing[
+                                                                itemIndex],
+                                                            false));
+                                                    pushNewScreen(context,
+                                                        screen:
+                                                            ItemListingSelectionPage(
+                                                          itemIndex: itemIndex,
+                                                          classificationIndex:
+                                                              _tabController
+                                                                  .index,
+                                                          onSuccess: (item) {
+                                                            context
+                                                                .bloc<
+                                                                    CheckoutBloc>()
+                                                                .add(
+                                                                    CheckoutItemAdded(
+                                                                        item));
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        ));
+                                                  },
                                             title: Text(listing
                                                 .classificationListing[
                                                     itemIndex]
                                                 .itemName),
+                                            subtitle: Text(listing
+                                                            .classificationListing[
+                                                                itemIndex]
+                                                            .isAvailable !=
+                                                        null &&
+                                                    listing
+                                                        .classificationListing[
+                                                            itemIndex]
+                                                        .isAvailable
+                                                ? ''
+                                                : 'Currently unavailable'),
                                             trailing: Text(
                                                 'PHP ${listing.classificationListing[itemIndex].itemPrice}'),
                                           );
