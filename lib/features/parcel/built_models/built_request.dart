@@ -39,6 +39,9 @@ abstract class BuiltRequest
 
   num get rating;
 
+  @nullable
+  num get driverPreviousRating;
+
   String get rideType;
   bool get isParcel;
   @nullable
