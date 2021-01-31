@@ -28,7 +28,13 @@ class TransactionListPage extends StatelessWidget {
                       screen: TransactionPage(ride: item)),
                   title:
                       Text(item.isParcel ? 'Parcel Delivery' : 'Food Delivery'),
-                  subtitle: Text(timeago.format(date)),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(timeago.format(date)),
+                      Text('${state.client.rides[index].rating} star rating')
+                    ],
+                  ),
                   leading: Text(
                       item.status == 'completed' ? 'Completed' : 'Cancelled'),
                   trailing: Text('PHP ' +

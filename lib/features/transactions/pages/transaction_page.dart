@@ -110,36 +110,42 @@ class _TransactionPageState extends State<TransactionPage> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Expanded(
-                          child: Text(
-                            'Driver Details',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${widget.ride.driverName}',
-                                style: const TextStyle(color: Colors.grey),
-                              ),
-                              GestureDetector(
-                                onTap: () async {
-                                  await launch(
-                                      'tel:${widget.ride.driverNumber}');
-                                },
+                        (widget.ride.driverId != null)
+                            ? const Expanded(
                                 child: Text(
-                                  '${widget.ride.driverNumber}',
-                                  style: const TextStyle(
-                                      color: Colors.blueGrey,
-                                      decoration: TextDecoration.underline),
+                                  'Driver Details',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
+                              )
+                            : Container(),
+                        (widget.ride.driverId != null)
+                            ? Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${widget.ride.driverName}',
+                                      style:
+                                          const TextStyle(color: Colors.grey),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        await launch(
+                                            'tel:${widget.ride.driverNumber}');
+                                      },
+                                      child: Text(
+                                        '${widget.ride.driverNumber}',
+                                        style: const TextStyle(
+                                            color: Colors.blueGrey,
+                                            decoration:
+                                                TextDecoration.underline),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Container(),
                       ],
                     ),
                     const SizedBox(height: 12),
@@ -217,6 +223,25 @@ class _TransactionPageState extends State<TransactionPage> {
                             widget.ride.isParcel
                                 ? 'Parcel Delivery'
                                 : 'Food Delivery',
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Expanded(
+                          child: Text(
+                            'Status',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            widget.ride.status.capitalizeFirstofEach,
                             style: const TextStyle(color: Colors.grey),
                           ),
                         ),
@@ -313,4 +338,11 @@ class _TransactionPageState extends State<TransactionPage> {
       ],
     );
   }
+}
+
+extension CapExtension on String {
+  String get inCaps => '${this[0].toUpperCase()}${this.substring(1)}';
+  String get allInCaps => this.toUpperCase();
+  String get capitalizeFirstofEach =>
+      this.split(" ").map((str) => str.inCaps).join(" ");
 }
