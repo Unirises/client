@@ -190,18 +190,14 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
               .doc(event.storeID)
               .collection('orders')
               .doc(requestId)
-              .set({
-            'orders': FieldValue.arrayUnion([
-              {
+              .set(              {
                 'clientName': event.name,
                 'clientNumber': event.number,
                 'subtotal': subtotal,
                 'status': 'pending',
                 'userId': FirebaseAuth.instance.currentUser.uid,
                 'timestamp': DateTime.now().millisecondsSinceEpoch
-              }
-            ])
-          });
+              });
 
           await FirebaseFirestore.instance
               .collection('requests')
