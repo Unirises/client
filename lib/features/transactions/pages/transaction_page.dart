@@ -1,5 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:client/core/client_bloc/client_bloc.dart';
+import 'package:client/core/models/Driver.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flushbar/flushbar.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../parcel/built_models/built_request.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -247,6 +255,115 @@ class _TransactionPageState extends State<TransactionPage> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'Rating',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SmoothStarRating(
+                        allowHalfRating: false,
+                        onRated: (v) async {
+                          var formattedClientRides = [];
+                          var formattedDriverRides = [];
+
+                          var rides =
+                              (context.bloc<ClientBloc>().state as ClientLoaded)
+                                  .client
+                                  .rides;
+                          var idx = rides.indexWhere(
+                              (element) => element.id == widget.ride.id);
+
+                          if (idx == -1) {
+                            return Flushbar(
+                              title: 'Rating Failure',
+                              message:
+                                  'Sorry we cannot handle your request at the moment.',
+                              duration: Duration(seconds: 5),
+                            )..show(context);
+                          }
+
+                          BuiltRequest newRatedRide = rides[idx];
+                          newRatedRide =
+                              newRatedRide.rebuild((b) => b..rating = v);
+                          rides[idx] = newRatedRide;
+
+                          try {
+                            rides.forEach((element) {
+                              return formattedClientRides
+                                  .add(json.decode(element.toJson()));
+                            });
+
+                            await FirebaseFirestore.instance
+                                .collection('clients')
+                                .doc(widget.ride.userId)
+                                .update({'rides': formattedClientRides});
+                          } catch (e, st) {
+                            return Flushbar(
+                              title: 'Rating Failure',
+                              message:
+                                  'Sorry we cannot update your request at the moment.',
+                              duration: Duration(seconds: 5),
+                            )..show(context);
+                          }
+
+                          if (widget.ride.id == null) return null;
+
+                          try {
+                            var driverData = await FirebaseFirestore.instance
+                                .collection('drivers')
+                                .doc(widget.ride.driverId)
+                                .get();
+                            var driver = Driver.fromSnapshot(driverData);
+                            var driverRides = driver.rides;
+
+                            var driverIdx = driverRides.indexWhere(
+                                (element) => element.id == widget.ride.id);
+
+                            if (driverIdx == -1) {
+                              return Flushbar(
+                                title: 'Rating Failure',
+                                message:
+                                    'Sorry we cannot handle your request at the moment.',
+                                duration: Duration(seconds: 5),
+                              )..show(context);
+                            }
+
+                            BuiltRequest newRatedRideDriver = driverRides[idx];
+                            newRatedRideDriver = newRatedRideDriver
+                                .rebuild((b) => b..rating = v);
+                            driverRides[idx] = newRatedRide;
+
+                            driverRides.forEach((element) {
+                              return formattedDriverRides
+                                  .add(json.decode(element.toJson()));
+                            });
+
+                            await FirebaseFirestore.instance
+                                .collection('drivers')
+                                .doc(widget.ride.driverId)
+                                .update({'rides': formattedDriverRides});
+
+                            return Flushbar(
+                              title: 'Rating Success',
+                              message:
+                                  'Your rating has been updated successfully. To see updates, please refresh page.',
+                              duration: Duration(seconds: 5),
+                            )..show(context);
+                          } catch (e) {
+                            return Flushbar(
+                              title: 'Rating Failure',
+                              message:
+                                  'Sorry, driver data cannot handle your request at the moment.',
+                              duration: Duration(seconds: 5),
+                            )..show(context);
+                          }
+                        },
+                        starCount: 5,
+                        rating: widget.ride.rating.toDouble(),
+                        size: 40.0,
+                        color: Theme.of(context).primaryColor,
+                        borderColor: Color(0xff424242),
+                        spacing: 0.0)
                   ],
                 ),
               )),

@@ -32,7 +32,8 @@ class TransactionListPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(timeago.format(date)),
-                      Text('${state.client.rides[index].rating} star rating')
+                      Text(
+                          '${state.client.rides[index].rating.toStringAsFixed(0)} star rating')
                     ],
                   ),
                   leading: Text(

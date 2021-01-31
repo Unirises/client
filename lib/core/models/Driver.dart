@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:client/features/parcel/built_models/built_request.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -69,6 +72,11 @@ class Driver extends Equatable {
       token: data['token'].toString(),
       onRide: data['onRide'] == true,
       ride_id: data['ride_id'].toString(),
+      rides: (data['rides'] != null)
+          ? data['rides']
+              .map((e) => BuiltRequest.fromJson(json.encode(e)))
+              .toList()
+          : [],
     );
   }
 }
