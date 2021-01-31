@@ -184,6 +184,25 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
             data: 'requesting',
             request: request,
           );
+
+          await FirebaseFirestore.instance
+              .collection('merchant_orders')
+              .doc(event.storeID)
+              .collection('orders')
+              .doc(requestId)
+              .set({
+            'orders': FieldValue.arrayUnion([
+              {
+                'clientName': event.name,
+                'clientNumber': event.number,
+                'subtotal': subtotal,
+                'status': 'pending',
+                'userId': FirebaseAuth.instance.currentUser.uid,
+                'timestamp': DateTime.now().millisecondsSinceEpoch
+              }
+            ])
+          });
+
           await FirebaseFirestore.instance
               .collection('requests')
               .doc(requestId)
