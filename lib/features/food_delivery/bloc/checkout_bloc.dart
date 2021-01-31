@@ -156,6 +156,10 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
             subtotal = items.reduce((value, element) => value + element);
           }
 
+          var orders = [];
+          currentState.items
+              .forEach((el) => orders.add(json.decode(el.toJson())));
+
           var request = BuiltRequest(
             (b) => b
               ..rating = 5
@@ -190,14 +194,15 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
               .doc(event.storeID)
               .collection('orders')
               .doc(requestId)
-              .set(              {
-                'clientName': event.name,
-                'clientNumber': event.number,
-                'subtotal': subtotal,
-                'status': 'pending',
-                'userId': FirebaseAuth.instance.currentUser.uid,
-                'timestamp': DateTime.now().millisecondsSinceEpoch
-              });
+              .set({
+            'clientName': event.name,
+            'clientNumber': event.number,
+            'subtotal': subtotal,
+            'status': 'pending',
+            'userId': FirebaseAuth.instance.currentUser.uid,
+            'timestamp': DateTime.now().millisecondsSinceEpoch,
+            'orders': orders,
+          });
 
           await FirebaseFirestore.instance
               .collection('requests')
