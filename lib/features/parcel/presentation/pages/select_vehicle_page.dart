@@ -133,7 +133,7 @@ class _SelectVehiclePageState extends State<SelectVehiclePage> {
                                     : null,
                                 color: Theme.of(context).primaryColor,
                                 textColor: Colors.white,
-                                child: Text('Book Ride'),
+                                child: Text('Select Vehicle'),
                               ),
                             ),
                           ),

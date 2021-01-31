@@ -305,38 +305,25 @@ class ParcelInitialPage extends StatelessWidget {
                                 ),
                                 child: RaisedButton(
                                   onPressed: () {
-                                    context
-                                        .bloc<ParcelBloc>()
-                                        .add(ComputeFare());
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => SelectVehiclePage(
-                                          onSelected: (selected) {
-                                            Navigator.pop(context);
-                                            context.bloc<ParcelBloc>().add(
-                                                  RequestParcel(
-                                                      rideBloc: context.bloc<
-                                                          ParcelRideBloc>(),
-                                                      name: (context
-                                                                  .bloc<
-                                                                      UserCollectionBloc>()
-                                                                  .state
-                                                              as UserCollectionLoaded)
-                                                          .userCollection
-                                                          .name,
-                                                      number: (context
-                                                                  .bloc<
-                                                                      UserCollectionBloc>()
-                                                                  .state
-                                                              as UserCollectionLoaded)
-                                                          .userCollection
-                                                          .phone),
-                                                );
-                                          },
-                                        ),
-                                      ),
-                                    );
+                                    context.bloc<ParcelBloc>().add(
+                                          RequestParcel(
+                                              rideBloc: context
+                                                  .bloc<ParcelRideBloc>(),
+                                              name: (context
+                                                          .bloc<
+                                                              UserCollectionBloc>()
+                                                          .state
+                                                      as UserCollectionLoaded)
+                                                  .userCollection
+                                                  .name,
+                                              number: (context
+                                                          .bloc<
+                                                              UserCollectionBloc>()
+                                                          .state
+                                                      as UserCollectionLoaded)
+                                                  .userCollection
+                                                  .phone),
+                                        );
                                   },
                                   color: Theme.of(context).primaryColor,
                                   textColor: Colors.white,
