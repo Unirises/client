@@ -62,9 +62,6 @@ class _ParcelRequestingPageState extends State<ParcelRequestingPage> {
                 infoWindow: InfoWindow(title: state.request.points[i].name)));
           }
 
-          CameraUpdate u2 = CameraUpdate.newLatLngBounds(bounds, 75);
-          mapController?.animateCamera(u2);
-
           return Scaffold(
             body: Stack(
               children: [
@@ -78,9 +75,11 @@ class _ParcelRequestingPageState extends State<ParcelRequestingPage> {
                         onMapCreated: (GoogleMapController controller) {
                           mapController = controller;
                           _controller.complete(controller);
-                          CameraUpdate u2 =
-                              CameraUpdate.newLatLngBounds(bounds, 75);
-                          this.mapController.animateCamera(u2);
+                          Future.delayed(const Duration(milliseconds: 100), () {
+                            CameraUpdate u2 =
+                                CameraUpdate.newLatLngBounds(bounds, 45);
+                            this.mapController.animateCamera(u2);
+                          });
                         },
                         polylines: {
                           Polyline(

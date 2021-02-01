@@ -50,8 +50,7 @@ class _FoodDeliveryRequestingPageState
             position: LatLng(state.request.destination.location.lat,
                 state.request.destination.location.lng),
             infoWindow: InfoWindow(title: 'End')));
-        CameraUpdate u2 = CameraUpdate.newLatLngBounds(bounds, 75);
-        mapController?.animateCamera(u2);
+
         return Scaffold(
           body: Stack(
             children: [
@@ -65,9 +64,11 @@ class _FoodDeliveryRequestingPageState
                       onMapCreated: (GoogleMapController controller) {
                         mapController = controller;
                         _controller.complete(controller);
-                        CameraUpdate u2 =
-                            CameraUpdate.newLatLngBounds(bounds, 75);
-                        this.mapController.animateCamera(u2);
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          CameraUpdate u2 =
+                              CameraUpdate.newLatLngBounds(bounds, 75);
+                          this.mapController.animateCamera(u2);
+                        });
                       },
                       polylines: {
                         Polyline(

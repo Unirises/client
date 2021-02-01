@@ -38,13 +38,13 @@ class ParcelPickupPage extends StatelessWidget {
     return Stack(
       children: [
         GoogleMap(
-          trafficEnabled: true,
           polylines: {
             Polyline(
               polylineId: PolylineId('routeToEnd'),
               points: listOflatLng,
               endCap: Cap.roundCap,
               startCap: Cap.roundCap,
+              color: Theme.of(context).primaryColor,
             )
           },
           cameraTargetBounds: CameraTargetBounds(LatLngBounds(
@@ -102,7 +102,7 @@ class ParcelPickupPage extends StatelessWidget {
                         ),
                         Divider(),
                         Text(
-                          '${state.request.status == 'arriving' ? 'Arriving' : state.request.status == 'transit' ? 'Sending Parcel' : 'Arrived'}',
+                          '${state.request.status == 'arriving' ? 'Arriving to ' + dest.name : state.request.status == 'transit' ? 'Sending Parcel to ' + dest.name : 'Arrived at ' + dest.name}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,

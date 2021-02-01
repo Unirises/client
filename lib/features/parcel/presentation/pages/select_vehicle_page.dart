@@ -71,8 +71,6 @@ class _SelectVehiclePageState extends State<SelectVehiclePage> {
                 infoWindow: InfoWindow(title: state.points[i].name)));
           }
 
-          CameraUpdate u2 = CameraUpdate.newLatLngBounds(bounds, 45);
-          mapController?.animateCamera(u2);
           return Scaffold(
             body: Stack(
               children: [
@@ -83,8 +81,11 @@ class _SelectVehiclePageState extends State<SelectVehiclePage> {
                   onMapCreated: (GoogleMapController controller) {
                     mapController = controller;
                     _controller.complete(controller);
-                    CameraUpdate u2 = CameraUpdate.newLatLngBounds(bounds, 45);
-                    this.mapController.animateCamera(u2);
+                    Future.delayed(const Duration(milliseconds: 100), () {
+                      CameraUpdate u2 =
+                          CameraUpdate.newLatLngBounds(bounds, 45);
+                      this.mapController.animateCamera(u2);
+                    });
                   },
                   polylines: {
                     Polyline(
@@ -115,9 +116,10 @@ class _SelectVehiclePageState extends State<SelectVehiclePage> {
                               color: Theme.of(context).primaryColor,
                             ),
                             onChanged: (String newValue) {
-                              setState(() {
-                                selected = newValue;
-                              });
+                              if (mounted)
+                                setState(() {
+                                  selected = newValue;
+                                });
                             },
                             items: buildDropdownItems(state.data),
                           ),

@@ -48,8 +48,7 @@ class _TransactionPageState extends State<TransactionPage> {
         widget.ride.directions.routes.first.bounds.southwest.lng,
       ),
     );
-    CameraUpdate u2 = CameraUpdate.newLatLngBounds(bounds, 45);
-    mapController?.animateCamera(u2);
+
     final Set<Marker> markers = {};
 
     for (var i = 0; i < widget.ride.points.length; i++) {
@@ -93,8 +92,10 @@ class _TransactionPageState extends State<TransactionPage> {
               onMapCreated: (GoogleMapController controller) {
                 mapController = controller;
                 _controller.complete(controller);
-                CameraUpdate u2 = CameraUpdate.newLatLngBounds(bounds, 45);
-                this.mapController.animateCamera(u2);
+                Future.delayed(const Duration(milliseconds: 100), () {
+                  CameraUpdate u2 = CameraUpdate.newLatLngBounds(bounds, 45);
+                  this.mapController.animateCamera(u2);
+                });
               },
               polylines: {
                 Polyline(

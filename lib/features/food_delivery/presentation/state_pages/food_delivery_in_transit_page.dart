@@ -33,13 +33,13 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
     return Stack(
       children: [
         GoogleMap(
-          trafficEnabled: true,
           polylines: {
             Polyline(
               polylineId: PolylineId('routeToEnd'),
               points: listOflatLng,
               endCap: Cap.roundCap,
               startCap: Cap.roundCap,
+              color: Theme.of(context).primaryColor,
             )
           },
           cameraTargetBounds: CameraTargetBounds(LatLngBounds(

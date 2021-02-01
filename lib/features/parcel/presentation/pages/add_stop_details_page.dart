@@ -54,7 +54,8 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
     _phoneController.text = widget.phone ?? '';
     _id = widget.id ?? getRandomString(15);
     _typeOfParcel = widget.typeOfParcel ?? 'Documents';
-    _weightController.text = widget.weight.toString() ?? '0';
+    _weightController.text =
+        widget.weight == null ? '' : widget.weight.toString();
     super.initState();
   }
 
@@ -171,9 +172,10 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                 ),
                                 isExpanded: true,
                                 onChanged: (String newValue) {
-                                  setState(() {
-                                    _typeOfParcel = newValue;
-                                  });
+                                  if (mounted)
+                                    setState(() {
+                                      _typeOfParcel = newValue;
+                                    });
                                 },
                                 items: <String>[
                                   'Documents',

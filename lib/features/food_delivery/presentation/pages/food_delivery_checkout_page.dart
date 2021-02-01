@@ -484,8 +484,7 @@ class _FoodDeliverySelectVehicleState extends State<FoodDeliverySelectVehicle> {
               position: LatLng(state.destination.location.lat,
                   state.destination.location.lng),
               infoWindow: InfoWindow(title: 'Destination')));
-          CameraUpdate u2 = CameraUpdate.newLatLngBounds(bounds, 45);
-          mapController?.animateCamera(u2);
+
           return Scaffold(
             body: Stack(
               children: [
@@ -496,8 +495,11 @@ class _FoodDeliverySelectVehicleState extends State<FoodDeliverySelectVehicle> {
                   onMapCreated: (GoogleMapController controller) {
                     mapController = controller;
                     _controller.complete(controller);
-                    CameraUpdate u2 = CameraUpdate.newLatLngBounds(bounds, 45);
-                    this.mapController.animateCamera(u2);
+                    Future.delayed(const Duration(milliseconds: 100), () {
+                      CameraUpdate u2 =
+                          CameraUpdate.newLatLngBounds(bounds, 45);
+                      this.mapController.animateCamera(u2);
+                    });
                   },
                   polylines: {
                     Polyline(
@@ -528,9 +530,10 @@ class _FoodDeliverySelectVehicleState extends State<FoodDeliverySelectVehicle> {
                               color: Theme.of(context).primaryColor,
                             ),
                             onChanged: (String newValue) {
-                              setState(() {
-                                selected = newValue;
-                              });
+                              if (mounted)
+                                setState(() {
+                                  selected = newValue;
+                                });
                             },
                             items: [
                               DropdownMenuItem<String>(
