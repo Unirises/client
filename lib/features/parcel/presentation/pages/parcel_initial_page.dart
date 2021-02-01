@@ -156,8 +156,64 @@ class ParcelInitialPage extends StatelessWidget {
                             children: [
                               IconButton(
                                 color: Colors.blue,
-                                onPressed: () {
-                                  throw UnimplementedError();
+                                onPressed: () async {
+                                  LocationResult result =
+                                      await showLocationPicker(
+                                    context,
+                                    'AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU',
+                                    initialCenter: LatLng(
+                                        state.points[index].location.lat,
+                                        state.points[index].location.lng),
+                                    countries: ['PH'],
+                                    desiredAccuracy: LocationAccuracy.best,
+                                  );
+                                  if (result == null || result.address == null)
+                                    return;
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddStopDetailsPage(
+                                              floor: state
+                                                  .points[index].houseDetails,
+                                              name: state.points[index].name,
+                                              phone: state.points[index].phone,
+                                              weight:
+                                                  state.points[index].weight,
+                                              id: state.points[index].id,
+                                              typeOfParcel:
+                                                  state.points[index].type,
+                                              location: result,
+                                              isPickup:
+                                                  state.pickup?.id == null,
+                                              onSubmitFinished: (data) {
+                                                Navigator.pop(context);
+                                                context
+                                                    .bloc<ParcelBloc>()
+                                                    .add(ParcelUpdated(
+                                                      data,
+                                                      state.pickup?.id == null,
+                                                    ));
+                                              },
+                                              onCancelled: () {
+                                                Navigator.pop(context);
+                                                return Flushbar(
+                                                  title: 'Event cancelled',
+                                                  message:
+                                                      'You cancelled adding a stop in your parcel data.',
+                                                  duration:
+                                                      Duration(seconds: 5),
+                                                  isDismissible: false,
+                                                  showProgressIndicator: true,
+                                                  progressIndicatorBackgroundColor:
+                                                      Theme.of(context)
+                                                          .primaryColor,
+                                                  flushbarPosition:
+                                                      FlushbarPosition.TOP,
+                                                )..show(context);
+                                              },
+                                            )),
+                                  );
                                 },
                                 icon: Icon(Icons.edit),
                               ),
@@ -187,7 +243,7 @@ class ParcelInitialPage extends StatelessWidget {
                             ),
                             child: RaisedButton.icon(
                                 onPressed: ((state.points != null)
-                                        ? state.points?.length < 22
+                                        ? state.points.length < 22
                                         : true)
                                     ? () async {
                                         LocationResult result =

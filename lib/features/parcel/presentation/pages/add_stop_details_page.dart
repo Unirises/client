@@ -13,12 +13,25 @@ class AddStopDetailsPage extends StatefulWidget {
   final VoidCallback onCancelled;
   final bool isPickup;
 
+  final String floor;
+  final String name;
+  final String phone;
+  final num weight;
+  final String id;
+  final String typeOfParcel;
+
   const AddStopDetailsPage({
     Key key,
     @required this.location,
     @required this.onSubmitFinished,
     this.onCancelled,
     this.isPickup,
+    this.floor,
+    this.name,
+    this.phone,
+    this.weight,
+    this.id,
+    this.typeOfParcel,
   }) : super(key: key);
 
   @override
@@ -31,14 +44,17 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _weightController = TextEditingController();
-  String typeOfParcel;
+  String _typeOfParcel;
+  String _id;
 
   @override
   void initState() {
-    _floorController.text = '';
-    _nameController.text = '';
-    _phoneController.text = '';
-    typeOfParcel = 'Documents';
+    _floorController.text = widget.floor ?? '';
+    _nameController.text = widget.name ?? '';
+    _phoneController.text = widget.phone ?? '';
+    _id = widget.id ?? getRandomString(15);
+    _typeOfParcel = widget.typeOfParcel ?? 'Documents';
+    _weightController.text = widget.weight.toString() ?? '0';
     super.initState();
   }
 
@@ -145,7 +161,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                         ? Column(
                             children: [
                               DropdownButton<String>(
-                                value: typeOfParcel,
+                                value: _typeOfParcel,
                                 icon: Icon(Icons.arrow_downward),
                                 iconSize: 24,
                                 elevation: 16,
@@ -156,7 +172,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                 isExpanded: true,
                                 onChanged: (String newValue) {
                                   setState(() {
-                                    typeOfParcel = newValue;
+                                    _typeOfParcel = newValue;
                                   });
                                 },
                                 items: <String>[
@@ -211,7 +227,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                 (b) => b
                                   ..weight =
                                       num.tryParse(_weightController.text)
-                                  ..type = typeOfParcel
+                                  ..type = _typeOfParcel
                                   ..address = widget.location.address
                                   ..houseDetails = _floorController.text
                                   ..name = _nameController.text
@@ -221,7 +237,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                       ..lat = widget.location.latLng.latitude
                                       ..lng = widget.location.latLng.longitude,
                                   ).toBuilder()
-                                  ..id = getRandomString(15),
+                                  ..id = _id,
                               ));
                             }
                           },
