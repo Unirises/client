@@ -68,8 +68,63 @@ class ParcelInitialPage extends StatelessWidget {
                                 children: [
                                   IconButton(
                                     color: Colors.blue,
-                                    onPressed: () {
-                                      throw UnimplementedError();
+                                    onPressed: () async {
+                                      LocationResult result =
+                                          await showLocationPicker(
+                                        context,
+                                        'AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU',
+                                        initialCenter: LatLng(
+                                            state.pickup.location.lat,
+                                            state.pickup.location.lng),
+                                        countries: ['PH'],
+                                        desiredAccuracy: LocationAccuracy.best,
+                                      );
+                                      if (result == null ||
+                                          result.address == null) return;
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddStopDetailsPage(
+                                                  floor:
+                                                      state.pickup.houseDetails,
+                                                  name: state.pickup.name,
+                                                  phone: state.pickup.phone,
+                                                  weight: state.pickup.weight,
+                                                  id: state.pickup.id,
+                                                  typeOfParcel:
+                                                      state.pickup.type,
+                                                  location: result,
+                                                  isPickup: true,
+                                                  onSubmitFinished: (data) {
+                                                    Navigator.pop(context);
+                                                    context
+                                                        .bloc<ParcelBloc>()
+                                                        .add(ParcelUpdated(
+                                                          data,
+                                                          true,
+                                                        ));
+                                                  },
+                                                  onCancelled: () {
+                                                    Navigator.pop(context);
+                                                    return Flushbar(
+                                                      title: 'Event cancelled',
+                                                      message:
+                                                          'You cancelled adding a stop in your parcel data.',
+                                                      duration:
+                                                          Duration(seconds: 5),
+                                                      isDismissible: false,
+                                                      showProgressIndicator:
+                                                          true,
+                                                      progressIndicatorBackgroundColor:
+                                                          Theme.of(context)
+                                                              .primaryColor,
+                                                      flushbarPosition:
+                                                          FlushbarPosition.TOP,
+                                                    )..show(context);
+                                                  },
+                                                )),
+                                      );
                                     },
                                     icon: Icon(Icons.edit),
                                   ),
