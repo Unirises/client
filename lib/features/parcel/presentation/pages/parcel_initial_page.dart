@@ -24,7 +24,9 @@ class ParcelInitialPage extends StatelessWidget {
                 children: [
                   (state.pickup == null || state.pickup.id == null)
                       ? Text(
-                          'Start booking a parcel delivery by adding your pickup location.')
+                          'Start booking a parcel delivery by adding your pickup location.',
+                          style: TextStyle(fontSize: 24),
+                        )
                       : Container(),
                   (state.pickup?.id != null)
                       ? Column(
@@ -33,7 +35,8 @@ class ParcelInitialPage extends StatelessWidget {
                             Text(
                               'Start Location',
                               style: TextStyle(
-                                  color: Theme.of(context).primaryColor),
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 24),
                             ),
                             ListTile(
                               leading: Icon(
@@ -147,14 +150,16 @@ class ParcelInitialPage extends StatelessWidget {
                           state.points.length > 1
                               ? 'Destinations'
                               : 'Destination',
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor),
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 24),
                         )
                       : (state.pickup != null && state.pickup.id != null)
                           ? Text(
                               'Add your destinations to your parcel delivery.',
                               style: TextStyle(
-                                  color: Theme.of(context).primaryColor),
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 24),
                             )
                           : Container(),
                   Expanded(
@@ -184,13 +189,13 @@ class ParcelInitialPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                state.points[index].houseDetails +
-                                    ' ' +
-                                    state.points[index].address,
+                                'Phone: ' + state.points[index].phone,
                                 style: TextStyle(color: Colors.grey),
                               ),
                               Text(
-                                state.points[index].phone,
+                                state.points[index].houseDetails +
+                                    ' ' +
+                                    state.points[index].address,
                                 style: TextStyle(color: Colors.grey),
                               ),
                               Text(
@@ -198,10 +203,23 @@ class ParcelInitialPage extends StatelessWidget {
                                     ' - ${state.points[index].weight.toStringAsFixed(2)} kg',
                                 style: TextStyle(color: Colors.grey),
                               ),
+                              (state.points[index].distance != null)
+                                  ? Text(
+                                      (state.points[index].distance / 1000)
+                                              .toStringAsFixed(2) +
+                                          ' km | ${state.points[index].duration.text}',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16))
+                                  : Container(),
                               state.points[index].price != null
                                   ? Text(
-                                      'Price: ${state.points[index].price.toStringAsFixed(2)}',
-                                      style: TextStyle(color: Colors.grey),
+                                      'Price: PHP ${state.points[index].price.toStringAsFixed(2)}',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17.5),
                                     )
                                   : Container(),
                             ],
@@ -439,7 +457,7 @@ class ParcelInitialPage extends StatelessWidget {
                                   color: Theme.of(context).primaryColor,
                                   textColor: Colors.white,
                                   child: Text(
-                                      'Request Parcel Delivery - PHP ${state.subtotal.toStringAsFixed(2)}'),
+                                      'Request Parcel Delivery - PHP ${state.subtotal.toStringAsFixed(2)} | ${(state.data['distance'] / 1000).toStringAsFixed(2)} km'),
                                 ),
                               ),
                             )

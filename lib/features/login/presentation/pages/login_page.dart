@@ -1,4 +1,5 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,69 +85,133 @@ class LoginPage extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 15),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 24),
-                                        child: Text(
-                                          'Sign In',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 24,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                      ),
-                                      BlocBuilder<LoginCubit, LoginState>(
-                                          builder: (context, state) {
-                                        return state
-                                                .status.isSubmissionInProgress
-                                            ? const CircularProgressIndicator()
-                                            : InkWell(
-                                                onTap: () => state
-                                                            .status.isInvalid ||
-                                                        state.status.isPure
-                                                    ? null
-                                                    : context
-                                                        .bloc<LoginCubit>()
-                                                        .logInWithCredentials(),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Theme.of(context)
-                                                            .primaryColor
-                                                            .withAlpha(100),
-                                                        blurRadius: 6.0,
-                                                        spreadRadius: 0.0,
-                                                        offset: const Offset(
-                                                          0.0,
-                                                          3.0,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  child: const Padding(
+                                  BlocBuilder<LoginCubit, LoginState>(
+                                      builder: (context, state) {
+                                    return state.status.isSubmissionInProgress
+                                        ? const CircularProgressIndicator()
+                                        : Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Padding(
                                                     padding:
-                                                        EdgeInsets.all(14.0),
-                                                    child: Icon(
-                                                      Icons.navigate_next,
-                                                      color: Colors.white,
-                                                      size: 38,
+                                                        const EdgeInsets.only(
+                                                            left: 24),
+                                                    child: Text(
+                                                      'Sign In',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 24,
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              );
-                                      }),
-                                    ],
-                                  ),
+                                                  InkWell(
+                                                    onTap: () => state.status
+                                                                .isInvalid ||
+                                                            state.status.isPure
+                                                        ? null
+                                                        : context
+                                                            .bloc<LoginCubit>()
+                                                            .logInWithCredentials(),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColor
+                                                                .withAlpha(100),
+                                                            blurRadius: 6.0,
+                                                            spreadRadius: 0.0,
+                                                            offset:
+                                                                const Offset(
+                                                              0.0,
+                                                              3.0,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: const Padding(
+                                                        padding: EdgeInsets.all(
+                                                            14.0),
+                                                        child: Icon(
+                                                          Icons.navigate_next,
+                                                          color: Colors.white,
+                                                          size: 38,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              FlatButton.icon(
+                                                  onPressed: () async {
+                                                    print(state.email.status);
+                                                    if (state.email.status ==
+                                                            FormzInputStatus
+                                                                .pure ||
+                                                        state.email.status ==
+                                                            FormzInputStatus
+                                                                .invalid) {
+                                                      return Flushbar(
+                                                        title:
+                                                            'Incomplete Form',
+                                                        message:
+                                                            'Please enter a valid email first at the field.',
+                                                        flushbarPosition:
+                                                            FlushbarPosition
+                                                                .TOP,
+                                                        duration: Duration(
+                                                            seconds: 3),
+                                                      )..show(context);
+                                                    } else {
+                                                      try {
+                                                        await FirebaseAuth
+                                                            .instance
+                                                            .sendPasswordResetEmail(
+                                                                email: state
+                                                                    .email
+                                                                    .value);
+                                                        return Flushbar(
+                                                          title: 'Success',
+                                                          message:
+                                                              'Forgot Password email sent at ${state.email.value}.',
+                                                          flushbarPosition:
+                                                              FlushbarPosition
+                                                                  .TOP,
+                                                          duration: Duration(
+                                                              seconds: 3),
+                                                        )..show(context);
+                                                      } catch (e) {
+                                                        return Flushbar(
+                                                          title:
+                                                              'Error Occured',
+                                                          message:
+                                                              '${e.message}',
+                                                          flushbarPosition:
+                                                              FlushbarPosition
+                                                                  .TOP,
+                                                          duration: Duration(
+                                                              seconds: 3),
+                                                        )..show(context);
+                                                      }
+                                                    }
+                                                  },
+                                                  icon: Icon(Icons.help_center),
+                                                  label:
+                                                      Text('Forgot Password')),
+                                            ],
+                                          );
+                                  }),
                                 ],
                               ),
                             ),

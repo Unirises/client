@@ -36,6 +36,7 @@ class FoodIdlePage extends StatelessWidget {
                 floatingActionButton: checkoutState.items != null &&
                         checkoutState.items.length > 0
                     ? FloatingActionButton(
+                        backgroundColor: Theme.of(context).primaryColor,
                         onPressed: () {
                           context.bloc<CheckoutBloc>().add(CheckoutStoreUpdated(
                               Merchant(companyName: null, id: 'dasdas')));
@@ -51,7 +52,7 @@ class FoodIdlePage extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Browse now to shop, and to satisfy your cravings!',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 24),
                         ),
                       ),
                       (state.merchants == null || state.merchants.length < 1)

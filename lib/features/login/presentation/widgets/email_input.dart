@@ -18,9 +18,7 @@ class EmailInput extends StatelessWidget {
           onSubmitted: (_) => FocusScope.of(context).nextFocus(),
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
-            labelText: (Platform.isIOS)
-                ? 'Enter your email address'
-                : 'or enter your email address',
+            labelText: 'Enter your email address',
             errorText: state.email.invalid ? 'Invalid Email' : null,
           ),
         );

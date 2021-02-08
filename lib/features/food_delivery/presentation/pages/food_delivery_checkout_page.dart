@@ -133,7 +133,8 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                   child: RaisedButton(
                                     color: Theme.of(context).primaryColor,
                                     textColor: Colors.white,
-                                    child: Text('Select Location'),
+                                    child: Text(
+                                        '${state.destination == null ? 'Select' : 'Change'} Location'),
                                     onPressed: () async {
                                       LocationResult result =
                                           await showLocationPicker(
@@ -289,9 +290,15 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                   'Subtotal',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
+                                    fontSize: 18,
                                   ),
                                 ),
-                                Text('PHP ' + subtotal.toStringAsFixed(2))
+                                Text(
+                                  'PHP ' + subtotal.toStringAsFixed(2),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                )
                               ],
                             ),
                             (state.deliveryFee != null)
@@ -303,10 +310,17 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                         'Delivery Fee (${buildType(state.selectedVehicleType)})',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
+                                          fontSize: 18,
                                         ),
                                       ),
-                                      Text('PHP ' +
-                                          state.deliveryFee.toStringAsFixed(2))
+                                      Text(
+                                        'PHP ' +
+                                            state.deliveryFee
+                                                .toStringAsFixed(2),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      )
                                     ],
                                   )
                                 : Container(),
@@ -319,11 +333,17 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                         'Total',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
+                                          fontSize: 18,
                                         ),
                                       ),
-                                      Text('PHP ' +
-                                          (subtotal + state.deliveryFee)
-                                              .toStringAsFixed(2))
+                                      Text(
+                                        'PHP ' +
+                                            (subtotal + state.deliveryFee)
+                                                .toStringAsFixed(2),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      )
                                     ],
                                   )
                                 : Container(),
