@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,6 +45,17 @@ class _HomePageState extends State<HomePage> {
         flushbarPosition: FlushbarPosition.TOP,
       )..show(context);
     });
+
+    sendVerification();
+  }
+
+  sendVerification() async {
+    if (!FirebaseAuth.instance.currentUser.emailVerified) {
+      print('not verified');
+      await FirebaseAuth.instance.currentUser.sendEmailVerification();
+    } else {
+      print('verified');
+    }
   }
 
   @override

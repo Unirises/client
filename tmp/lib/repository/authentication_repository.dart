@@ -93,10 +93,6 @@ class AuthenticationRepository {
       email: email,
       password: password,
     );
-
-    if (!userCredential.user.emailVerified) {
-      await userCredential.user.sendEmailVerification();
-    }
   }
 
   Future<void> logOut() async {
