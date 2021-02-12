@@ -65,7 +65,7 @@ dependencies:
       path: packages/firebase_remote_config
   smooth_star_rating: ^1.1.1
   built_value:
-
+  fluttercontactpicker: ^4.2.1
   
   authentication_repository:
     path: ../../../mobile/authentication_repository

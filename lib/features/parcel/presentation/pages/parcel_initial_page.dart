@@ -380,7 +380,7 @@ class ParcelInitialPage extends StatelessWidget {
                                     : null,
                                 icon: Icon(Icons.add),
                                 label: Text(
-                                    'Add ${state.pickup?.id == null ? 'Starting Point' : 'Stop'}'))),
+                                    'Add ${state.pickup?.id == null ? 'Starting Point' : 'Destination'}'))),
                       ),
                       (state.points != null &&
                               state.points.length >= 1 &&

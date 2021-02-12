@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -114,7 +115,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                             controller: _nameController,
                             validator: (value) {
                               if (value.isEmpty) {
-                                return 'Please enter the contact name.';
+                                return 'Please enter the name.';
                               }
                               return null;
                             },
@@ -123,8 +124,22 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                             keyboardType: TextInputType.name,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
-                              labelText: 'Contact Name',
+                              labelText: 'Name',
                               prefixIcon: const Icon(Icons.person_outline),
+                              suffixIcon: IconButton(
+                                  icon: Icon(Icons.contacts),
+                                  onPressed: () async {
+                                    final PhoneContact contact =
+                                        await FlutterContactPicker
+                                            .pickPhoneContact();
+
+                                    setState(() {
+                                      _nameController.text =
+                                          contact.fullName ?? 'No Name';
+                                      _phoneController.text =
+                                          contact.phoneNumber.number ?? '';
+                                    });
+                                  }),
                             ),
                           ),
                         ),
