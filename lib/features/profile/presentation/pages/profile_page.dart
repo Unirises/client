@@ -162,11 +162,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                           FirebaseStorage.instance
                                               .ref()
                                               .child('profile/${user.uid}.jpg');
-                                      final uploadTask = profileImageReference
-                                          .putFile(profilePicture);
-                                      final taskSnapshot =
-                                          await uploadTask.onComplete;
-                                      final url = (await taskSnapshot.ref
+                                      final uploadTask =
+                                          await profileImageReference
+                                              .putFile(profilePicture);
+                                      final url = (await uploadTask.ref
                                           .getDownloadURL());
 
                                       context
