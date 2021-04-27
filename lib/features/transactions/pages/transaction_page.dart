@@ -231,7 +231,7 @@ class _TransactionPageState extends State<TransactionPage> {
                           child: Text(
                             widget.ride.isParcel
                                 ? 'Parcel Delivery'
-                                : 'Food Delivery',
+                                : 'Merchants',
                             style: const TextStyle(color: Colors.grey),
                           ),
                         ),

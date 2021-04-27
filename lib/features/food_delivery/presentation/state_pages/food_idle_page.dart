@@ -51,7 +51,7 @@ class FoodIdlePage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Browse now to shop, and to satisfy your cravings!',
+                          'Browse now to shop, and to satisfy your needs!',
                           style: TextStyle(fontSize: 24),
                         ),
                       ),

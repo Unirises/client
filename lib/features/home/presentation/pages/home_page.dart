@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.shopping_cart),
-        title: 'Food Delivery',
+        title: 'Merchants',
         activeColor: Theme.of(context).primaryColor,
         inactiveColor: CupertinoColors.systemGrey,
       ),

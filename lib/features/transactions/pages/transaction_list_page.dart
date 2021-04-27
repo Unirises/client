@@ -26,8 +26,7 @@ class TransactionListPage extends StatelessWidget {
                 return ListTile(
                   onTap: () => pushNewScreen(context,
                       screen: TransactionPage(ride: item)),
-                  title:
-                      Text(item.isParcel ? 'Parcel Delivery' : 'Food Delivery'),
+                  title: Text(item.isParcel ? 'Parcel Delivery' : 'Merchants'),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
