@@ -90,7 +90,7 @@ class AccountIndexPage extends StatelessWidget {
                       ),
                       AccountPageListItemTemplate(
                         onTap: () => context
-                            .bloc<AuthenticationBloc>()
+                            .read<AuthenticationBloc>()
                             .add(AuthenticationLogoutRequested()),
                         title: 'Log Out',
                       ),

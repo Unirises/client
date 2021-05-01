@@ -117,7 +117,7 @@ class _FoodDeliveryRequestingPageState
                       children: <Widget>[
                         GestureDetector(
                           onTap: () {
-                            context.bloc<ClientBloc>().add(ClientCancelFoodRide(
+                            context.read<ClientBloc>().add(ClientCancelFoodRide(
                                 (context.read<ClientBloc>().state
                                         as ClientLoaded)
                                     .client

@@ -130,11 +130,13 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                   : Container(),
                               Row(children: [
                                 Expanded(
-                                  child: RaisedButton(
-                                    color: Theme.of(context).primaryColor,
-                                    textColor: Colors.white,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Theme.of(context).primaryColor,
+                                    ),
                                     child: Text(
-                                        '${state.destination == null ? 'Select' : 'Change'} Location'),
+                                        '${state.destination == null ? 'Select' : 'Change'} Location',
+                                        style: TextStyle(color: Colors.white)),
                                     onPressed: () async {
                                       LocationResult result =
                                           await showLocationPicker(
@@ -161,7 +163,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                                   onSubmitFinished: (data) {
                                                     Navigator.pop(context);
                                                     context
-                                                        .bloc<CheckoutBloc>()
+                                                        .read<CheckoutBloc>()
                                                         .add(
                                                             CheckoutDestinationUpdated(
                                                                 data));
@@ -193,7 +195,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                               (state.selectedVehicleType != null)
                                   ? Row(children: [
                                       Expanded(
-                                        child: RaisedButton(
+                                        child: ElevatedButton(
                                           child: Text('Select Vehicle Type'),
                                           onPressed: () {
                                             Navigator.push(
@@ -203,7 +205,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                                     FoodDeliverySelectVehicle(
                                                   onSelected: (selected) {
                                                     context
-                                                        .bloc<CheckoutBloc>()
+                                                        .read<CheckoutBloc>()
                                                         .add(CheckoutVehicleUpdated(
                                                             selectedVehicleType:
                                                                 selected));
@@ -242,16 +244,16 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  FlatButton(
+                                  TextButton(
                                     onPressed: () {
-                                      context.bloc<ItemBloc>().add(
+                                      context.read<ItemBloc>().add(
                                           ItemAdded(state.items[index], true));
                                       pushNewScreen(context,
                                           screen: ItemListingSelectionPage(
                                             itemIndex: index,
                                             classificationIndex: 0,
                                             onSuccess: (item) {
-                                              context.bloc<CheckoutBloc>().add(
+                                              context.read<CheckoutBloc>().add(
                                                   CheckoutItemUpdated(item));
                                               Navigator.pop(context);
                                             },
@@ -262,9 +264,9 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                             color: Colors.blue,
                                             fontWeight: FontWeight.bold)),
                                   ),
-                                  FlatButton(
+                                  TextButton(
                                     onPressed: () {
-                                      context.bloc<CheckoutBloc>().add(
+                                      context.read<CheckoutBloc>().add(
                                           CheckoutItemDeleted(
                                               state.items[index], index));
                                     },
@@ -384,7 +386,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                         builder: (context) =>
                                             FoodDeliverySelectVehicle(
                                           onSelected: (selected) {
-                                            context.bloc<CheckoutBloc>().add(
+                                            context.read<CheckoutBloc>().add(
                                                 CheckoutVehicleUpdated(
                                                     selectedVehicleType:
                                                         selected));
@@ -427,6 +429,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
               ],
             ));
       }
+      return Container();
     });
   }
 
@@ -581,13 +584,17 @@ class _FoodDeliverySelectVehicleState extends State<FoodDeliverySelectVehicle> {
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
                               ),
-                              child: RaisedButton(
+                              child: TextButton(
                                 onPressed: (selected != '')
                                     ? () => widget.onSelected(selected)
                                     : null,
-                                color: Theme.of(context).primaryColor,
-                                textColor: Colors.white,
-                                child: Text('Select Vehicle'),
+                                style: TextButton.styleFrom(
+                                  primary: Theme.of(context).primaryColor,
+                                ),
+                                child: Text(
+                                  'Select Vehicle',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
@@ -598,6 +605,7 @@ class _FoodDeliverySelectVehicleState extends State<FoodDeliverySelectVehicle> {
             ),
           );
         }
+        return Container();
       },
     );
   }

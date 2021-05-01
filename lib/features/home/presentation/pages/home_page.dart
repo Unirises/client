@@ -60,14 +60,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.bloc<AuthenticationBloc>().state.user;
+    final user = context.read<AuthenticationBloc>().state.user;
     if (user.name == null) {
       return SplashPage();
     }
 
-    context.bloc<UserCollectionBloc>().add(FetchUserCollection());
-    context.bloc<ClientBloc>().add(FetchClient());
-    context.bloc<ClientBloc>().add(StartLocationUpdate());
+    context.read<UserCollectionBloc>().add(FetchUserCollection());
+    context.read<ClientBloc>().add(FetchClient());
+    context.read<ClientBloc>().add(StartLocationUpdate());
 
     return BlocBuilder<UserCollectionBloc, UserCollectionState>(
       builder: (context, state) {

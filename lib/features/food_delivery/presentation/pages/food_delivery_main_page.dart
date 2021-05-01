@@ -16,7 +16,7 @@ class FoodDeliveryMainPage extends StatelessWidget {
     return BlocBuilder<MerchantBloc, MerchantState>(
       builder: (context, state) {
         if (state is MerchantInitial) {
-          context.bloc<MerchantBloc>().add(FetchMerchants());
+          context.read<MerchantBloc>().add(FetchMerchants());
           return Center(child: CircularProgressIndicator());
         } else if (state is MerchantLoading) {
           return Center(child: CircularProgressIndicator());
@@ -50,9 +50,9 @@ class FoodDeliveryMainPage extends StatelessWidget {
                       builder: (context, foodRideState) {
                         if (foodRideState is FoodRideInitial) {
                           Future.delayed(Duration(seconds: 5), () {
-                            context.bloc<FoodRideBloc>().add(
+                            context.read<FoodRideBloc>().add(
                                 StartListenOnFoodRide((context
-                                        .bloc<ClientBloc>()
+                                        .read<ClientBloc>()
                                         .state as ClientLoaded)
                                     .client
                                     .delivery_id));

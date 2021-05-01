@@ -242,14 +242,16 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
                           height: 8,
                         ),
                         Divider(),
-                        FlatButton.icon(
+                        TextButton.icon(
                           icon: Icon(Icons.chevron_right),
                           onPressed: () => pushNewScreen(context,
                               screen: SeeMoreDetailsPage()),
-                          textColor: Theme.of(context).primaryColor,
                           label: Text(
                             'See More Details',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColor,
+                            ),
                           ),
                         )
                       ],

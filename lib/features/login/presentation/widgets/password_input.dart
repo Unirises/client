@@ -12,7 +12,7 @@ class PasswordInput extends StatelessWidget {
         return TextField(
           key: const Key('loginForm_passwordInput_textField'),
           onChanged: (password) =>
-              context.bloc<LoginCubit>().passwordChanged(password),
+              context.read<LoginCubit>().passwordChanged(password),
           obscureText: true,
           onSubmitted: (_) => FocusScope.of(context).unfocus(),
           textInputAction: TextInputAction.done,

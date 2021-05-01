@@ -129,13 +129,14 @@ class _SelectVehiclePageState extends State<SelectVehiclePage> {
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
                               ),
-                              child: RaisedButton(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: Theme.of(context).primaryColor),
                                 onPressed: (selected != '')
                                     ? () => widget.onSelected(selected)
                                     : null,
-                                color: Theme.of(context).primaryColor,
-                                textColor: Colors.white,
-                                child: Text('Select Vehicle'),
+                                child: Text('Select Vehicle',
+                                    style: TextStyle(color: Colors.white)),
                               ),
                             ),
                           ),

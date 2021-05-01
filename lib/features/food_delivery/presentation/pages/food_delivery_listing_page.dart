@@ -89,25 +89,25 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                                         pushNewScreen(context,
                                             screen: FoodDeliveryCheckoutPage(
                                           onBooked: () {
-                                            context.bloc<CheckoutBloc>().add(
+                                            context.read<CheckoutBloc>().add(
                                                   CheckoutBookRide(
                                                     storeID: widget.merchant.id,
                                                     name: (context
-                                                                .bloc<
+                                                                .read<
                                                                     UserCollectionBloc>()
                                                                 .state
                                                             as UserCollectionLoaded)
                                                         .userCollection
                                                         .name,
                                                     number: (context
-                                                                .bloc<
+                                                                .read<
                                                                     UserCollectionBloc>()
                                                                 .state
                                                             as UserCollectionLoaded)
                                                         .userCollection
                                                         .phone,
                                                     foodRideBloc: context
-                                                        .bloc<FoodRideBloc>(),
+                                                        .read<FoodRideBloc>(),
                                                   ),
                                                 );
                                             Navigator.pop(context);
@@ -217,7 +217,7 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                                                 ? null
                                                 : () {
                                                     context
-                                                        .bloc<ItemBloc>()
+                                                        .read<ItemBloc>()
                                                         .add(ItemAdded(
                                                             listing.classificationListing[
                                                                 itemIndex],
@@ -231,7 +231,7 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                                                                   .index,
                                                           onSuccess: (item) {
                                                             context
-                                                                .bloc<
+                                                                .read<
                                                                     CheckoutBloc>()
                                                                 .add(
                                                                     CheckoutItemAdded(
@@ -272,6 +272,7 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                   );
                 }
               }
+              return Container();
             },
           );
         }

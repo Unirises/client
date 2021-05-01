@@ -19,7 +19,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => LoginCubit(
-        context.repository<AuthenticationRepository>(),
+        context.read<AuthenticationRepository>(),
       ),
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -117,7 +117,7 @@ class LoginPage extends StatelessWidget {
                                                             state.status.isPure
                                                         ? null
                                                         : context
-                                                            .bloc<LoginCubit>()
+                                                            .read<LoginCubit>()
                                                             .logInWithCredentials(),
                                                     child: Container(
                                                       decoration: BoxDecoration(
@@ -153,7 +153,7 @@ class LoginPage extends StatelessWidget {
                                                   ),
                                                 ],
                                               ),
-                                              FlatButton.icon(
+                                              TextButton.icon(
                                                   onPressed: () async {
                                                     print(state.email.status);
                                                     if (state.email.status ==
@@ -254,7 +254,7 @@ class LoginPage extends StatelessWidget {
                                   builder: (context, state) {
                                 return RawMaterialButton(
                                   onPressed: () => context
-                                      .bloc<LoginCubit>()
+                                      .read<LoginCubit>()
                                       .logInWithGoogle(),
                                   elevation: 0.0,
                                   child: FaIcon(

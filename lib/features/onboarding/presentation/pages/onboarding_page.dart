@@ -112,9 +112,11 @@ class OnboardingActionScreen extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: OutlineButton(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  color: Colors.white,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    primary: Colors.white,
+                  ),
                   onPressed: () {
                     Navigator.of(context).push<void>(LoginPage.route());
                   },

@@ -124,7 +124,7 @@ class FixedPos {
       heading: data?.heading ?? 0,
       latitude: data?.latitude ?? 0,
       longitude: data?.longitude ?? 0,
-      timestamp: data?.timestamp.millisecondsSinceEpoch ?? 0,
+      timestamp: data.timestamp.millisecondsSinceEpoch ?? 0,
     );
   }
 

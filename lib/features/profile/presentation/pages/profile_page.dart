@@ -24,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final userCollection =
-        context.bloc<UserCollectionBloc>().state.userCollection;
+        context.watch<UserCollectionBloc>().state.userCollection;
 
     _nameController.value = TextEditingValue(
       text: userCollection.name,
@@ -151,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 hintText: '+639#########',
                               ),
                             ),
-                            FlatButton.icon(
+                            TextButton.icon(
                                 onPressed: () async {
                                   if (_formKey.currentState.validate()) {
                                     if (profilePicture != null) {
@@ -169,7 +169,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           .getDownloadURL());
 
                                       context
-                                          .bloc<UserCollectionBloc>()
+                                          .read<UserCollectionBloc>()
                                           .add(UpdateUserCollection({
                                             'name': _nameController.text,
                                             'phone': _phoneController.text,
@@ -187,7 +187,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           displayName: _nameController.text);
 
                                       context
-                                          .bloc<UserCollectionBloc>()
+                                          .read<UserCollectionBloc>()
                                           .add(UpdateUserCollection({
                                             'name': _nameController.text,
                                             'phone': _phoneController.text,
@@ -195,7 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     }
 
                                     context
-                                        .bloc<UserCollectionBloc>()
+                                        .read<UserCollectionBloc>()
                                         .add(FetchUserCollection());
                                   }
                                 },

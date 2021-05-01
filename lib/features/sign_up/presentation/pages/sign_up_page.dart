@@ -31,7 +31,7 @@ class SignUpPage extends StatelessWidget {
             SingleChildScrollView(
               child: BlocProvider<SignUpCubit>(
                 create: (_) => SignUpCubit(
-                  context.repository<AuthenticationRepository>(),
+                  context.read<AuthenticationRepository>(),
                 ),
                 child: SignUpForm(),
               ),

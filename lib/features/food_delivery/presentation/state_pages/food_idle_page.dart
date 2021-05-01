@@ -15,7 +15,7 @@ class FoodIdlePage extends StatelessWidget {
     return BlocBuilder<MerchantBloc, MerchantState>(
       builder: (context, state) {
         if (state is MerchantInitial) {
-          context.bloc<MerchantBloc>().add(FetchMerchants());
+          context.read<MerchantBloc>().add(FetchMerchants());
           return Center(child: CircularProgressIndicator());
         } else if (state is MerchantLoading) {
           return Center(child: CircularProgressIndicator());
@@ -38,7 +38,7 @@ class FoodIdlePage extends StatelessWidget {
                     ? FloatingActionButton(
                         backgroundColor: Theme.of(context).primaryColor,
                         onPressed: () {
-                          context.bloc<CheckoutBloc>().add(CheckoutStoreUpdated(
+                          context.read<CheckoutBloc>().add(CheckoutStoreUpdated(
                               Merchant(companyName: null, id: 'dasdas')));
                         },
                         child: Text('Clear'),
@@ -75,7 +75,7 @@ class FoodIdlePage extends StatelessWidget {
                                                         ?.companyName ==
                                                     null) {
                                                   context
-                                                      .bloc<CheckoutBloc>()
+                                                      .read<CheckoutBloc>()
                                                       .add(CheckoutStoreUpdated(
                                                           state.merchants[
                                                               index]));
@@ -92,7 +92,7 @@ class FoodIdlePage extends StatelessWidget {
                                                     checkoutState
                                                         .merchant.companyName) {
                                                   context
-                                                      .bloc<CheckoutBloc>()
+                                                      .read<CheckoutBloc>()
                                                       .add(CheckoutStoreUpdated(
                                                           state.merchants[
                                                               index]));
@@ -109,7 +109,7 @@ class FoodIdlePage extends StatelessWidget {
                                                               .items.length <
                                                           1) {
                                                     context
-                                                        .bloc<CheckoutBloc>()
+                                                        .read<CheckoutBloc>()
                                                         .add(
                                                             CheckoutStoreUpdated(
                                                                 state.merchants[
@@ -219,6 +219,7 @@ class FoodIdlePage extends StatelessWidget {
                 ),
               );
             }
+            return Container();
           });
         } else if (state is MerchantLoadFailure) {
           return Center(

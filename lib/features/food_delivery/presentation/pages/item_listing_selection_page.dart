@@ -128,7 +128,7 @@ class ItemListingSelectionPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 GestureDetector(
-                                  onTap: () => context.bloc<ItemBloc>().add(
+                                  onTap: () => context.read<ItemBloc>().add(
                                       ItemQuantityUpdated(
                                           (state.item?.quantity ?? 0) - 1)),
                                   child: Icon(Icons.remove),
@@ -142,7 +142,7 @@ class ItemListingSelectionPage extends StatelessWidget {
                                 ),
                                 SizedBox(width: 12),
                                 GestureDetector(
-                                  onTap: () => context.bloc<ItemBloc>().add(
+                                  onTap: () => context.read<ItemBloc>().add(
                                       ItemQuantityUpdated(
                                           (state.item?.quantity ?? 0) + 1)),
                                   child: Icon(Icons.add),
@@ -182,6 +182,7 @@ class ItemListingSelectionPage extends StatelessWidget {
           ),
         );
       }
+      return Container();
     });
   }
 
@@ -270,7 +271,7 @@ class ItemListingSelectionPage extends StatelessWidget {
                   }
 
                   wow.forEach((element) {
-                    ctx.bloc<ItemBloc>().add(element);
+                    ctx.read<ItemBloc>().add(element);
                   });
                 },
                 title: Text(additionals[i].additionalListing[index].name),

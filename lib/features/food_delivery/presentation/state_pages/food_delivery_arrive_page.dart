@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../../../../core/widgets/profile_picture.dart';
 import '../../bloc/food_ride_bloc.dart';
 import '../pages/see_more_details_page.dart';
@@ -217,11 +215,13 @@ class FoodDeliveryArrivePage extends StatelessWidget {
                         height: 8,
                       ),
                       Divider(),
-                      FlatButton.icon(
+                      TextButton.icon(
                         icon: Icon(Icons.chevron_right),
                         onPressed: () => pushNewScreen(context,
                             screen: SeeMoreDetailsPage()),
-                        textColor: Theme.of(context).primaryColor,
+                        style: TextButton.styleFrom(
+                          primary: Theme.of(context).primaryColor,
+                        ),
                         label: Text(
                           'See More Details',
                           style: TextStyle(fontWeight: FontWeight.bold),

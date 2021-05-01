@@ -10,11 +10,10 @@ class SignUpForm extends StatelessWidget {
     return BlocListener<SignUpCubit, SignUpState>(
       listener: (context, state) {
         if (state.status.isSubmissionFailure) {
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(content: Text(state.message ?? 'Registration Failure')),
-            );
+            ..showSnackBar(SnackBar(
+                content: Text(state.message ?? 'Registration Failure')));
         }
       },
       child: Align(
@@ -84,7 +83,7 @@ class _NameInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: const Key('signUpForm_nameInput_textField'),
-          onChanged: (name) => context.bloc<SignUpCubit>().nameChanged(name),
+          onChanged: (name) => context.read<SignUpCubit>().nameChanged(name),
           onEditingComplete: () => FocusScope.of(context).nextFocus(),
           keyboardType: TextInputType.name,
           textInputAction: TextInputAction.next,
@@ -107,7 +106,7 @@ class _PhoneInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: const Key('signUpForm_phoneInput_textField'),
-          onChanged: (phone) => context.bloc<SignUpCubit>().phoneChanged(phone),
+          onChanged: (phone) => context.read<SignUpCubit>().phoneChanged(phone),
           onEditingComplete: () => FocusScope.of(context).nextFocus(),
           keyboardType: TextInputType.phone,
           textInputAction: TextInputAction.next,
@@ -131,7 +130,7 @@ class _EmailInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: const Key('signUpForm_emailInput_textField'),
-          onChanged: (email) => context.bloc<SignUpCubit>().emailChanged(email),
+          onChanged: (email) => context.read<SignUpCubit>().emailChanged(email),
           onEditingComplete: () => FocusScope.of(context).nextFocus(),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
@@ -156,7 +155,7 @@ class _PasswordInput extends StatelessWidget {
           key: const Key('signUpForm_passwordInput_textField'),
           onEditingComplete: () => FocusScope.of(context).nextFocus(),
           onChanged: (password) =>
-              context.bloc<SignUpCubit>().passwordChanged(password),
+              context.read<SignUpCubit>().passwordChanged(password),
           obscureText: true,
           textInputAction: TextInputAction.done,
           decoration: InputDecoration(
@@ -182,7 +181,7 @@ class _SignUpButton extends StatelessWidget {
             : InkWell(
                 key: const Key('signUpForm_continue_raisedButton'),
                 onTap: state.status.isValidated
-                    ? () => context.bloc<SignUpCubit>().signUpFormSubmitted()
+                    ? () => context.read<SignUpCubit>().signUpFormSubmitted()
                     : null,
                 child: Container(
                   decoration: BoxDecoration(

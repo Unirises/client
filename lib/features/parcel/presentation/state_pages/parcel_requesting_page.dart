@@ -157,7 +157,7 @@ class _ParcelRequestingPageState extends State<ParcelRequestingPage> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              context.bloc<ClientBloc>().add(ClientCancelRide(
+                              context.read<ClientBloc>().add(ClientCancelRide(
                                   (context.read<ClientBloc>().state
                                           as ClientLoaded)
                                       .client

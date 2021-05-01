@@ -237,7 +237,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
                         ),
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
                               return widget.onSubmitFinished(BuiltStop(
@@ -258,9 +258,15 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                               ));
                             }
                           },
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          child: Text('Confirm'),
+                          style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColor,
+                          ),
+                          child: Text(
+                            'Confirm',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ),

@@ -272,7 +272,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                     var formattedDriverRides = [];
 
                                     var rides = (context
-                                            .bloc<ClientBloc>()
+                                            .watch<ClientBloc>()
                                             .state as ClientLoaded)
                                         .client
                                         .rides;
@@ -304,7 +304,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                           .doc(widget.ride.userId)
                                           .update(
                                               {'rides': formattedClientRides});
-                                    } catch (e, st) {
+                                    } catch (e) {
                                       return Flushbar(
                                         title: 'Rating Failure',
                                         message:

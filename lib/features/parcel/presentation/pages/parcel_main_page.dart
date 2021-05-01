@@ -36,7 +36,7 @@ class PabiliMainPage extends StatelessWidget {
                       } else {
                         if (rideState is ParcelRideInitial) {
                           Future.delayed(Duration(seconds: 5), () {
-                            context.bloc<ParcelRideBloc>().add(
+                            context.read<ParcelRideBloc>().add(
                                 StartListenOnParcelRide(
                                     clientState.client.ride_id));
                           });

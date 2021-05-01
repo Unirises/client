@@ -102,7 +102,7 @@ class ParcelInitialPage extends StatelessWidget {
                                                   onSubmitFinished: (data) {
                                                     Navigator.pop(context);
                                                     context
-                                                        .bloc<ParcelBloc>()
+                                                        .read<ParcelBloc>()
                                                         .add(ParcelUpdated(
                                                           data,
                                                           true,
@@ -134,7 +134,7 @@ class ParcelInitialPage extends StatelessWidget {
                                   IconButton(
                                     color: Colors.red,
                                     onPressed: () {
-                                      context.bloc<ParcelBloc>().add(
+                                      context.read<ParcelBloc>().add(
                                           ParcelDeleted(state.pickup, true));
                                     },
                                     icon: Icon(Icons.delete_forever),
@@ -262,7 +262,7 @@ class ParcelInitialPage extends StatelessWidget {
                                               onSubmitFinished: (data) {
                                                 Navigator.pop(context);
                                                 context
-                                                    .bloc<ParcelBloc>()
+                                                    .read<ParcelBloc>()
                                                     .add(ParcelUpdated(
                                                       data,
                                                       state.pickup?.id == null,
@@ -293,7 +293,7 @@ class ParcelInitialPage extends StatelessWidget {
                               IconButton(
                                 color: Colors.red,
                                 onPressed: () {
-                                  context.bloc<ParcelBloc>().add(ParcelDeleted(
+                                  context.read<ParcelBloc>().add(ParcelDeleted(
                                       state.points[index], false));
                                 },
                                 icon: Icon(Icons.delete_forever),
@@ -314,7 +314,7 @@ class ParcelInitialPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8,
                             ),
-                            child: RaisedButton.icon(
+                            child: ElevatedButton.icon(
                                 onPressed: ((state.points != null)
                                         ? state.points.length < 22
                                         : true)
@@ -347,7 +347,7 @@ class ParcelInitialPage extends StatelessWidget {
                                                     onSubmitFinished: (data) {
                                                       Navigator.pop(context);
                                                       context
-                                                          .bloc<ParcelBloc>()
+                                                          .read<ParcelBloc>()
                                                           .add(ParcelAdded(
                                                             data,
                                                             state.pickup?.id ==
@@ -391,10 +391,14 @@ class ParcelInitialPage extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 8,
                                 ),
-                                child: RaisedButton(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      primary: state.type != null
+                                          ? null
+                                          : Theme.of(context).primaryColor),
                                   onPressed: () {
                                     context
-                                        .bloc<ParcelBloc>()
+                                        .read<ParcelBloc>()
                                         .add(ComputeFare());
                                     Navigator.push(
                                       context,
@@ -403,20 +407,20 @@ class ParcelInitialPage extends StatelessWidget {
                                           onSelected: (selected) {
                                             Navigator.pop(context);
                                             context
-                                                .bloc<ParcelBloc>()
+                                                .read<ParcelBloc>()
                                                 .add(TypeUpdated(selected));
                                           },
                                         ),
                                       ),
                                     );
                                   },
-                                  color: state.type != null
-                                      ? null
-                                      : Theme.of(context).primaryColor,
-                                  textColor:
-                                      state.type != null ? null : Colors.white,
                                   child: Text(
-                                      '${state.type != null ? 'Change Vehicle' : 'Select Vehicle'}'),
+                                      '${state.type != null ? 'Change Vehicle' : 'Select Vehicle'}',
+                                      style: TextStyle(
+                                        color: state.type != null
+                                            ? null
+                                            : Colors.white,
+                                      )),
                                 ),
                               ),
                             )
@@ -432,21 +436,21 @@ class ParcelInitialPage extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 8,
                                 ),
-                                child: RaisedButton(
+                                child: ElevatedButton(
                                   onPressed: () {
-                                    context.bloc<ParcelBloc>().add(
+                                    context.read<ParcelBloc>().add(
                                           RequestParcel(
                                               rideBloc: context
-                                                  .bloc<ParcelRideBloc>(),
+                                                  .read<ParcelRideBloc>(),
                                               name: (context
-                                                          .bloc<
+                                                          .read<
                                                               UserCollectionBloc>()
                                                           .state
                                                       as UserCollectionLoaded)
                                                   .userCollection
                                                   .name,
                                               number: (context
-                                                          .bloc<
+                                                          .read<
                                                               UserCollectionBloc>()
                                                           .state
                                                       as UserCollectionLoaded)
@@ -454,10 +458,15 @@ class ParcelInitialPage extends StatelessWidget {
                                                   .phone),
                                         );
                                   },
-                                  color: Theme.of(context).primaryColor,
-                                  textColor: Colors.white,
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Theme.of(context).primaryColor,
+                                  ),
                                   child: Text(
-                                      'Request Parcel Delivery - PHP ${state.subtotal.toStringAsFixed(2)} | ${(state.data['distance'] / 1000).toStringAsFixed(2)} km'),
+                                    'Request Parcel Delivery - PHP ${state.subtotal.toStringAsFixed(2)} | ${(state.data['distance'] / 1000).toStringAsFixed(2)} km',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
                             )
