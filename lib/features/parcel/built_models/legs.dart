@@ -15,7 +15,7 @@ part 'legs.g.dart';
 abstract class Legs implements Built<Legs, LegsBuilder> {
   Legs._();
 
-  factory Legs([updates(LegsBuilder b)]) = _$Legs;
+  factory Legs([updates(LegsBuilder b)?]) = _$Legs;
 
   @BuiltValueField(wireName: 'distance')
   Distance get distance;
@@ -33,7 +33,7 @@ abstract class Legs implements Built<Legs, LegsBuilder> {
     return json.encode(serializers.serializeWith(Legs.serializer, this));
   }
 
-  static Legs fromJson(String jsonString) {
+  static Legs? fromJson(String jsonString) {
     return serializers.deserializeWith(
         Legs.serializer, json.decode(jsonString));
   }

@@ -14,7 +14,7 @@ abstract class MerchantListing
     implements Built<MerchantListing, MerchantListingBuilder> {
   MerchantListing._();
 
-  factory MerchantListing([updates(MerchantListingBuilder b)]) =
+  factory MerchantListing([updates(MerchantListingBuilder b)?]) =
       _$MerchantListing;
   BuiltList<Listing> get listing;
   String toJson() {
@@ -22,7 +22,7 @@ abstract class MerchantListing
         .encode(serializers.serializeWith(MerchantListing.serializer, this));
   }
 
-  static MerchantListing fromJson(String jsonString) {
+  static MerchantListing? fromJson(String jsonString) {
     return serializers.deserializeWith(
         MerchantListing.serializer, json.decode(jsonString));
   }

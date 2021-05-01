@@ -35,17 +35,17 @@ class StopLocationUpdate extends ClientEvent {
 }
 
 class ClientCancelRide extends ClientEvent {
-  final String requestID;
+  final String? requestID;
   const ClientCancelRide(this.requestID);
 
   @override
-  List<Object> get props => [requestID];
+  List<Object?> get props => [requestID];
 }
 
 class ClientCancelFoodRide extends ClientEvent {
-  final String requestID;
+  final String? requestID;
   const ClientCancelFoodRide(this.requestID);
 
   @override
-  List<Object> get props => [requestID];
+  List<Object?> get props => [requestID];
 }

@@ -16,7 +16,7 @@ class FoodRideBloc extends Bloc<FoodRideEvent, FoodRideState> {
   final driversRepository = FirebaseFirestore.instance.collection('drivers');
   final clientsRepository = FirebaseFirestore.instance.collection('clients');
 
-  StreamSubscription _rideSubscription;
+  StreamSubscription? _rideSubscription;
 
   FoodRideBloc() : super(FoodRideInitial());
 
@@ -39,13 +39,13 @@ class FoodRideBloc extends Bloc<FoodRideEvent, FoodRideState> {
         print(e);
         await FirebaseFirestore.instance
             .collection('clients')
-            .doc(FirebaseAuth.instance.currentUser.uid)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .update({'delivery_status': 'idle'});
         yield FoodRideFailure();
       }
     } else if (event is FoodRideUpdated) {
       try {
-        switch (event.ride.status) {
+        switch (event.ride!.status) {
           case 'completed':
             this.add(AddFinishedFoodRideToUser(event.ride));
             this.add(StopListenOnFoodRide());
@@ -62,7 +62,7 @@ class FoodRideBloc extends Bloc<FoodRideEvent, FoodRideState> {
         print(e);
         await FirebaseFirestore.instance
             .collection('clients')
-            .doc(FirebaseAuth.instance.currentUser.uid)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .update({'delivery_status': 'idle'});
         yield FoodRideFailure();
       }
@@ -70,23 +70,23 @@ class FoodRideBloc extends Bloc<FoodRideEvent, FoodRideState> {
       _rideSubscription?.cancel();
       yield FoodRideInitial();
     } else if (event is AddFinishedFoodRideToUser) {
-      if (event.ride.status == 'completed' ||
-          event.ride.status == 'cancelled') {
+      if (event.ride!.status == 'completed' ||
+          event.ride!.status == 'cancelled') {
         try {
           await clientsRepository
-              .doc(FirebaseAuth.instance.currentUser.uid)
+              .doc(FirebaseAuth.instance.currentUser!.uid)
               .update({
-            'rides': FieldValue.arrayUnion([json.decode(event.ride.toJson())])
+            'rides': FieldValue.arrayUnion([json.decode(event.ride!.toJson())])
           });
-          await driversRepository.doc(event.ride.driverId).update({
-            'rides': FieldValue.arrayUnion([json.decode(event.ride.toJson())]),
+          await driversRepository.doc(event.ride!.driverId).update({
+            'rides': FieldValue.arrayUnion([json.decode(event.ride!.toJson())]),
           });
         } catch (e) {
           print('Failed updating client and driver rides.');
           print(e);
           await FirebaseFirestore.instance
               .collection('clients')
-              .doc(FirebaseAuth.instance.currentUser.uid)
+              .doc(FirebaseAuth.instance.currentUser!.uid)
               .update({'delivery_status': 'idle'});
           yield FoodRideFailure();
         }

@@ -34,7 +34,7 @@ class FoodIdlePage extends StatelessWidget {
             } else if (checkoutState is CheckoutLoadSuccess) {
               return Scaffold(
                 floatingActionButton: checkoutState.items != null &&
-                        checkoutState.items.length > 0
+                        checkoutState.items!.length > 0
                     ? FloatingActionButton(
                         backgroundColor: Theme.of(context).primaryColor,
                         onPressed: () {
@@ -55,7 +55,7 @@ class FoodIdlePage extends StatelessWidget {
                           style: TextStyle(fontSize: 24),
                         ),
                       ),
-                      (state.merchants == null || state.merchants.length < 1)
+                      (state.merchants.isEmpty)
                           ? Center(
                               child: Text(
                                 'No restaurants available.',
@@ -66,7 +66,7 @@ class FoodIdlePage extends StatelessWidget {
                               child: ListView.builder(
                                   itemBuilder: (context, index) {
                                     return GestureDetector(
-                                      onTap: (!state.merchants[index].isOpen)
+                                      onTap: (!state.merchants[index].isOpen!)
                                           ? null
                                           : () {
                                               if (checkoutState.merchant ==
@@ -89,8 +89,8 @@ class FoodIdlePage extends StatelessWidget {
                                               } else {
                                                 if (state.merchants[index]
                                                         .companyName ==
-                                                    checkoutState
-                                                        .merchant.companyName) {
+                                                    checkoutState.merchant!
+                                                        .companyName) {
                                                   context
                                                       .read<CheckoutBloc>()
                                                       .add(CheckoutStoreUpdated(
@@ -106,7 +106,7 @@ class FoodIdlePage extends StatelessWidget {
                                                   if (checkoutState.items ==
                                                           null ||
                                                       checkoutState
-                                                              .items.length <
+                                                              .items!.length <
                                                           1) {
                                                     context
                                                         .read<CheckoutBloc>()
@@ -121,7 +121,7 @@ class FoodIdlePage extends StatelessWidget {
                                                               .merchants[index],
                                                         ));
                                                   } else {
-                                                    return Flushbar(
+                                                    Flushbar(
                                                       title:
                                                           'Restaurant Selection Failed',
                                                       message:
@@ -132,6 +132,7 @@ class FoodIdlePage extends StatelessWidget {
                                                       flushbarPosition:
                                                           FlushbarPosition.TOP,
                                                     )..show(context);
+                                                    return null;
                                                   }
                                                 }
                                               }
@@ -149,10 +150,7 @@ class FoodIdlePage extends StatelessWidget {
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                       image: DecorationImage(
-                                                          image: state
-                                                                      .merchants[
-                                                                          index]
-                                                                      .hero !=
+                                                          image: (state.merchants[index].hero !=
                                                                   null
                                                               ? NetworkImage(state
                                                                       .merchants[
@@ -160,7 +158,8 @@ class FoodIdlePage extends StatelessWidget {
                                                                       .hero ??
                                                                   'https://live.staticflickr.com/3780/9134266649_3d2f1af95b_z.jpg')
                                                               : AssetImage(
-                                                                  'assets/default-hero.jpg'),
+                                                                  'assets/default-hero.jpg')) as ImageProvider<
+                                                              Object>,
                                                           fit: BoxFit.cover)),
                                                 ),
                                               ),
@@ -181,7 +180,7 @@ class FoodIdlePage extends StatelessWidget {
                                                       children: <Widget>[
                                                         Text(
                                                           state.merchants[index]
-                                                              .companyName,
+                                                              .companyName!,
                                                           style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,
@@ -189,10 +188,10 @@ class FoodIdlePage extends StatelessWidget {
                                                           ),
                                                         ),
                                                         Expanded(
-                                                          child: (state
+                                                          child: state
                                                                   .merchants[
                                                                       index]
-                                                                  .isOpen)
+                                                                  .isOpen!
                                                               ? TimeLocationWidget(
                                                                   merchant: state
                                                                           .merchants[

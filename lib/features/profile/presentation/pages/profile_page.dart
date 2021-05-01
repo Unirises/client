@@ -15,7 +15,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  File profilePicture;
+  File? profilePicture;
 
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -24,20 +24,20 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final userCollection =
-        context.watch<UserCollectionBloc>().state.userCollection;
+        context.watch<UserCollectionBloc>().state.userCollection!;
 
     _nameController.value = TextEditingValue(
-      text: userCollection.name,
+      text: userCollection.name!,
       selection: TextSelection.fromPosition(
         TextPosition(
-            offset: FirebaseAuth.instance.currentUser.displayName.length),
+            offset: FirebaseAuth.instance.currentUser!.displayName!.length),
       ),
     );
     if (userCollection.phone != null) {
       _phoneController.value = TextEditingValue(
-        text: userCollection.phone,
+        text: userCollection.phone!,
         selection: TextSelection.fromPosition(
-          TextPosition(offset: userCollection.phone.length),
+          TextPosition(offset: userCollection.phone!.length),
         ),
       );
     }
@@ -85,14 +85,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: (profilePicture == null)
                           ? ProfilePictureWidget(
                               radius: 100,
-                              url: state.userCollection.photo,
+                              url: state.userCollection!.photo,
                             )
                           : CircleAvatar(
                               radius: 100,
                               backgroundColor: Colors.transparent,
                               child: CircleAvatar(
                                 radius: 100,
-                                backgroundImage: FileImage(profilePicture),
+                                backgroundImage: FileImage(profilePicture!),
                               ),
                             ),
                     ),
@@ -106,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             TextFormField(
                               keyboardType: TextInputType.emailAddress,
                               enabled: false,
-                              initialValue: state.userCollection.email,
+                              initialValue: state.userCollection!.email,
                               decoration: const InputDecoration(
                                 labelText: 'Email Address',
                               ),
@@ -116,8 +116,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               controller: _nameController,
                               onFieldSubmitted: (_) =>
                                   FocusScope.of(context).nextFocus(),
-                              validator: (String value) {
-                                if (value.isEmpty) {
+                              validator: (String? value) {
+                                if (value!.isEmpty) {
                                   return 'Please enter your full name.';
                                 }
                                 return null;
@@ -135,8 +135,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   FocusScope.of(context).unfocus(),
                               keyboardType: TextInputType.phone,
                               textInputAction: TextInputAction.done,
-                              validator: (String value) {
-                                if (value.isEmpty) {
+                              validator: (String? value) {
+                                if (value!.isEmpty) {
                                   return 'Please enter your phone number.';
                                 }
                                 if (!RegExp(r'^(09|\+639)\d{9}$')
@@ -153,10 +153,10 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             TextButton.icon(
                                 onPressed: () async {
-                                  if (_formKey.currentState.validate()) {
+                                  if (_formKey.currentState!.validate()) {
                                     if (profilePicture != null) {
                                       final user =
-                                          FirebaseAuth.instance.currentUser;
+                                          FirebaseAuth.instance.currentUser!;
 
                                       final profileImageReference =
                                           FirebaseStorage.instance
@@ -164,7 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               .child('profile/${user.uid}.jpg');
                                       final uploadTask =
                                           await profileImageReference
-                                              .putFile(profilePicture);
+                                              .putFile(profilePicture!);
                                       final url = (await uploadTask.ref
                                           .getDownloadURL());
 
@@ -181,7 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       );
                                     } else {
                                       final user =
-                                          FirebaseAuth.instance.currentUser;
+                                          FirebaseAuth.instance.currentUser!;
 
                                       await user.updateProfile(
                                           displayName: _nameController.text);

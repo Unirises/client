@@ -16,7 +16,7 @@ class ParcelRequestingPage extends StatefulWidget {
 class _ParcelRequestingPageState extends State<ParcelRequestingPage> {
   final polyLines = PolylinePoints();
   Completer<GoogleMapController> _controller = Completer();
-  GoogleMapController mapController;
+  late GoogleMapController mapController;
 
   @override
   Widget build(BuildContext context) {
@@ -33,33 +33,33 @@ class _ParcelRequestingPageState extends State<ParcelRequestingPage> {
         } else if (state is ParcelRideLoaded) {
           final bounds = LatLngBounds(
             southwest: LatLng(
-              state.request.directions.routes.first.bounds.southwest.lat,
-              state.request.directions.routes.first.bounds.southwest.lng,
+              state.request!.directions!.routes!.first.bounds!.southwest!.lat!,
+              state.request!.directions!.routes!.first.bounds!.southwest!.lng!,
             ),
             northeast: LatLng(
-              state.request.directions.routes.first.bounds.northeast.lat,
-              state.request.directions.routes.first.bounds.northeast.lng,
+              state.request!.directions!.routes!.first.bounds!.northeast!.lat!,
+              state.request!.directions!.routes!.first.bounds!.northeast!.lng!,
             ),
           );
           final listOfLatLng = polyLines
               .decodePolyline(
-                  state.request.directions.routes.first.overviewPolyline.points)
+                  state.request!.directions!.routes!.first.overviewPolyline!.points!)
               .map((e) => LatLng(e.latitude, e.longitude))
               .toList();
           final Set<Marker> markers = {};
 
           markers.add(Marker(
               markerId: MarkerId('start'),
-              position: LatLng(state.request.pickup.location.lat,
-                  state.request.pickup.location.lng),
+              position: LatLng(state.request!.pickup!.location!.lat!,
+                  state.request!.pickup!.location!.lng!),
               infoWindow: InfoWindow(title: 'Start')));
 
-          for (var i = 0; i < state.request.points.length; i++) {
+          for (var i = 0; i < state.request!.points!.length; i++) {
             markers.add(Marker(
                 markerId: MarkerId(String.fromCharCode(i)),
-                position: LatLng(state.request.points[i].location.lat,
-                    state.request.points[i].location.lng),
-                infoWindow: InfoWindow(title: state.request.points[i].name)));
+                position: LatLng(state.request!.points![i].location!.lat!,
+                    state.request!.points![i].location!.lng!),
+                infoWindow: InfoWindow(title: state.request!.points![i].name)));
           }
 
           return Scaffold(
@@ -141,7 +141,7 @@ class _ParcelRequestingPageState extends State<ParcelRequestingPage> {
                                       color: Colors.black, fontSize: 22.0),
                                 ),
                                 Text(
-                                  'Pick-up at: ${state.request.pickup.address}',
+                                  'Pick-up at: ${state.request!.pickup!.address}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.grey,

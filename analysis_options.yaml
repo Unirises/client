@@ -1,3 +1,9 @@
 analyzer:
   exclude:
     - tmp/lib/**
+  errors:
+    unnecessary_non_null_assertion: ignore
+
+linter:
+  rules:
+    unnecessary_non_null_assertion: false

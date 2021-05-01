@@ -17,9 +17,9 @@ class _$AdditionalListingSerializer
   final String wireName = 'AdditionalListing';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, AdditionalListing object,
+  Iterable<Object?> serialize(Serializers serializers, AdditionalListing object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'additionalPrice',
       serializers.serialize(object.additionalPrice,
           specifiedType: const FullType(num)),
@@ -29,18 +29,20 @@ class _$AdditionalListingSerializer
       serializers.serialize(object.additionalSKU,
           specifiedType: const FullType(String)),
     ];
-    if (object.isSelected != null) {
+    Object? value;
+    value = object.isSelected;
+    if (value != null) {
       result
         ..add('isSelected')
-        ..add(serializers.serialize(object.isSelected,
-            specifiedType: const FullType(bool)));
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
     return result;
   }
 
   @override
   AdditionalListing deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new AdditionalListingBuilder();
 
@@ -48,7 +50,7 @@ class _$AdditionalListingSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'additionalPrice':
           result.additionalPrice = serializers.deserialize(value,
@@ -79,27 +81,25 @@ class _$AdditionalListing extends AdditionalListing {
   @override
   final String name;
   @override
-  final bool isSelected;
+  final bool? isSelected;
   @override
   final String additionalSKU;
 
   factory _$AdditionalListing(
-          [void Function(AdditionalListingBuilder) updates]) =>
+          [void Function(AdditionalListingBuilder)? updates]) =>
       (new AdditionalListingBuilder()..update(updates)).build();
 
   _$AdditionalListing._(
-      {this.additionalPrice, this.name, this.isSelected, this.additionalSKU})
+      {required this.additionalPrice,
+      required this.name,
+      this.isSelected,
+      required this.additionalSKU})
       : super._() {
-    if (additionalPrice == null) {
-      throw new BuiltValueNullFieldError(
-          'AdditionalListing', 'additionalPrice');
-    }
-    if (name == null) {
-      throw new BuiltValueNullFieldError('AdditionalListing', 'name');
-    }
-    if (additionalSKU == null) {
-      throw new BuiltValueNullFieldError('AdditionalListing', 'additionalSKU');
-    }
+    BuiltValueNullFieldError.checkNotNull(
+        additionalPrice, 'AdditionalListing', 'additionalPrice');
+    BuiltValueNullFieldError.checkNotNull(name, 'AdditionalListing', 'name');
+    BuiltValueNullFieldError.checkNotNull(
+        additionalSKU, 'AdditionalListing', 'additionalSKU');
   }
 
   @override
@@ -141,34 +141,35 @@ class _$AdditionalListing extends AdditionalListing {
 
 class AdditionalListingBuilder
     implements Builder<AdditionalListing, AdditionalListingBuilder> {
-  _$AdditionalListing _$v;
+  _$AdditionalListing? _$v;
 
-  num _additionalPrice;
-  num get additionalPrice => _$this._additionalPrice;
-  set additionalPrice(num additionalPrice) =>
+  num? _additionalPrice;
+  num? get additionalPrice => _$this._additionalPrice;
+  set additionalPrice(num? additionalPrice) =>
       _$this._additionalPrice = additionalPrice;
 
-  String _name;
-  String get name => _$this._name;
-  set name(String name) => _$this._name = name;
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
 
-  bool _isSelected;
-  bool get isSelected => _$this._isSelected;
-  set isSelected(bool isSelected) => _$this._isSelected = isSelected;
+  bool? _isSelected;
+  bool? get isSelected => _$this._isSelected;
+  set isSelected(bool? isSelected) => _$this._isSelected = isSelected;
 
-  String _additionalSKU;
-  String get additionalSKU => _$this._additionalSKU;
-  set additionalSKU(String additionalSKU) =>
+  String? _additionalSKU;
+  String? get additionalSKU => _$this._additionalSKU;
+  set additionalSKU(String? additionalSKU) =>
       _$this._additionalSKU = additionalSKU;
 
   AdditionalListingBuilder();
 
   AdditionalListingBuilder get _$this {
-    if (_$v != null) {
-      _additionalPrice = _$v.additionalPrice;
-      _name = _$v.name;
-      _isSelected = _$v.isSelected;
-      _additionalSKU = _$v.additionalSKU;
+    final $v = _$v;
+    if ($v != null) {
+      _additionalPrice = $v.additionalPrice;
+      _name = $v.name;
+      _isSelected = $v.isSelected;
+      _additionalSKU = $v.additionalSKU;
       _$v = null;
     }
     return this;
@@ -176,14 +177,12 @@ class AdditionalListingBuilder
 
   @override
   void replace(AdditionalListing other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$AdditionalListing;
   }
 
   @override
-  void update(void Function(AdditionalListingBuilder) updates) {
+  void update(void Function(AdditionalListingBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -191,10 +190,13 @@ class AdditionalListingBuilder
   _$AdditionalListing build() {
     final _$result = _$v ??
         new _$AdditionalListing._(
-            additionalPrice: additionalPrice,
-            name: name,
+            additionalPrice: BuiltValueNullFieldError.checkNotNull(
+                additionalPrice, 'AdditionalListing', 'additionalPrice'),
+            name: BuiltValueNullFieldError.checkNotNull(
+                name, 'AdditionalListing', 'name'),
             isSelected: isSelected,
-            additionalSKU: additionalSKU);
+            additionalSKU: BuiltValueNullFieldError.checkNotNull(
+                additionalSKU, 'AdditionalListing', 'additionalSKU'));
     replace(_$result);
     return _$result;
   }

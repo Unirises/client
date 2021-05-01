@@ -76,13 +76,11 @@ void main() async {
 
 class App extends StatefulWidget {
   const App({
-    Key key,
-    @required this.authenticationRepository,
-    @required this.userFirestoreRepository,
-    @required this.clientRepository,
-  })  : assert(
-            authenticationRepository != null, userFirestoreRepository != null),
-        super(key: key);
+    Key? key,
+    required this.authenticationRepository,
+    required this.userFirestoreRepository,
+    required this.clientRepository,
+  }) : super(key: key);
 
   final AuthenticationRepository authenticationRepository;
   final UserFirestoreRepository userFirestoreRepository;

@@ -15,9 +15,9 @@ class _$AdditionalsSerializer implements StructuredSerializer<Additionals> {
   final String wireName = 'Additionals';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Additionals object,
+  Iterable<Object?> serialize(Serializers serializers, Additionals object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'minMax',
       serializers.serialize(object.minMax,
           specifiedType:
@@ -37,7 +37,7 @@ class _$AdditionalsSerializer implements StructuredSerializer<Additionals> {
   }
 
   @override
-  Additionals deserialize(Serializers serializers, Iterable<Object> serialized,
+  Additionals deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new AdditionalsBuilder();
 
@@ -45,18 +45,18 @@ class _$AdditionalsSerializer implements StructuredSerializer<Additionals> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'minMax':
           result.minMax.replace(serializers.deserialize(value,
                   specifiedType:
-                      const FullType(BuiltList, const [const FullType(int)]))
+                      const FullType(BuiltList, const [const FullType(int)]))!
               as BuiltList<Object>);
           break;
         case 'additionalListing':
           result.additionalListing.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(AdditionalListing)]))
+                      BuiltList, const [const FullType(AdditionalListing)]))!
               as BuiltList<Object>);
           break;
         case 'type':
@@ -84,24 +84,21 @@ class _$Additionals extends Additionals {
   @override
   final String additionalName;
 
-  factory _$Additionals([void Function(AdditionalsBuilder) updates]) =>
+  factory _$Additionals([void Function(AdditionalsBuilder)? updates]) =>
       (new AdditionalsBuilder()..update(updates)).build();
 
   _$Additionals._(
-      {this.minMax, this.additionalListing, this.type, this.additionalName})
+      {required this.minMax,
+      required this.additionalListing,
+      required this.type,
+      required this.additionalName})
       : super._() {
-    if (minMax == null) {
-      throw new BuiltValueNullFieldError('Additionals', 'minMax');
-    }
-    if (additionalListing == null) {
-      throw new BuiltValueNullFieldError('Additionals', 'additionalListing');
-    }
-    if (type == null) {
-      throw new BuiltValueNullFieldError('Additionals', 'type');
-    }
-    if (additionalName == null) {
-      throw new BuiltValueNullFieldError('Additionals', 'additionalName');
-    }
+    BuiltValueNullFieldError.checkNotNull(minMax, 'Additionals', 'minMax');
+    BuiltValueNullFieldError.checkNotNull(
+        additionalListing, 'Additionals', 'additionalListing');
+    BuiltValueNullFieldError.checkNotNull(type, 'Additionals', 'type');
+    BuiltValueNullFieldError.checkNotNull(
+        additionalName, 'Additionals', 'additionalName');
   }
 
   @override
@@ -141,35 +138,36 @@ class _$Additionals extends Additionals {
 }
 
 class AdditionalsBuilder implements Builder<Additionals, AdditionalsBuilder> {
-  _$Additionals _$v;
+  _$Additionals? _$v;
 
-  ListBuilder<int> _minMax;
+  ListBuilder<int>? _minMax;
   ListBuilder<int> get minMax => _$this._minMax ??= new ListBuilder<int>();
-  set minMax(ListBuilder<int> minMax) => _$this._minMax = minMax;
+  set minMax(ListBuilder<int>? minMax) => _$this._minMax = minMax;
 
-  ListBuilder<AdditionalListing> _additionalListing;
+  ListBuilder<AdditionalListing>? _additionalListing;
   ListBuilder<AdditionalListing> get additionalListing =>
       _$this._additionalListing ??= new ListBuilder<AdditionalListing>();
-  set additionalListing(ListBuilder<AdditionalListing> additionalListing) =>
+  set additionalListing(ListBuilder<AdditionalListing>? additionalListing) =>
       _$this._additionalListing = additionalListing;
 
-  String _type;
-  String get type => _$this._type;
-  set type(String type) => _$this._type = type;
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
 
-  String _additionalName;
-  String get additionalName => _$this._additionalName;
-  set additionalName(String additionalName) =>
+  String? _additionalName;
+  String? get additionalName => _$this._additionalName;
+  set additionalName(String? additionalName) =>
       _$this._additionalName = additionalName;
 
   AdditionalsBuilder();
 
   AdditionalsBuilder get _$this {
-    if (_$v != null) {
-      _minMax = _$v.minMax?.toBuilder();
-      _additionalListing = _$v.additionalListing?.toBuilder();
-      _type = _$v.type;
-      _additionalName = _$v.additionalName;
+    final $v = _$v;
+    if ($v != null) {
+      _minMax = $v.minMax.toBuilder();
+      _additionalListing = $v.additionalListing.toBuilder();
+      _type = $v.type;
+      _additionalName = $v.additionalName;
       _$v = null;
     }
     return this;
@@ -177,14 +175,12 @@ class AdditionalsBuilder implements Builder<Additionals, AdditionalsBuilder> {
 
   @override
   void replace(Additionals other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Additionals;
   }
 
   @override
-  void update(void Function(AdditionalsBuilder) updates) {
+  void update(void Function(AdditionalsBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -196,10 +192,12 @@ class AdditionalsBuilder implements Builder<Additionals, AdditionalsBuilder> {
           new _$Additionals._(
               minMax: minMax.build(),
               additionalListing: additionalListing.build(),
-              type: type,
-              additionalName: additionalName);
+              type: BuiltValueNullFieldError.checkNotNull(
+                  type, 'Additionals', 'type'),
+              additionalName: BuiltValueNullFieldError.checkNotNull(
+                  additionalName, 'Additionals', 'additionalName'));
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'minMax';
         minMax.build();

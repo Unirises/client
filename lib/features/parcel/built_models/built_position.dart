@@ -16,14 +16,14 @@ abstract class BuiltPosition
   num get timestamp;
   BuiltPosition._();
 
-  factory BuiltPosition([updates(BuiltPositionBuilder b)]) = _$BuiltPosition;
+  factory BuiltPosition([updates(BuiltPositionBuilder b)?]) = _$BuiltPosition;
 
   String toJson() {
     return json
         .encode(serializers.serializeWith(BuiltPosition.serializer, this));
   }
 
-  static BuiltPosition fromJson(String jsonString) {
+  static BuiltPosition? fromJson(String jsonString) {
     return serializers.deserializeWith(
         BuiltPosition.serializer, json.decode(jsonString));
   }

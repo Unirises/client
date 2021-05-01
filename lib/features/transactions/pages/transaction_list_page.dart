@@ -11,39 +11,39 @@ class TransactionListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var state = context.watch<ClientBloc>().state as ClientLoaded;
-    state.client.rides.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+    state.client.rides!.sort((a, b) => b.timestamp.compareTo(a.timestamp));
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text('Transactions'),
       ),
-      body: (state.client.rides != null && state.client.rides.length > 0)
+      body: (state.client.rides != null && state.client.rides!.length > 0)
           ? ListView.builder(
               itemBuilder: (context, index) {
-                BuiltRequest item = state.client.rides[index];
-                var date = DateTime.fromMillisecondsSinceEpoch(item.timestamp);
+                BuiltRequest item = state.client.rides![index];
+                var date = DateTime.fromMillisecondsSinceEpoch(item.timestamp as int);
                 return ListTile(
                   onTap: () => pushNewScreen(context,
                       screen: TransactionPage(ride: item)),
-                  title: Text(item.isParcel ? 'Parcel Delivery' : 'Merchants'),
+                  title: Text(item.isParcel! ? 'Parcel Delivery' : 'Merchants'),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(timeago.format(date)),
                       Text(
-                          '${state.client.rides[index].rating.toStringAsFixed(0)} star rating')
+                          '${state.client.rides![index].rating.toStringAsFixed(0)} star rating')
                     ],
                   ),
                   leading: Text(
                       item.status == 'completed' ? 'Completed' : 'Cancelled'),
                   trailing: Text('PHP ' +
-                      (item.isParcel
-                          ? item.fee.toStringAsFixed(2)
-                          : (item.fee + item.subtotal).toStringAsFixed(2))),
+                      (item.isParcel!
+                          ? item.fee!.toStringAsFixed(2)
+                          : (item.fee! + item.subtotal!).toStringAsFixed(2))),
                 );
               },
-              itemCount: state.client.rides.length,
+              itemCount: state.client.rides!.length,
             )
           : Center(
               child: Text('You do not have any transactions yet.'),

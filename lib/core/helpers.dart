@@ -1,7 +1,7 @@
-  num computeFare(String type, num distance, bool isAddtlStop) {
+  num computeFare(String? type, num? distance, bool isAddtlStop) {
     var baseFare = 0;
     var addtlStop = 0;
-    var perKm;
+    late var perKm;
     switch (type) {
       case 'motorcycle':
         baseFare = 50;
@@ -25,6 +25,6 @@
         break;
     }
     return baseFare +
-        (perKm * (distance / 1000)) +
+        (perKm * (distance! / 1000)) +
         (isAddtlStop ? addtlStop : 0);
   }

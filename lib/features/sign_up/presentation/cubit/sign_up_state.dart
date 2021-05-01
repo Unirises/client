@@ -81,18 +81,18 @@ class SignUpState extends Equatable {
   final Email email;
   final Password password;
   final FormzStatus status;
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [name, phone, email, password, status, message];
+  List<Object?> get props => [name, phone, email, password, status, message];
 
   SignUpState copyWith({
-    Name name,
-    Phone phone,
-    Email email,
-    Password password,
-    FormzStatus status,
-    String message,
+    Name? name,
+    Phone? phone,
+    Email? email,
+    Password? password,
+    FormzStatus? status,
+    String? message,
   }) {
     return SignUpState(
       name: name ?? this.name,

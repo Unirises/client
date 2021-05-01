@@ -15,9 +15,9 @@ class _$BoundsSerializer implements StructuredSerializer<Bounds> {
   final String wireName = 'Bounds';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Bounds object,
+  Iterable<Object?> serialize(Serializers serializers, Bounds object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'northeast',
       serializers.serialize(object.northeast,
           specifiedType: const FullType(Location)),
@@ -30,7 +30,7 @@ class _$BoundsSerializer implements StructuredSerializer<Bounds> {
   }
 
   @override
-  Bounds deserialize(Serializers serializers, Iterable<Object> serialized,
+  Bounds deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new BoundsBuilder();
 
@@ -38,15 +38,15 @@ class _$BoundsSerializer implements StructuredSerializer<Bounds> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'northeast':
           result.northeast.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Location)) as Location);
+              specifiedType: const FullType(Location))! as Location);
           break;
         case 'southwest':
           result.southwest.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Location)) as Location);
+              specifiedType: const FullType(Location))! as Location);
           break;
       }
     }
@@ -61,16 +61,12 @@ class _$Bounds extends Bounds {
   @override
   final Location southwest;
 
-  factory _$Bounds([void Function(BoundsBuilder) updates]) =>
+  factory _$Bounds([void Function(BoundsBuilder)? updates]) =>
       (new BoundsBuilder()..update(updates)).build();
 
-  _$Bounds._({this.northeast, this.southwest}) : super._() {
-    if (northeast == null) {
-      throw new BuiltValueNullFieldError('Bounds', 'northeast');
-    }
-    if (southwest == null) {
-      throw new BuiltValueNullFieldError('Bounds', 'southwest');
-    }
+  _$Bounds._({required this.northeast, required this.southwest}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(northeast, 'Bounds', 'northeast');
+    BuiltValueNullFieldError.checkNotNull(southwest, 'Bounds', 'southwest');
   }
 
   @override
@@ -103,22 +99,23 @@ class _$Bounds extends Bounds {
 }
 
 class BoundsBuilder implements Builder<Bounds, BoundsBuilder> {
-  _$Bounds _$v;
+  _$Bounds? _$v;
 
-  LocationBuilder _northeast;
+  LocationBuilder? _northeast;
   LocationBuilder get northeast => _$this._northeast ??= new LocationBuilder();
-  set northeast(LocationBuilder northeast) => _$this._northeast = northeast;
+  set northeast(LocationBuilder? northeast) => _$this._northeast = northeast;
 
-  LocationBuilder _southwest;
+  LocationBuilder? _southwest;
   LocationBuilder get southwest => _$this._southwest ??= new LocationBuilder();
-  set southwest(LocationBuilder southwest) => _$this._southwest = southwest;
+  set southwest(LocationBuilder? southwest) => _$this._southwest = southwest;
 
   BoundsBuilder();
 
   BoundsBuilder get _$this {
-    if (_$v != null) {
-      _northeast = _$v.northeast?.toBuilder();
-      _southwest = _$v.southwest?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _northeast = $v.northeast.toBuilder();
+      _southwest = $v.southwest.toBuilder();
       _$v = null;
     }
     return this;
@@ -126,14 +123,12 @@ class BoundsBuilder implements Builder<Bounds, BoundsBuilder> {
 
   @override
   void replace(Bounds other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Bounds;
   }
 
   @override
-  void update(void Function(BoundsBuilder) updates) {
+  void update(void Function(BoundsBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -145,7 +140,7 @@ class BoundsBuilder implements Builder<Bounds, BoundsBuilder> {
           new _$Bounds._(
               northeast: northeast.build(), southwest: southwest.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'northeast';
         northeast.build();

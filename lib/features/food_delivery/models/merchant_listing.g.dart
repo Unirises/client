@@ -17,9 +17,9 @@ class _$MerchantListingSerializer
   final String wireName = 'MerchantListing';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, MerchantListing object,
+  Iterable<Object?> serialize(Serializers serializers, MerchantListing object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'listing',
       serializers.serialize(object.listing,
           specifiedType:
@@ -31,7 +31,7 @@ class _$MerchantListingSerializer
 
   @override
   MerchantListing deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new MerchantListingBuilder();
 
@@ -39,12 +39,12 @@ class _$MerchantListingSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'listing':
           result.listing.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(Listing)]))
+                      BuiltList, const [const FullType(Listing)]))!
               as BuiltList<Object>);
           break;
       }
@@ -58,13 +58,12 @@ class _$MerchantListing extends MerchantListing {
   @override
   final BuiltList<Listing> listing;
 
-  factory _$MerchantListing([void Function(MerchantListingBuilder) updates]) =>
+  factory _$MerchantListing([void Function(MerchantListingBuilder)? updates]) =>
       (new MerchantListingBuilder()..update(updates)).build();
 
-  _$MerchantListing._({this.listing}) : super._() {
-    if (listing == null) {
-      throw new BuiltValueNullFieldError('MerchantListing', 'listing');
-    }
+  _$MerchantListing._({required this.listing}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        listing, 'MerchantListing', 'listing');
   }
 
   @override
@@ -96,18 +95,19 @@ class _$MerchantListing extends MerchantListing {
 
 class MerchantListingBuilder
     implements Builder<MerchantListing, MerchantListingBuilder> {
-  _$MerchantListing _$v;
+  _$MerchantListing? _$v;
 
-  ListBuilder<Listing> _listing;
+  ListBuilder<Listing>? _listing;
   ListBuilder<Listing> get listing =>
       _$this._listing ??= new ListBuilder<Listing>();
-  set listing(ListBuilder<Listing> listing) => _$this._listing = listing;
+  set listing(ListBuilder<Listing>? listing) => _$this._listing = listing;
 
   MerchantListingBuilder();
 
   MerchantListingBuilder get _$this {
-    if (_$v != null) {
-      _listing = _$v.listing?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _listing = $v.listing.toBuilder();
       _$v = null;
     }
     return this;
@@ -115,14 +115,12 @@ class MerchantListingBuilder
 
   @override
   void replace(MerchantListing other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$MerchantListing;
   }
 
   @override
-  void update(void Function(MerchantListingBuilder) updates) {
+  void update(void Function(MerchantListingBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -132,7 +130,7 @@ class MerchantListingBuilder
     try {
       _$result = _$v ?? new _$MerchantListing._(listing: listing.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'listing';
         listing.build();

@@ -16,19 +16,19 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
     var state = (context.watch<FoodRideBloc>().state as FoodRideLoaded);
     var listOflatLng = PolylinePoints()
         .decodePolyline(
-            state.request.directions.routes.first.overviewPolyline.points)
+            state.request!.directions!.routes!.first.overviewPolyline!.points!)
         .map((e) => LatLng(e.latitude, e.longitude))
         .toList();
-    var now = DateTime.fromMillisecondsSinceEpoch(state.request.timestamp);
+    var now = DateTime.fromMillisecondsSinceEpoch(state.request!.timestamp as int);
     now = now.add(Duration(
-        minutes: (state.request.averageTimePreparation == null)
+        minutes: (state.request!.averageTimePreparation == null)
             ? 0
-            : state.request.averageTimePreparation));
+            : state.request!.averageTimePreparation as int));
     now = now.add(Duration(minutes: 3));
     var optimistic = DateFormat('hh:mm a').format(
-        now.add(Duration(seconds: state.request.destination.duration.value)));
+        now.add(Duration(seconds: state.request!.destination!.duration!.value!)));
     var pessmistic = DateFormat('hh:mm a').format(now
-        .add(Duration(seconds: state.request.destination.duration.value))
+        .add(Duration(seconds: state.request!.destination!.duration!.value!))
         .add(Duration(minutes: 35)));
     return Stack(
       children: [
@@ -44,15 +44,15 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
           },
           cameraTargetBounds: CameraTargetBounds(LatLngBounds(
             northeast: LatLng(
-                state.request.directions.routes.first.bounds.northeast.lat,
-                state.request.directions.routes.first.bounds.northeast.lng),
+                state.request!.directions!.routes!.first.bounds!.northeast!.lat!,
+                state.request!.directions!.routes!.first.bounds!.northeast!.lng!),
             southwest: LatLng(
-                state.request.directions.routes.first.bounds.southwest.lat,
-                state.request.directions.routes.first.bounds.southwest.lng),
+                state.request!.directions!.routes!.first.bounds!.southwest!.lat!,
+                state.request!.directions!.routes!.first.bounds!.southwest!.lng!),
           )),
           initialCameraPosition: CameraPosition(
-            target: LatLng(state.request.position.latitude,
-                state.request.position.longitude),
+            target: LatLng(state.request!.position!.latitude as double,
+                state.request!.position!.longitude as double),
             zoom: 18,
           ),
           myLocationButtonEnabled: true,
@@ -145,7 +145,7 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    state.request.driverName ??
+                                    state.request!.driverName ??
                                         'No Driver Name',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -153,11 +153,11 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
                                     ),
                                   ),
                                   Row(children: [
-                                    Text(state.request.vehicleData.brand + ' '),
-                                    Text(state.request.vehicleData.model + ' '),
-                                    Text(state.request.vehicleData.color + ' '),
+                                    Text(state.request!.vehicleData!.brand! + ' '),
+                                    Text(state.request!.vehicleData!.model! + ' '),
+                                    Text(state.request!.vehicleData!.color! + ' '),
                                     Text(' - '),
-                                    Text(state.request.vehicleData.plate)
+                                    Text(state.request!.vehicleData!.plate!)
                                   ]),
                                 ],
                               ),
@@ -170,7 +170,7 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
                         Divider(),
                         IconButton(
                             onPressed: () async =>
-                                launch('tel:${state.request.driverNumber}'),
+                                launch('tel:${state.request!.driverNumber}'),
                             icon: Icon(Icons.call)),
                       ],
                     ),
@@ -201,7 +201,7 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${state.request.pickup.name}',
+                          '${state.request!.pickup!.name}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -215,7 +215,7 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
                           children: [
                             Text('Total'),
                             Text(
-                              'PHP ${(state.request.subtotal + state.request.fee).toStringAsFixed(2)}',
+                              'PHP ${(state.request!.subtotal! + state.request!.fee!).toStringAsFixed(2)}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -228,14 +228,14 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
                         Divider(),
                         ListTile(
                           leading:
-                              Text('${state.request.items.first.quantity}x'),
+                              Text('${state.request!.items!.first.quantity}x'),
                           title: Text(
-                              'You ordered ${state.request.items.first.itemName}',
+                              'You ordered ${state.request!.items!.first.itemName}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               )),
-                          subtitle: (state.request.items.length > 1)
-                              ? Text('+ ${state.request.items.length - 1} more')
+                          subtitle: (state.request!.items!.length > 1)
+                              ? Text('+ ${state.request!.items!.length - 1} more')
                               : Container(),
                         ),
                         SizedBox(
@@ -296,7 +296,7 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
                             width: 16,
                           ),
                           Expanded(
-                              child: Text('${state.request.pickup.address}')),
+                              child: Text('${state.request!.pickup!.address}')),
                         ]),
                         SizedBox(
                           height: 8,
@@ -309,7 +309,7 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
                           ),
                           Expanded(
                               child:
-                                  Text('${state.request.destination.address}')),
+                                  Text('${state.request!.destination!.address}')),
                         ]),
                       ],
                     ),

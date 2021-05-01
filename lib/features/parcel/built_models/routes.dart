@@ -16,7 +16,7 @@ part 'routes.g.dart';
 abstract class Routes implements Built<Routes, RoutesBuilder> {
   Routes._();
 
-  factory Routes([updates(RoutesBuilder b)]) = _$Routes;
+  factory Routes([updates(RoutesBuilder b)?]) = _$Routes;
 
   @BuiltValueField(wireName: 'bounds')
   Bounds get bounds;
@@ -28,7 +28,7 @@ abstract class Routes implements Built<Routes, RoutesBuilder> {
     return json.encode(serializers.serializeWith(Routes.serializer, this));
   }
 
-  static Routes fromJson(String jsonString) {
+  static Routes? fromJson(String jsonString) {
     return serializers.deserializeWith(
         Routes.serializer, json.decode(jsonString));
   }

@@ -15,9 +15,9 @@ class _$LegsSerializer implements StructuredSerializer<Legs> {
   final String wireName = 'Legs';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Legs object,
+  Iterable<Object?> serialize(Serializers serializers, Legs object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'distance',
       serializers.serialize(object.distance,
           specifiedType: const FullType(Distance)),
@@ -42,7 +42,7 @@ class _$LegsSerializer implements StructuredSerializer<Legs> {
   }
 
   @override
-  Legs deserialize(Serializers serializers, Iterable<Object> serialized,
+  Legs deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new LegsBuilder();
 
@@ -50,15 +50,15 @@ class _$LegsSerializer implements StructuredSerializer<Legs> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'distance':
           result.distance.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Distance)) as Distance);
+              specifiedType: const FullType(Distance))! as Distance);
           break;
         case 'duration':
           result.duration.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(DistanceDuration))
+                  specifiedType: const FullType(DistanceDuration))!
               as DistanceDuration);
           break;
         case 'end_address':
@@ -67,7 +67,7 @@ class _$LegsSerializer implements StructuredSerializer<Legs> {
           break;
         case 'end_location':
           result.endLocation.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Location)) as Location);
+              specifiedType: const FullType(Location))! as Location);
           break;
         case 'start_address':
           result.startAddress = serializers.deserialize(value,
@@ -75,7 +75,7 @@ class _$LegsSerializer implements StructuredSerializer<Legs> {
           break;
         case 'start_location':
           result.startLocation.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Location)) as Location);
+              specifiedType: const FullType(Location))! as Location);
           break;
       }
     }
@@ -98,35 +98,24 @@ class _$Legs extends Legs {
   @override
   final Location startLocation;
 
-  factory _$Legs([void Function(LegsBuilder) updates]) =>
+  factory _$Legs([void Function(LegsBuilder)? updates]) =>
       (new LegsBuilder()..update(updates)).build();
 
   _$Legs._(
-      {this.distance,
-      this.duration,
-      this.endAddress,
-      this.endLocation,
-      this.startAddress,
-      this.startLocation})
+      {required this.distance,
+      required this.duration,
+      required this.endAddress,
+      required this.endLocation,
+      required this.startAddress,
+      required this.startLocation})
       : super._() {
-    if (distance == null) {
-      throw new BuiltValueNullFieldError('Legs', 'distance');
-    }
-    if (duration == null) {
-      throw new BuiltValueNullFieldError('Legs', 'duration');
-    }
-    if (endAddress == null) {
-      throw new BuiltValueNullFieldError('Legs', 'endAddress');
-    }
-    if (endLocation == null) {
-      throw new BuiltValueNullFieldError('Legs', 'endLocation');
-    }
-    if (startAddress == null) {
-      throw new BuiltValueNullFieldError('Legs', 'startAddress');
-    }
-    if (startLocation == null) {
-      throw new BuiltValueNullFieldError('Legs', 'startLocation');
-    }
+    BuiltValueNullFieldError.checkNotNull(distance, 'Legs', 'distance');
+    BuiltValueNullFieldError.checkNotNull(duration, 'Legs', 'duration');
+    BuiltValueNullFieldError.checkNotNull(endAddress, 'Legs', 'endAddress');
+    BuiltValueNullFieldError.checkNotNull(endLocation, 'Legs', 'endLocation');
+    BuiltValueNullFieldError.checkNotNull(startAddress, 'Legs', 'startAddress');
+    BuiltValueNullFieldError.checkNotNull(
+        startLocation, 'Legs', 'startLocation');
   }
 
   @override
@@ -174,47 +163,49 @@ class _$Legs extends Legs {
 }
 
 class LegsBuilder implements Builder<Legs, LegsBuilder> {
-  _$Legs _$v;
+  _$Legs? _$v;
 
-  DistanceBuilder _distance;
+  DistanceBuilder? _distance;
   DistanceBuilder get distance => _$this._distance ??= new DistanceBuilder();
-  set distance(DistanceBuilder distance) => _$this._distance = distance;
+  set distance(DistanceBuilder? distance) => _$this._distance = distance;
 
-  DistanceDurationBuilder _duration;
+  DistanceDurationBuilder? _duration;
   DistanceDurationBuilder get duration =>
       _$this._duration ??= new DistanceDurationBuilder();
-  set duration(DistanceDurationBuilder duration) => _$this._duration = duration;
+  set duration(DistanceDurationBuilder? duration) =>
+      _$this._duration = duration;
 
-  String _endAddress;
-  String get endAddress => _$this._endAddress;
-  set endAddress(String endAddress) => _$this._endAddress = endAddress;
+  String? _endAddress;
+  String? get endAddress => _$this._endAddress;
+  set endAddress(String? endAddress) => _$this._endAddress = endAddress;
 
-  LocationBuilder _endLocation;
+  LocationBuilder? _endLocation;
   LocationBuilder get endLocation =>
       _$this._endLocation ??= new LocationBuilder();
-  set endLocation(LocationBuilder endLocation) =>
+  set endLocation(LocationBuilder? endLocation) =>
       _$this._endLocation = endLocation;
 
-  String _startAddress;
-  String get startAddress => _$this._startAddress;
-  set startAddress(String startAddress) => _$this._startAddress = startAddress;
+  String? _startAddress;
+  String? get startAddress => _$this._startAddress;
+  set startAddress(String? startAddress) => _$this._startAddress = startAddress;
 
-  LocationBuilder _startLocation;
+  LocationBuilder? _startLocation;
   LocationBuilder get startLocation =>
       _$this._startLocation ??= new LocationBuilder();
-  set startLocation(LocationBuilder startLocation) =>
+  set startLocation(LocationBuilder? startLocation) =>
       _$this._startLocation = startLocation;
 
   LegsBuilder();
 
   LegsBuilder get _$this {
-    if (_$v != null) {
-      _distance = _$v.distance?.toBuilder();
-      _duration = _$v.duration?.toBuilder();
-      _endAddress = _$v.endAddress;
-      _endLocation = _$v.endLocation?.toBuilder();
-      _startAddress = _$v.startAddress;
-      _startLocation = _$v.startLocation?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _distance = $v.distance.toBuilder();
+      _duration = $v.duration.toBuilder();
+      _endAddress = $v.endAddress;
+      _endLocation = $v.endLocation.toBuilder();
+      _startAddress = $v.startAddress;
+      _startLocation = $v.startLocation.toBuilder();
       _$v = null;
     }
     return this;
@@ -222,14 +213,12 @@ class LegsBuilder implements Builder<Legs, LegsBuilder> {
 
   @override
   void replace(Legs other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Legs;
   }
 
   @override
-  void update(void Function(LegsBuilder) updates) {
+  void update(void Function(LegsBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -241,12 +230,14 @@ class LegsBuilder implements Builder<Legs, LegsBuilder> {
           new _$Legs._(
               distance: distance.build(),
               duration: duration.build(),
-              endAddress: endAddress,
+              endAddress: BuiltValueNullFieldError.checkNotNull(
+                  endAddress, 'Legs', 'endAddress'),
               endLocation: endLocation.build(),
-              startAddress: startAddress,
+              startAddress: BuiltValueNullFieldError.checkNotNull(
+                  startAddress, 'Legs', 'startAddress'),
               startLocation: startLocation.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'distance';
         distance.build();

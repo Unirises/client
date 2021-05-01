@@ -9,7 +9,6 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:meta/meta.dart';
 
 import '../../../core/client_bloc/client_repository.dart';
 import '../../../core/helpers.dart';
@@ -24,16 +23,15 @@ part 'parcel_state.dart';
 
 class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
   final ClientRepository _clientRepository;
-  ParcelBloc({@required ClientRepository clientRepository})
-      : assert(clientRepository != null),
-        _clientRepository = clientRepository,
+  ParcelBloc({required ClientRepository clientRepository})
+      : _clientRepository = clientRepository,
         super(ParcelLoadSuccess());
 
   @override
   Stream<ParcelState> mapEventToState(
     ParcelEvent event,
   ) async* {
-    final currentState = state;
+    final ParcelState currentState = state;
     if (event is ParcelAdded) {
       if (currentState is ParcelLoadSuccess) {
         if (!event.isDestination) {
@@ -42,20 +40,20 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
           final BuiltList<BuiltStop> updatedPoints =
               (currentState.points == null)
                   ? forNewInit.rebuild((b) => b.add(event.point))
-                  : currentState.points.rebuild((b) => b.add(event.point));
+                  : currentState.points!.rebuild((b) => b.add(event.point));
           yield currentState.copyWith(points: updatedPoints);
         } else {
           final BuiltStop updatedPickup = event.point;
           yield currentState.copyWith(pickup: updatedPickup);
         }
-        if (currentState.points != null && currentState.points.length > 0)
+        if (currentState.points != null && currentState.points!.length > 0)
           add(ComputeFare());
       }
     } else if (event is ParcelUpdated) {
       if (currentState is ParcelLoadSuccess) {
         if (!event.isDestination) {
           final BuiltList<BuiltStop> updatedPoints =
-              currentState.points.rebuild((b) {
+              currentState.points!.rebuild((b) {
             b.map((point) {
               return point.id == event.point.id ? event.point : point;
             });
@@ -65,15 +63,15 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
           final BuiltStop updatedPickup = event.point;
           yield currentState.copyWith(pickup: updatedPickup);
         }
-        if (currentState.points != null && currentState.points.length > 0)
+        if (currentState.points != null && currentState.points!.length > 0)
           add(ComputeFare());
       }
     } else if (event is ParcelDeleted) {
       if (currentState is ParcelLoadSuccess) {
         if (!event.isDestination) {
           final updatedPoints = (state as ParcelLoadSuccess)
-              .points
-              .rebuild((b) => b.where((point) => point.id != event.point.id));
+              .points!
+              .rebuild((b) => b.where((point) => point.id != event.point!.id));
           yield currentState.copyWith(points: updatedPoints);
         } else {
           yield currentState.copyWith(pickup: BuiltStop((b) => b..id = null));
@@ -84,13 +82,13 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
         if (currentState is ParcelLoadSuccess) {
           yield ParcelLoadingInProgress();
           var data;
-          if (currentState.points.length > 1) {
+          if (currentState.points!.length > 1) {
             var stopsCoords = [];
-            var stopCoordsString = '';
+            String? stopCoordsString = '';
 
-            currentState.points.forEach((element) {
+            currentState.points!.forEach((element) {
               stopsCoords
-                  .add('${element.location.lat},${element.location.lng}');
+                  .add('${element.location!.lat},${element.location!.lng}');
             });
 
             stopsCoords.removeLast();
@@ -99,26 +97,26 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
                 stopsCoords.reduce((value, element) => value + '|' + element);
 
             data = await Dio().get(
-                "https://maps.googleapis.com/maps/api/directions/json?origin=${currentState.pickup.location.lat},${currentState.pickup.location.lng}&destination=${currentState.points.last.location.lat},${currentState.points.last.location.lng}&waypoints=${stopCoordsString}&key=AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU");
+                "https://maps.googleapis.com/maps/api/directions/json?origin=${currentState.pickup!.location!.lat},${currentState.pickup!.location!.lng}&destination=${currentState.points!.last.location!.lat},${currentState.points!.last.location!.lng}&waypoints=${stopCoordsString}&key=AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU");
           } else {
             data = await Dio().get(
-                "https://maps.googleapis.com/maps/api/directions/json?origin=${currentState.pickup.location.lat},${currentState.pickup.location.lng}&destination=${currentState.points.first.location.lat},${currentState.points.first.location.lng}&key=AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU");
+                "https://maps.googleapis.com/maps/api/directions/json?origin=${currentState.pickup!.location!.lat},${currentState.pickup!.location!.lng}&destination=${currentState.points!.first.location!.lat},${currentState.points!.first.location!.lng}&key=AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU");
           }
           BuiltDirections builtDirections =
-              BuiltDirections.fromJson(json.encode(data.data));
+              BuiltDirections.fromJson(json.encode(data.data))!;
 
-          if (builtDirections.routes.length != 1) {
+          if (builtDirections.routes!.length != 1) {
             yield ParcelLoadFailure();
           } else {
             num duration = 0;
             num distance = 0;
             num weight = 0;
 
-            currentState.points.forEach((e) => weight += e.weight);
+            currentState.points!.forEach((e) => weight += e.weight!);
 
-            builtDirections.routes.first.legs.forEach((e) {
-              duration += e.duration.value;
-              distance += e.distance.value;
+            builtDirections.routes!.first.legs!.forEach((e) {
+              duration += e.duration!.value!;
+              distance += e.distance!.value!;
             });
 
             yield currentState.copyWith(directions: builtDirections, data: {
@@ -148,15 +146,15 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
             ..timestamp = DateTime.now().millisecondsSinceEpoch
             ..clientToken = deviceToken
             ..isParcel = true
-            ..userId = FirebaseAuth.instance.currentUser.uid
+            ..userId = FirebaseAuth.instance.currentUser!.uid
             ..status = 'requesting'
-            ..position = goodPos.toBuilder()
+            ..position = goodPos!.toBuilder()
             ..currentIndex = 0
-            ..points = currentState.points.toBuilder()
-            ..pickup = currentState.pickup.toBuilder()
+            ..points = currentState.points!.toBuilder()
+            ..pickup = currentState.pickup!.toBuilder()
             ..clientName = event.name
             ..clientNumber = event.number
-            ..directions = currentState.directions.toBuilder()
+            ..directions = currentState.directions!.toBuilder()
             ..rideType = currentState.type);
 
           var requestId = await _clientRepository.updateStatus(
@@ -178,35 +176,35 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
     } else if (event is TypeUpdated) {
       if (currentState is ParcelLoadSuccess) {
         var directions = currentState.directions;
-        var points = currentState.points;
+        var points = currentState.points!;
         BuiltList<BuiltStop> mutatedPoints = new BuiltList<BuiltStop>([]);
 
         for (int i = 0; i < points.length; i++) {
           mutatedPoints = mutatedPoints.rebuild((b) => b.add(points[i].rebuild(
               (b) => b
-                ..distance = directions.routes.first.legs[i].distance.value
+                ..distance = directions!.routes!.first.legs![i].distance!.value
                 ..duration =
-                    directions.routes.first.legs[i].duration.toBuilder()
+                    directions.routes!.first.legs![i].duration!.toBuilder()
                 ..price = computeFare(event.type,
-                    directions.routes.first.legs[i].distance.value, i > 1)
+                    directions.routes!.first.legs![i].distance!.value, i > 1)
                 ..startLocation =
-                    directions.routes.first.legs[i].startLocation.toBuilder()
+                    directions.routes!.first.legs![i].startLocation!.toBuilder()
                 ..endLocation =
-                    directions.routes.first.legs[i].endLocation.toBuilder()
-                ..startAddress = directions.routes.first.legs[i].startAddress
-                ..endAddress = directions.routes.first.legs[i].endAddress)));
+                    directions.routes!.first.legs![i].endLocation!.toBuilder()
+                ..startAddress = directions.routes!.first.legs![i].startAddress
+                ..endAddress = directions.routes!.first.legs![i].endAddress)));
         }
 
-        List<num> items = [];
+        List<num?> items = [];
 
-        num subtotal = 0.00;
+        num? subtotal = 0.00;
 
         mutatedPoints.forEach((item) {
           items.add(item.price);
         });
 
         if (items.length > 0) {
-          subtotal = items.reduce((value, element) => value + element);
+          subtotal = items.reduce((value, element) => value! + element!);
         }
 
         yield currentState.copyWith(

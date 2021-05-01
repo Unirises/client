@@ -27,15 +27,15 @@ class SeeMoreDetailsPage extends StatelessWidget {
             ListView.builder(
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                var item = state.request.items[index];
+                var item = state.request!.items![index];
                 return ListTile(
                     title: Text('${item.itemName}'),
                     leading: Text('${item.quantity}x'),
                     trailing: Text(
-                        'PHP ${((item.additionalPrice != null ? item.additionalPrice + item.itemPrice : item.itemPrice) * item.quantity).toStringAsFixed(2)}'),
+                        'PHP ${((item.additionalPrice != null ? item.additionalPrice! + item.itemPrice! : item.itemPrice)! * item.quantity!).toStringAsFixed(2)}'),
                     subtitle: builtItemAdditionals(item));
               },
-              itemCount: state.request.items.length,
+              itemCount: state.request!.items!.length,
             )
           ],
         ),
@@ -46,9 +46,9 @@ class SeeMoreDetailsPage extends StatelessWidget {
   Widget builtItemAdditionals(ClassificationListing item) {
     List<Map<String, dynamic>> additionalsList = [];
 
-    item.additionals.forEach((classification) {
-      classification.additionalListing.forEach((additional) {
-        if (additional.isSelected != null && additional.isSelected) {
+    item.additionals!.forEach((classification) {
+      classification.additionalListing!.forEach((additional) {
+        if (additional.isSelected != null && additional.isSelected!) {
           additionalsList.add({
             'title': '${classification.additionalName} - ${additional.name}',
             'price': additional.additionalPrice,

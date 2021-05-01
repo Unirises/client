@@ -12,52 +12,36 @@ import 'location.dart';
 part 'built_stop.g.dart';
 
 abstract class BuiltStop implements Built<BuiltStop, BuiltStopBuilder> {
-  @nullable
-  String get houseDetails;
-  @nullable
-  String get name;
-  @nullable
-  String get phone;
-  @nullable
-  Location get location;
-  @nullable
-  String get address;
-  @nullable
-  String get id;
-  @nullable
-  num get weight;
-  @nullable
-  String get type;
-  @nullable
-  bool get isCashOnDelivery;
+  String? get houseDetails;
+  String? get name;
+  String? get phone;
+  Location? get location;
+  String? get address;
+  String? get id;
+  num? get weight;
+  String? get type;
+  bool? get isCashOnDelivery;
 
-  @nullable
-  num get distance;
-  @nullable
-  num get price;
+  num? get distance;
+  num? get price;
 
-  @nullable
-  Location get startLocation;
-  @nullable
-  Location get endLocation;
+  Location? get startLocation;
+  Location? get endLocation;
 
-  @nullable
-  String get startAddress;
-  @nullable
-  String get endAddress;
+  String? get startAddress;
+  String? get endAddress;
 
-  @nullable
-  DistanceDuration get duration;
+  DistanceDuration? get duration;
 
   BuiltStop._();
 
-  factory BuiltStop([updates(BuiltStopBuilder b)]) = _$BuiltStop;
+  factory BuiltStop([updates(BuiltStopBuilder b)?]) = _$BuiltStop;
 
   String toJson() {
     return json.encode(serializers.serializeWith(BuiltStop.serializer, this));
   }
 
-  static BuiltStop fromJson(String jsonString) {
+  static BuiltStop? fromJson(String jsonString) {
     return serializers.deserializeWith(
         BuiltStop.serializer, json.decode(jsonString));
   }

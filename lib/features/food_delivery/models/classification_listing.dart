@@ -15,7 +15,7 @@ abstract class ClassificationListing
     implements Built<ClassificationListing, ClassificationListingBuilder> {
   ClassificationListing._();
 
-  factory ClassificationListing([updates(ClassificationListingBuilder b)]) =
+  factory ClassificationListing([updates(ClassificationListingBuilder b)?]) =
       _$ClassificationListing;
 
   @BuiltValueField(wireName: 'itemName')
@@ -23,29 +23,23 @@ abstract class ClassificationListing
   @BuiltValueField(wireName: 'additionals')
   BuiltList<Additionals> get additionals;
   @BuiltValueField(wireName: 'itemPhoto')
-  @nullable
-  String get itemPhoto;
+  String? get itemPhoto;
   @BuiltValueField(wireName: 'itemPrice')
   num get itemPrice;
   @BuiltValueField(wireName: 'itemSize')
-  @nullable
-  String get itemSize;
-  @nullable
-  int get quantity;
-  @nullable
-  bool get isValid;
-  @nullable
-  num get additionalPrice;
+  String? get itemSize;
+  int? get quantity;
+  bool? get isValid;
+  num? get additionalPrice;
   String get sku;
-  @nullable
-  bool get isAvailable;
+  bool? get isAvailable;
 
   String toJson() {
     return json.encode(
         serializers.serializeWith(ClassificationListing.serializer, this));
   }
 
-  static ClassificationListing fromJson(String jsonString) {
+  static ClassificationListing? fromJson(String jsonString) {
     return serializers.deserializeWith(
         ClassificationListing.serializer, json.decode(jsonString));
   }

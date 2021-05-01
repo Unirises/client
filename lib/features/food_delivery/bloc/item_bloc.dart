@@ -16,14 +16,14 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
   Stream<ItemState> mapEventToState(
     ItemEvent event,
   ) async* {
-    final currentState = state;
+    final ItemState currentState = state;
     if (event is ItemAdded) {
       if (currentState is ItemLoaded) {
         yield ItemLoadingInProgress();
 
         bool isShouldBeValid = true;
-        event.item.additionals.forEach((additional) {
-          if (additional.minMax.first >= 1) {
+        event.item.additionals!.forEach((additional) {
+          if (additional.minMax!.first >= 1) {
             isShouldBeValid = false;
           }
         });
@@ -40,10 +40,10 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
       if (currentState is ItemLoaded) {
         if (event.quantity > 0) {
           var newItem =
-              currentState.item.rebuild((b) => b..quantity = event.quantity);
+              currentState.item!.rebuild((b) => b..quantity = event.quantity);
           yield currentState.copyWith(item: newItem);
         } else {
-          var newItem = currentState.item.rebuild((b) => b..quantity = 1);
+          var newItem = currentState.item!.rebuild((b) => b..quantity = 1);
           yield currentState.copyWith(item: newItem);
         }
       }
@@ -53,7 +53,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
         try {
           var isValid = [];
 
-          var newItem = currentState.item.rebuild((item) => item
+          var newItem = currentState.item!.rebuild((item) => item
             ..additionals[event.additionalIndex] = item
                 .additionals[event.additionalIndex]
                 .rebuild((additional) => additional
@@ -65,19 +65,19 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
 
           num additionalPrice = 0;
 
-          newItem.additionals.forEach((additional) {
+          newItem.additionals!.forEach((additional) {
             int numOfSelected = 0;
 
-            additional.additionalListing.forEach((item) {
+            additional.additionalListing!.forEach((item) {
               if (item.isSelected != null && item.isSelected == true) {
                 numOfSelected += 1;
-                additionalPrice += item.additionalPrice;
+                additionalPrice += item.additionalPrice!;
               }
             });
 
-            isValid.add(numOfSelected >= additional.minMax.first);
-            isValid.add(numOfSelected <= additional.minMax.last);
-            return true;
+            isValid.add(numOfSelected >= additional.minMax!.first);
+            isValid.add(numOfSelected <= additional.minMax!.last);
+            return null;
           });
           newItem = newItem.rebuild(
             (item) => item

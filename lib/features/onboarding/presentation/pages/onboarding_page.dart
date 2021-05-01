@@ -189,10 +189,10 @@ class OnboardingActionScreen extends StatelessWidget {
 
 class OnboardingItemTemplate extends StatelessWidget {
   const OnboardingItemTemplate({
-    Key key,
-    @required this.asset,
-    @required this.title,
-    @required this.description,
+    Key? key,
+    required this.asset,
+    required this.title,
+    required this.description,
   }) : super(key: key);
 
   final String asset;

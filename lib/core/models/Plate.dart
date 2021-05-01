@@ -7,7 +7,7 @@ class Plate extends FormzInput<String, PlateValidationError> {
   const Plate.dirty([String value = '']) : super.dirty(value);
 
   @override
-  PlateValidationError validator(String value) {
+  PlateValidationError? validator(String value) {
     return value.isNotEmpty ? null : PlateValidationError.invalid;
   }
 }

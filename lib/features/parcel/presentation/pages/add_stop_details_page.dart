@@ -11,20 +11,20 @@ import '../../built_models/location.dart';
 class AddStopDetailsPage extends StatefulWidget {
   final LocationResult location;
   final Function(BuiltStop) onSubmitFinished;
-  final VoidCallback onCancelled;
-  final bool isPickup;
+  final VoidCallback? onCancelled;
+  final bool? isPickup;
 
-  final String floor;
-  final String name;
-  final String phone;
-  final num weight;
-  final String id;
-  final String typeOfParcel;
+  final String? floor;
+  final String? name;
+  final String? phone;
+  final num? weight;
+  final String? id;
+  final String? typeOfParcel;
 
   const AddStopDetailsPage({
-    Key key,
-    @required this.location,
-    @required this.onSubmitFinished,
+    Key? key,
+    required this.location,
+    required this.onSubmitFinished,
     this.onCancelled,
     this.isPickup,
     this.floor,
@@ -45,8 +45,8 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _weightController = TextEditingController();
-  String _typeOfParcel;
-  String _id;
+  String? _typeOfParcel;
+  String? _id;
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.location.formattedAddress),
+        title: Text(widget.location.formattedAddress!),
         leading: CloseButton(
           onPressed: widget.onCancelled,
         ),
@@ -77,11 +77,11 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                 child: GoogleMap(
               liteModeEnabled: true,
               initialCameraPosition:
-                  CameraPosition(target: widget.location.latLng, zoom: 18),
+                  CameraPosition(target: widget.location.latLng!, zoom: 18),
               markers: {
                 Marker(
                   markerId: MarkerId('point'),
-                  position: widget.location.latLng,
+                  position: widget.location.latLng!,
                 )
               },
             )),
@@ -94,7 +94,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                     TextFormField(
                       controller: _floorController,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return 'Please enter the floor and house number.';
                         }
                         return null;
@@ -114,7 +114,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                           child: TextFormField(
                             controller: _nameController,
                             validator: (value) {
-                              if (value.isEmpty) {
+                              if (value!.isEmpty) {
                                 return 'Please enter the name.';
                               }
                               return null;
@@ -137,7 +137,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                       _nameController.text =
                                           contact.fullName ?? 'No Name';
                                       _phoneController.text =
-                                          contact.phoneNumber.number ?? '';
+                                          contact.phoneNumber!.number ?? '';
                                     });
                                   }),
                             ),
@@ -153,7 +153,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                               final RegExp _phoneRegExp =
                                   RegExp(r'^(09|\+639)\d{9}$');
 
-                              if (value.isEmpty) {
+                              if (value!.isEmpty) {
                                 return 'Please enter the contact number.';
                               } else if (!_phoneRegExp.hasMatch(value)) {
                                 return 'Please enter a valid phone number.';
@@ -173,7 +173,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                         ),
                       ],
                     ),
-                    (!widget.isPickup)
+                    (!widget.isPickup!)
                         ? Column(
                             children: [
                               DropdownButton<String>(
@@ -186,7 +186,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                   color: Theme.of(context).primaryColor,
                                 ),
                                 isExpanded: true,
-                                onChanged: (String newValue) {
+                                onChanged: (String? newValue) {
                                   if (mounted)
                                     setState(() {
                                       _typeOfParcel = newValue;
@@ -208,7 +208,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                               TextFormField(
                                 controller: _weightController,
                                 validator: (value) {
-                                  num parsedValue = num.tryParse(value);
+                                  num? parsedValue = num.tryParse(value!);
                                   if (value.isEmpty) {
                                     return 'Please enter item weight.';
                                   } else if (!(parsedValue is num)) {
@@ -239,7 +239,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                         ),
                         child: ElevatedButton(
                           onPressed: () {
-                            if (_formKey.currentState.validate()) {
+                            if (_formKey.currentState!.validate()) {
                               return widget.onSubmitFinished(BuiltStop(
                                 (b) => b
                                   ..weight =
@@ -251,8 +251,8 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                   ..phone = _phoneController.text
                                   ..location = Location(
                                     (b) => b
-                                      ..lat = widget.location.latLng.latitude
-                                      ..lng = widget.location.latLng.longitude,
+                                      ..lat = widget.location.latLng!.latitude
+                                      ..lng = widget.location.latLng!.longitude,
                                   ).toBuilder()
                                   ..id = _id,
                               ));

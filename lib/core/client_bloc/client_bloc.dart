@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:meta/meta.dart';
 
 import '../models/Client.dart';
 import 'client_repository.dart';
@@ -14,11 +13,10 @@ part 'client_state.dart';
 
 class ClientBloc extends Bloc<ClientEvent, ClientState> {
   final ClientRepository _clientRepository;
-  StreamSubscription _clientSubscription;
-  StreamSubscription _positionSubscription;
-  ClientBloc({@required ClientRepository clientRepository})
-      : assert(clientRepository != null),
-        _clientRepository = clientRepository,
+  StreamSubscription? _clientSubscription;
+  StreamSubscription? _positionSubscription;
+  ClientBloc({required ClientRepository clientRepository})
+      : _clientRepository = clientRepository,
         super(ClientInitial());
 
   @override

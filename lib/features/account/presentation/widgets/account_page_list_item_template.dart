@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 
 class AccountPageListItemTemplate extends StatelessWidget {
   const AccountPageListItemTemplate(
-      {Key key, @required this.title, this.trailingText, this.onTap})
-      : assert(title != null),
-        super(key: key);
+      {Key? key, required this.title, this.trailingText, this.onTap})
+      : super(key: key);
 
   final String title;
-  final String trailingText;
-  final VoidCallback onTap;
+  final String? trailingText;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

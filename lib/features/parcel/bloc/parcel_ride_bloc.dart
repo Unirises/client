@@ -16,7 +16,7 @@ class ParcelRideBloc extends Bloc<ParcelRideEvent, ParcelRideState> {
   final driversRepository = FirebaseFirestore.instance.collection('drivers');
   final clientsRepository = FirebaseFirestore.instance.collection('clients');
 
-  StreamSubscription _rideSubscription;
+  StreamSubscription? _rideSubscription;
 
   ParcelRideBloc() : super(ParcelRideInitial());
 
@@ -38,13 +38,13 @@ class ParcelRideBloc extends Bloc<ParcelRideEvent, ParcelRideState> {
         print(e);
         await FirebaseFirestore.instance
             .collection('clients')
-            .doc(FirebaseAuth.instance.currentUser.uid)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .update({'status': 'idle'});
         yield ParcelRideFailure();
       }
     } else if (event is ParcelRideUpdated) {
       try {
-        switch (event.ride.status) {
+        switch (event.ride!.status) {
           case 'completed':
             this.add(AddFinishedParcelRideToUser(event.ride));
             this.add(StopListenOnParcelRide());
@@ -61,7 +61,7 @@ class ParcelRideBloc extends Bloc<ParcelRideEvent, ParcelRideState> {
         print(e);
         await FirebaseFirestore.instance
             .collection('clients')
-            .doc(FirebaseAuth.instance.currentUser.uid)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .update({'status': 'idle'});
         yield ParcelRideFailure();
       }
@@ -69,23 +69,23 @@ class ParcelRideBloc extends Bloc<ParcelRideEvent, ParcelRideState> {
       _rideSubscription?.cancel();
       yield ParcelRideInitial();
     } else if (event is AddFinishedParcelRideToUser) {
-      if (event.ride.status == 'completed' ||
-          event.ride.status == 'cancelled') {
+      if (event.ride!.status == 'completed' ||
+          event.ride!.status == 'cancelled') {
         try {
           await clientsRepository
-              .doc(FirebaseAuth.instance.currentUser.uid)
+              .doc(FirebaseAuth.instance.currentUser!.uid)
               .update({
-            'rides': FieldValue.arrayUnion([json.decode(event.ride.toJson())])
+            'rides': FieldValue.arrayUnion([json.decode(event.ride!.toJson())])
           });
-          await driversRepository.doc(event.ride.driverId).update({
-            'rides': FieldValue.arrayUnion([json.decode(event.ride.toJson())]),
+          await driversRepository.doc(event.ride!.driverId).update({
+            'rides': FieldValue.arrayUnion([json.decode(event.ride!.toJson())]),
           });
         } catch (e) {
           print('Failed updating client and driver rides.');
           print(e);
           await FirebaseFirestore.instance
               .collection('clients')
-              .doc(FirebaseAuth.instance.currentUser.uid)
+              .doc(FirebaseAuth.instance.currentUser!.uid)
               .update({'status': 'idle'});
           yield ParcelRideFailure();
         }

@@ -17,9 +17,9 @@ class _$OverviewPolylineSerializer
   final String wireName = 'OverviewPolyline';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, OverviewPolyline object,
+  Iterable<Object?> serialize(Serializers serializers, OverviewPolyline object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'points',
       serializers.serialize(object.points,
           specifiedType: const FullType(String)),
@@ -30,7 +30,7 @@ class _$OverviewPolylineSerializer
 
   @override
   OverviewPolyline deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new OverviewPolylineBuilder();
 
@@ -38,7 +38,7 @@ class _$OverviewPolylineSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'points':
           result.points = serializers.deserialize(value,
@@ -56,13 +56,11 @@ class _$OverviewPolyline extends OverviewPolyline {
   final String points;
 
   factory _$OverviewPolyline(
-          [void Function(OverviewPolylineBuilder) updates]) =>
+          [void Function(OverviewPolylineBuilder)? updates]) =>
       (new OverviewPolylineBuilder()..update(updates)).build();
 
-  _$OverviewPolyline._({this.points}) : super._() {
-    if (points == null) {
-      throw new BuiltValueNullFieldError('OverviewPolyline', 'points');
-    }
+  _$OverviewPolyline._({required this.points}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(points, 'OverviewPolyline', 'points');
   }
 
   @override
@@ -94,17 +92,18 @@ class _$OverviewPolyline extends OverviewPolyline {
 
 class OverviewPolylineBuilder
     implements Builder<OverviewPolyline, OverviewPolylineBuilder> {
-  _$OverviewPolyline _$v;
+  _$OverviewPolyline? _$v;
 
-  String _points;
-  String get points => _$this._points;
-  set points(String points) => _$this._points = points;
+  String? _points;
+  String? get points => _$this._points;
+  set points(String? points) => _$this._points = points;
 
   OverviewPolylineBuilder();
 
   OverviewPolylineBuilder get _$this {
-    if (_$v != null) {
-      _points = _$v.points;
+    final $v = _$v;
+    if ($v != null) {
+      _points = $v.points;
       _$v = null;
     }
     return this;
@@ -112,20 +111,21 @@ class OverviewPolylineBuilder
 
   @override
   void replace(OverviewPolyline other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$OverviewPolyline;
   }
 
   @override
-  void update(void Function(OverviewPolylineBuilder) updates) {
+  void update(void Function(OverviewPolylineBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
   _$OverviewPolyline build() {
-    final _$result = _$v ?? new _$OverviewPolyline._(points: points);
+    final _$result = _$v ??
+        new _$OverviewPolyline._(
+            points: BuiltValueNullFieldError.checkNotNull(
+                points, 'OverviewPolyline', 'points'));
     replace(_$result);
     return _$result;
   }

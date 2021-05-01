@@ -17,9 +17,9 @@ class _$BuiltVehicleDataSerializer
   final String wireName = 'BuiltVehicleData';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, BuiltVehicleData object,
+  Iterable<Object?> serialize(Serializers serializers, BuiltVehicleData object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'brand',
       serializers.serialize(object.brand,
           specifiedType: const FullType(String)),
@@ -39,7 +39,7 @@ class _$BuiltVehicleDataSerializer
 
   @override
   BuiltVehicleData deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new BuiltVehicleDataBuilder();
 
@@ -47,7 +47,7 @@ class _$BuiltVehicleDataSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'brand':
           result.brand = serializers.deserialize(value,
@@ -83,23 +83,19 @@ class _$BuiltVehicleData extends BuiltVehicleData {
   final String plate;
 
   factory _$BuiltVehicleData(
-          [void Function(BuiltVehicleDataBuilder) updates]) =>
+          [void Function(BuiltVehicleDataBuilder)? updates]) =>
       (new BuiltVehicleDataBuilder()..update(updates)).build();
 
-  _$BuiltVehicleData._({this.brand, this.color, this.model, this.plate})
+  _$BuiltVehicleData._(
+      {required this.brand,
+      required this.color,
+      required this.model,
+      required this.plate})
       : super._() {
-    if (brand == null) {
-      throw new BuiltValueNullFieldError('BuiltVehicleData', 'brand');
-    }
-    if (color == null) {
-      throw new BuiltValueNullFieldError('BuiltVehicleData', 'color');
-    }
-    if (model == null) {
-      throw new BuiltValueNullFieldError('BuiltVehicleData', 'model');
-    }
-    if (plate == null) {
-      throw new BuiltValueNullFieldError('BuiltVehicleData', 'plate');
-    }
+    BuiltValueNullFieldError.checkNotNull(brand, 'BuiltVehicleData', 'brand');
+    BuiltValueNullFieldError.checkNotNull(color, 'BuiltVehicleData', 'color');
+    BuiltValueNullFieldError.checkNotNull(model, 'BuiltVehicleData', 'model');
+    BuiltValueNullFieldError.checkNotNull(plate, 'BuiltVehicleData', 'plate');
   }
 
   @override
@@ -140,32 +136,33 @@ class _$BuiltVehicleData extends BuiltVehicleData {
 
 class BuiltVehicleDataBuilder
     implements Builder<BuiltVehicleData, BuiltVehicleDataBuilder> {
-  _$BuiltVehicleData _$v;
+  _$BuiltVehicleData? _$v;
 
-  String _brand;
-  String get brand => _$this._brand;
-  set brand(String brand) => _$this._brand = brand;
+  String? _brand;
+  String? get brand => _$this._brand;
+  set brand(String? brand) => _$this._brand = brand;
 
-  String _color;
-  String get color => _$this._color;
-  set color(String color) => _$this._color = color;
+  String? _color;
+  String? get color => _$this._color;
+  set color(String? color) => _$this._color = color;
 
-  String _model;
-  String get model => _$this._model;
-  set model(String model) => _$this._model = model;
+  String? _model;
+  String? get model => _$this._model;
+  set model(String? model) => _$this._model = model;
 
-  String _plate;
-  String get plate => _$this._plate;
-  set plate(String plate) => _$this._plate = plate;
+  String? _plate;
+  String? get plate => _$this._plate;
+  set plate(String? plate) => _$this._plate = plate;
 
   BuiltVehicleDataBuilder();
 
   BuiltVehicleDataBuilder get _$this {
-    if (_$v != null) {
-      _brand = _$v.brand;
-      _color = _$v.color;
-      _model = _$v.model;
-      _plate = _$v.plate;
+    final $v = _$v;
+    if ($v != null) {
+      _brand = $v.brand;
+      _color = $v.color;
+      _model = $v.model;
+      _plate = $v.plate;
       _$v = null;
     }
     return this;
@@ -173,14 +170,12 @@ class BuiltVehicleDataBuilder
 
   @override
   void replace(BuiltVehicleData other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$BuiltVehicleData;
   }
 
   @override
-  void update(void Function(BuiltVehicleDataBuilder) updates) {
+  void update(void Function(BuiltVehicleDataBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -188,7 +183,14 @@ class BuiltVehicleDataBuilder
   _$BuiltVehicleData build() {
     final _$result = _$v ??
         new _$BuiltVehicleData._(
-            brand: brand, color: color, model: model, plate: plate);
+            brand: BuiltValueNullFieldError.checkNotNull(
+                brand, 'BuiltVehicleData', 'brand'),
+            color: BuiltValueNullFieldError.checkNotNull(
+                color, 'BuiltVehicleData', 'color'),
+            model: BuiltValueNullFieldError.checkNotNull(
+                model, 'BuiltVehicleData', 'model'),
+            plate: BuiltValueNullFieldError.checkNotNull(
+                plate, 'BuiltVehicleData', 'plate'));
     replace(_$result);
     return _$result;
   }

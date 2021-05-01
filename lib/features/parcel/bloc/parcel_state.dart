@@ -4,17 +4,17 @@ abstract class ParcelState extends Equatable {
   const ParcelState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ParcelLoadingInProgress extends ParcelState {}
 
 class ParcelLoadSuccess extends ParcelState {
-  final BuiltStop pickup;
-  final BuiltList<BuiltStop> points;
-  final Map<String, dynamic> data;
-  final BuiltDirections directions;
-  final String type;
+  final BuiltStop? pickup;
+  final BuiltList<BuiltStop>? points;
+  final Map<String, dynamic>? data;
+  final BuiltDirections? directions;
+  final String? type;
   final num subtotal;
 
   const ParcelLoadSuccess([
@@ -23,22 +23,22 @@ class ParcelLoadSuccess extends ParcelState {
     this.data,
     this.directions,
     this.type,
-    this.subtotal,
+    this.subtotal = 0,
   ]);
 
   @override
-  List<Object> get props => [pickup, points, data, directions, type, subtotal];
+  List<Object?> get props => [pickup, points, data, directions, type, subtotal];
 
   @override
   String toString() => 'ParcelLoadSuccess { pickup: $pickup, points: $points }';
 
   ParcelLoadSuccess copyWith({
-    BuiltStop pickup,
-    BuiltList<BuiltStop> points,
-    Map<String, dynamic> data,
-    BuiltDirections directions,
-    String type,
-    num subtotal,
+    BuiltStop? pickup,
+    BuiltList<BuiltStop>? points,
+    Map<String, dynamic>? data,
+    BuiltDirections? directions,
+    String? type,
+    num? subtotal,
   }) =>
       ParcelLoadSuccess(
           pickup ?? this.pickup,

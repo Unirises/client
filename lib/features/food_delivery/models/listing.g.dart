@@ -15,9 +15,9 @@ class _$ListingSerializer implements StructuredSerializer<Listing> {
   final String wireName = 'Listing';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Listing object,
+  Iterable<Object?> serialize(Serializers serializers, Listing object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'classificationName',
       serializers.serialize(object.classificationName,
           specifiedType: const FullType(String)),
@@ -25,16 +25,13 @@ class _$ListingSerializer implements StructuredSerializer<Listing> {
       serializers.serialize(object.classificationListing,
           specifiedType: const FullType(
               BuiltList, const [const FullType(ClassificationListing)])),
-      'editName',
-      serializers.serialize(object.editName,
-          specifiedType: const FullType(bool)),
     ];
 
     return result;
   }
 
   @override
-  Listing deserialize(Serializers serializers, Iterable<Object> serialized,
+  Listing deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new ListingBuilder();
 
@@ -42,7 +39,7 @@ class _$ListingSerializer implements StructuredSerializer<Listing> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'classificationName':
           result.classificationName = serializers.deserialize(value,
@@ -50,13 +47,9 @@ class _$ListingSerializer implements StructuredSerializer<Listing> {
           break;
         case 'classificationListing':
           result.classificationListing.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(ClassificationListing)]))
-              as BuiltList<Object>);
-          break;
-        case 'editName':
-          result.editName = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+              specifiedType: const FullType(BuiltList, const [
+                const FullType(ClassificationListing)
+              ]))! as BuiltList<Object>);
           break;
       }
     }
@@ -70,24 +63,17 @@ class _$Listing extends Listing {
   final String classificationName;
   @override
   final BuiltList<ClassificationListing> classificationListing;
-  @override
-  final bool editName;
 
-  factory _$Listing([void Function(ListingBuilder) updates]) =>
+  factory _$Listing([void Function(ListingBuilder)? updates]) =>
       (new ListingBuilder()..update(updates)).build();
 
   _$Listing._(
-      {this.classificationName, this.classificationListing, this.editName})
+      {required this.classificationName, required this.classificationListing})
       : super._() {
-    if (classificationName == null) {
-      throw new BuiltValueNullFieldError('Listing', 'classificationName');
-    }
-    if (classificationListing == null) {
-      throw new BuiltValueNullFieldError('Listing', 'classificationListing');
-    }
-    if (editName == null) {
-      throw new BuiltValueNullFieldError('Listing', 'editName');
-    }
+    BuiltValueNullFieldError.checkNotNull(
+        classificationName, 'Listing', 'classificationName');
+    BuiltValueNullFieldError.checkNotNull(
+        classificationListing, 'Listing', 'classificationListing');
   }
 
   @override
@@ -102,55 +88,47 @@ class _$Listing extends Listing {
     if (identical(other, this)) return true;
     return other is Listing &&
         classificationName == other.classificationName &&
-        classificationListing == other.classificationListing &&
-        editName == other.editName;
+        classificationListing == other.classificationListing;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc(0, classificationName.hashCode),
-            classificationListing.hashCode),
-        editName.hashCode));
+        $jc(0, classificationName.hashCode), classificationListing.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Listing')
           ..add('classificationName', classificationName)
-          ..add('classificationListing', classificationListing)
-          ..add('editName', editName))
+          ..add('classificationListing', classificationListing))
         .toString();
   }
 }
 
 class ListingBuilder implements Builder<Listing, ListingBuilder> {
-  _$Listing _$v;
+  _$Listing? _$v;
 
-  String _classificationName;
-  String get classificationName => _$this._classificationName;
-  set classificationName(String classificationName) =>
+  String? _classificationName;
+  String? get classificationName => _$this._classificationName;
+  set classificationName(String? classificationName) =>
       _$this._classificationName = classificationName;
 
-  ListBuilder<ClassificationListing> _classificationListing;
+  ListBuilder<ClassificationListing>? _classificationListing;
   ListBuilder<ClassificationListing> get classificationListing =>
       _$this._classificationListing ??=
           new ListBuilder<ClassificationListing>();
   set classificationListing(
-          ListBuilder<ClassificationListing> classificationListing) =>
+          ListBuilder<ClassificationListing>? classificationListing) =>
       _$this._classificationListing = classificationListing;
-
-  bool _editName;
-  bool get editName => _$this._editName;
-  set editName(bool editName) => _$this._editName = editName;
 
   ListingBuilder();
 
   ListingBuilder get _$this {
-    if (_$v != null) {
-      _classificationName = _$v.classificationName;
-      _classificationListing = _$v.classificationListing?.toBuilder();
-      _editName = _$v.editName;
+    final $v = _$v;
+    if ($v != null) {
+      _classificationName = $v.classificationName;
+      _classificationListing = $v.classificationListing.toBuilder();
       _$v = null;
     }
     return this;
@@ -158,14 +136,12 @@ class ListingBuilder implements Builder<Listing, ListingBuilder> {
 
   @override
   void replace(Listing other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Listing;
   }
 
   @override
-  void update(void Function(ListingBuilder) updates) {
+  void update(void Function(ListingBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -175,11 +151,11 @@ class ListingBuilder implements Builder<Listing, ListingBuilder> {
     try {
       _$result = _$v ??
           new _$Listing._(
-              classificationName: classificationName,
-              classificationListing: classificationListing.build(),
-              editName: editName);
+              classificationName: BuiltValueNullFieldError.checkNotNull(
+                  classificationName, 'Listing', 'classificationName'),
+              classificationListing: classificationListing.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'classificationListing';
         classificationListing.build();

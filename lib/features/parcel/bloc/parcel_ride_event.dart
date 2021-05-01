@@ -4,11 +4,11 @@ abstract class ParcelRideEvent extends Equatable {
   const ParcelRideEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class StartListenOnParcelRide extends ParcelRideEvent {
-  final String id;
+  final String? id;
 
   StartListenOnParcelRide(this.id);
 }
@@ -16,19 +16,19 @@ class StartListenOnParcelRide extends ParcelRideEvent {
 class StopListenOnParcelRide extends ParcelRideEvent {}
 
 class ParcelRideUpdated extends ParcelRideEvent {
-  final BuiltRequest ride;
+  final BuiltRequest? ride;
 
   ParcelRideUpdated(this.ride);
 
   @override
-  List<Object> get props => [ride];
+  List<Object?> get props => [ride];
 }
 
 class AddFinishedParcelRideToUser extends ParcelRideEvent {
-  final BuiltRequest ride;
+  final BuiltRequest? ride;
 
   AddFinishedParcelRideToUser(this.ride);
 
   @override
-  List<Object> get props => [ride];
+  List<Object?> get props => [ride];
 }

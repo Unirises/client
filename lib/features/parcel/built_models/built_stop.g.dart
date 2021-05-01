@@ -15,110 +15,124 @@ class _$BuiltStopSerializer implements StructuredSerializer<BuiltStop> {
   final String wireName = 'BuiltStop';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, BuiltStop object,
+  Iterable<Object?> serialize(Serializers serializers, BuiltStop object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
-    if (object.houseDetails != null) {
+    final result = <Object?>[];
+    Object? value;
+    value = object.houseDetails;
+    if (value != null) {
       result
         ..add('houseDetails')
-        ..add(serializers.serialize(object.houseDetails,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.name != null) {
+    value = object.name;
+    if (value != null) {
       result
         ..add('name')
-        ..add(serializers.serialize(object.name,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.phone != null) {
+    value = object.phone;
+    if (value != null) {
       result
         ..add('phone')
-        ..add(serializers.serialize(object.phone,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.location != null) {
+    value = object.location;
+    if (value != null) {
       result
         ..add('location')
-        ..add(serializers.serialize(object.location,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(Location)));
     }
-    if (object.address != null) {
+    value = object.address;
+    if (value != null) {
       result
         ..add('address')
-        ..add(serializers.serialize(object.address,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.id != null) {
+    value = object.id;
+    if (value != null) {
       result
         ..add('id')
-        ..add(serializers.serialize(object.id,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.weight != null) {
+    value = object.weight;
+    if (value != null) {
       result
         ..add('weight')
-        ..add(serializers.serialize(object.weight,
-            specifiedType: const FullType(num)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(num)));
     }
-    if (object.type != null) {
+    value = object.type;
+    if (value != null) {
       result
         ..add('type')
-        ..add(serializers.serialize(object.type,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.isCashOnDelivery != null) {
+    value = object.isCashOnDelivery;
+    if (value != null) {
       result
         ..add('isCashOnDelivery')
-        ..add(serializers.serialize(object.isCashOnDelivery,
-            specifiedType: const FullType(bool)));
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
-    if (object.distance != null) {
+    value = object.distance;
+    if (value != null) {
       result
         ..add('distance')
-        ..add(serializers.serialize(object.distance,
-            specifiedType: const FullType(num)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(num)));
     }
-    if (object.price != null) {
+    value = object.price;
+    if (value != null) {
       result
         ..add('price')
-        ..add(serializers.serialize(object.price,
-            specifiedType: const FullType(num)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(num)));
     }
-    if (object.startLocation != null) {
+    value = object.startLocation;
+    if (value != null) {
       result
         ..add('startLocation')
-        ..add(serializers.serialize(object.startLocation,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(Location)));
     }
-    if (object.endLocation != null) {
+    value = object.endLocation;
+    if (value != null) {
       result
         ..add('endLocation')
-        ..add(serializers.serialize(object.endLocation,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(Location)));
     }
-    if (object.startAddress != null) {
+    value = object.startAddress;
+    if (value != null) {
       result
         ..add('startAddress')
-        ..add(serializers.serialize(object.startAddress,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.endAddress != null) {
+    value = object.endAddress;
+    if (value != null) {
       result
         ..add('endAddress')
-        ..add(serializers.serialize(object.endAddress,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.duration != null) {
+    value = object.duration;
+    if (value != null) {
       result
         ..add('duration')
-        ..add(serializers.serialize(object.duration,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(DistanceDuration)));
     }
     return result;
   }
 
   @override
-  BuiltStop deserialize(Serializers serializers, Iterable<Object> serialized,
+  BuiltStop deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new BuiltStopBuilder();
 
@@ -126,7 +140,7 @@ class _$BuiltStopSerializer implements StructuredSerializer<BuiltStop> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'houseDetails':
           result.houseDetails = serializers.deserialize(value,
@@ -142,7 +156,7 @@ class _$BuiltStopSerializer implements StructuredSerializer<BuiltStop> {
           break;
         case 'location':
           result.location.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Location)) as Location);
+              specifiedType: const FullType(Location))! as Location);
           break;
         case 'address':
           result.address = serializers.deserialize(value,
@@ -174,11 +188,11 @@ class _$BuiltStopSerializer implements StructuredSerializer<BuiltStop> {
           break;
         case 'startLocation':
           result.startLocation.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Location)) as Location);
+              specifiedType: const FullType(Location))! as Location);
           break;
         case 'endLocation':
           result.endLocation.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Location)) as Location);
+              specifiedType: const FullType(Location))! as Location);
           break;
         case 'startAddress':
           result.startAddress = serializers.deserialize(value,
@@ -190,7 +204,7 @@ class _$BuiltStopSerializer implements StructuredSerializer<BuiltStop> {
           break;
         case 'duration':
           result.duration.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(DistanceDuration))
+                  specifiedType: const FullType(DistanceDuration))!
               as DistanceDuration);
           break;
       }
@@ -202,39 +216,39 @@ class _$BuiltStopSerializer implements StructuredSerializer<BuiltStop> {
 
 class _$BuiltStop extends BuiltStop {
   @override
-  final String houseDetails;
+  final String? houseDetails;
   @override
-  final String name;
+  final String? name;
   @override
-  final String phone;
+  final String? phone;
   @override
-  final Location location;
+  final Location? location;
   @override
-  final String address;
+  final String? address;
   @override
-  final String id;
+  final String? id;
   @override
-  final num weight;
+  final num? weight;
   @override
-  final String type;
+  final String? type;
   @override
-  final bool isCashOnDelivery;
+  final bool? isCashOnDelivery;
   @override
-  final num distance;
+  final num? distance;
   @override
-  final num price;
+  final num? price;
   @override
-  final Location startLocation;
+  final Location? startLocation;
   @override
-  final Location endLocation;
+  final Location? endLocation;
   @override
-  final String startAddress;
+  final String? startAddress;
   @override
-  final String endAddress;
+  final String? endAddress;
   @override
-  final DistanceDuration duration;
+  final DistanceDuration? duration;
 
-  factory _$BuiltStop([void Function(BuiltStopBuilder) updates]) =>
+  factory _$BuiltStop([void Function(BuiltStopBuilder)? updates]) =>
       (new BuiltStopBuilder()..update(updates)).build();
 
   _$BuiltStop._(
@@ -347,98 +361,100 @@ class _$BuiltStop extends BuiltStop {
 }
 
 class BuiltStopBuilder implements Builder<BuiltStop, BuiltStopBuilder> {
-  _$BuiltStop _$v;
+  _$BuiltStop? _$v;
 
-  String _houseDetails;
-  String get houseDetails => _$this._houseDetails;
-  set houseDetails(String houseDetails) => _$this._houseDetails = houseDetails;
+  String? _houseDetails;
+  String? get houseDetails => _$this._houseDetails;
+  set houseDetails(String? houseDetails) => _$this._houseDetails = houseDetails;
 
-  String _name;
-  String get name => _$this._name;
-  set name(String name) => _$this._name = name;
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
 
-  String _phone;
-  String get phone => _$this._phone;
-  set phone(String phone) => _$this._phone = phone;
+  String? _phone;
+  String? get phone => _$this._phone;
+  set phone(String? phone) => _$this._phone = phone;
 
-  LocationBuilder _location;
+  LocationBuilder? _location;
   LocationBuilder get location => _$this._location ??= new LocationBuilder();
-  set location(LocationBuilder location) => _$this._location = location;
+  set location(LocationBuilder? location) => _$this._location = location;
 
-  String _address;
-  String get address => _$this._address;
-  set address(String address) => _$this._address = address;
+  String? _address;
+  String? get address => _$this._address;
+  set address(String? address) => _$this._address = address;
 
-  String _id;
-  String get id => _$this._id;
-  set id(String id) => _$this._id = id;
+  String? _id;
+  String? get id => _$this._id;
+  set id(String? id) => _$this._id = id;
 
-  num _weight;
-  num get weight => _$this._weight;
-  set weight(num weight) => _$this._weight = weight;
+  num? _weight;
+  num? get weight => _$this._weight;
+  set weight(num? weight) => _$this._weight = weight;
 
-  String _type;
-  String get type => _$this._type;
-  set type(String type) => _$this._type = type;
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
 
-  bool _isCashOnDelivery;
-  bool get isCashOnDelivery => _$this._isCashOnDelivery;
-  set isCashOnDelivery(bool isCashOnDelivery) =>
+  bool? _isCashOnDelivery;
+  bool? get isCashOnDelivery => _$this._isCashOnDelivery;
+  set isCashOnDelivery(bool? isCashOnDelivery) =>
       _$this._isCashOnDelivery = isCashOnDelivery;
 
-  num _distance;
-  num get distance => _$this._distance;
-  set distance(num distance) => _$this._distance = distance;
+  num? _distance;
+  num? get distance => _$this._distance;
+  set distance(num? distance) => _$this._distance = distance;
 
-  num _price;
-  num get price => _$this._price;
-  set price(num price) => _$this._price = price;
+  num? _price;
+  num? get price => _$this._price;
+  set price(num? price) => _$this._price = price;
 
-  LocationBuilder _startLocation;
+  LocationBuilder? _startLocation;
   LocationBuilder get startLocation =>
       _$this._startLocation ??= new LocationBuilder();
-  set startLocation(LocationBuilder startLocation) =>
+  set startLocation(LocationBuilder? startLocation) =>
       _$this._startLocation = startLocation;
 
-  LocationBuilder _endLocation;
+  LocationBuilder? _endLocation;
   LocationBuilder get endLocation =>
       _$this._endLocation ??= new LocationBuilder();
-  set endLocation(LocationBuilder endLocation) =>
+  set endLocation(LocationBuilder? endLocation) =>
       _$this._endLocation = endLocation;
 
-  String _startAddress;
-  String get startAddress => _$this._startAddress;
-  set startAddress(String startAddress) => _$this._startAddress = startAddress;
+  String? _startAddress;
+  String? get startAddress => _$this._startAddress;
+  set startAddress(String? startAddress) => _$this._startAddress = startAddress;
 
-  String _endAddress;
-  String get endAddress => _$this._endAddress;
-  set endAddress(String endAddress) => _$this._endAddress = endAddress;
+  String? _endAddress;
+  String? get endAddress => _$this._endAddress;
+  set endAddress(String? endAddress) => _$this._endAddress = endAddress;
 
-  DistanceDurationBuilder _duration;
+  DistanceDurationBuilder? _duration;
   DistanceDurationBuilder get duration =>
       _$this._duration ??= new DistanceDurationBuilder();
-  set duration(DistanceDurationBuilder duration) => _$this._duration = duration;
+  set duration(DistanceDurationBuilder? duration) =>
+      _$this._duration = duration;
 
   BuiltStopBuilder();
 
   BuiltStopBuilder get _$this {
-    if (_$v != null) {
-      _houseDetails = _$v.houseDetails;
-      _name = _$v.name;
-      _phone = _$v.phone;
-      _location = _$v.location?.toBuilder();
-      _address = _$v.address;
-      _id = _$v.id;
-      _weight = _$v.weight;
-      _type = _$v.type;
-      _isCashOnDelivery = _$v.isCashOnDelivery;
-      _distance = _$v.distance;
-      _price = _$v.price;
-      _startLocation = _$v.startLocation?.toBuilder();
-      _endLocation = _$v.endLocation?.toBuilder();
-      _startAddress = _$v.startAddress;
-      _endAddress = _$v.endAddress;
-      _duration = _$v.duration?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _houseDetails = $v.houseDetails;
+      _name = $v.name;
+      _phone = $v.phone;
+      _location = $v.location?.toBuilder();
+      _address = $v.address;
+      _id = $v.id;
+      _weight = $v.weight;
+      _type = $v.type;
+      _isCashOnDelivery = $v.isCashOnDelivery;
+      _distance = $v.distance;
+      _price = $v.price;
+      _startLocation = $v.startLocation?.toBuilder();
+      _endLocation = $v.endLocation?.toBuilder();
+      _startAddress = $v.startAddress;
+      _endAddress = $v.endAddress;
+      _duration = $v.duration?.toBuilder();
       _$v = null;
     }
     return this;
@@ -446,14 +462,12 @@ class BuiltStopBuilder implements Builder<BuiltStop, BuiltStopBuilder> {
 
   @override
   void replace(BuiltStop other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$BuiltStop;
   }
 
   @override
-  void update(void Function(BuiltStopBuilder) updates) {
+  void update(void Function(BuiltStopBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -480,7 +494,7 @@ class BuiltStopBuilder implements Builder<BuiltStop, BuiltStopBuilder> {
               endAddress: endAddress,
               duration: _duration?.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'location';
         _location?.build();

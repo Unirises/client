@@ -18,9 +18,7 @@ import 'package:url_launcher/url_launcher.dart';
 class TransactionPage extends StatefulWidget {
   final BuiltRequest ride;
 
-  const TransactionPage({Key key, this.ride})
-      : assert(ride != null),
-        super(key: key);
+  const TransactionPage({Key? key, required this.ride}) : super(key: key);
 
   @override
   _TransactionPageState createState() => _TransactionPageState();
@@ -29,46 +27,46 @@ class TransactionPage extends StatefulWidget {
 class _TransactionPageState extends State<TransactionPage> {
   final polyLines = PolylinePoints();
   Completer<GoogleMapController> _controller = Completer();
-  GoogleMapController mapController;
+  late GoogleMapController mapController;
 
   @override
   Widget build(BuildContext context) {
     final listOfLatLng = polyLines
         .decodePolyline(
-            widget.ride.directions.routes.first.overviewPolyline.points)
+            widget.ride.directions!.routes!.first.overviewPolyline!.points!)
         .map((e) => LatLng(e.latitude, e.longitude))
         .toList();
     var bounds = LatLngBounds(
       northeast: LatLng(
-        widget.ride.directions.routes.first.bounds.northeast.lat,
-        widget.ride.directions.routes.first.bounds.northeast.lng,
+        widget.ride.directions!.routes!.first.bounds!.northeast!.lat!,
+        widget.ride.directions!.routes!.first.bounds!.northeast!.lng!,
       ),
       southwest: LatLng(
-        widget.ride.directions.routes.first.bounds.southwest.lat,
-        widget.ride.directions.routes.first.bounds.southwest.lng,
+        widget.ride.directions!.routes!.first.bounds!.southwest!.lat!,
+        widget.ride.directions!.routes!.first.bounds!.southwest!.lng!,
       ),
     );
 
     final Set<Marker> markers = {};
 
-    for (var i = 0; i < widget.ride.points.length; i++) {
+    for (var i = 0; i < widget.ride.points!.length; i++) {
       markers.add(Marker(
           markerId: MarkerId(String.fromCharCode(i)),
-          position: LatLng(widget.ride.points[i].location.lat,
-              widget.ride.points[i].location.lng),
-          infoWindow: InfoWindow(title: widget.ride.points[i].name)));
+          position: LatLng(widget.ride.points![i].location!.lat!,
+              widget.ride.points![i].location!.lng!),
+          infoWindow: InfoWindow(title: widget.ride.points![i].name)));
     }
 
     markers.add(Marker(
         markerId: MarkerId('Pickup'),
-        position: LatLng(
-            widget.ride.pickup.location.lat, widget.ride.pickup.location.lng),
+        position: LatLng(widget.ride.pickup!.location!.lat!,
+            widget.ride.pickup!.location!.lng!),
         infoWindow: InfoWindow(title: 'Pickup')));
-    !widget.ride.isParcel
+    !widget.ride.isParcel!
         ? markers.add(Marker(
             markerId: MarkerId('Destination'),
-            position: LatLng(widget.ride.destination.location.lat,
-                widget.ride.destination.location.lng),
+            position: LatLng(widget.ride.destination!.location!.lat!,
+                widget.ride.destination!.location!.lng!),
             infoWindow: InfoWindow(title: 'Destination')))
         : null;
 
@@ -83,8 +81,8 @@ class _TransactionPageState extends State<TransactionPage> {
               liteModeEnabled: false,
               initialCameraPosition: CameraPosition(
                 target: LatLng(
-                  widget.ride.pickup.location.lat,
-                  widget.ride.pickup.location.lng,
+                  widget.ride.pickup!.location!.lat!,
+                  widget.ride.pickup!.location!.lng!,
                 ),
                 zoom: 18,
               ),
@@ -170,7 +168,7 @@ class _TransactionPageState extends State<TransactionPage> {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            '${widget.ride.isParcel ? widget.ride.pickup.address : widget.ride.pickup.name + ' - ' + widget.ride.pickup.address}',
+                            '${widget.ride.isParcel! ? widget.ride.pickup!.address : widget.ride.pickup!.name! + ' - ' + widget.ride.pickup!.address!}',
                             style: const TextStyle(color: Colors.grey),
                           ),
                         ),
@@ -189,7 +187,7 @@ class _TransactionPageState extends State<TransactionPage> {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            '${widget.ride.isParcel ? widget.ride.points.last.name + ' - ' + widget.ride.points.last.address : widget.ride.destination.address}',
+                            '${widget.ride.isParcel! ? widget.ride.points!.last.name! + ' - ' + widget.ride.points!.last.address! : widget.ride.destination!.address}',
                             style: const TextStyle(color: Colors.grey),
                           ),
                         ),
@@ -210,7 +208,7 @@ class _TransactionPageState extends State<TransactionPage> {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            '${DateFormat('E, d y h:mm a').format(DateTime.fromMillisecondsSinceEpoch(widget.ride.timestamp))}',
+                            '${DateFormat('E, d y h:mm a').format(DateTime.fromMillisecondsSinceEpoch(widget.ride.timestamp as int))}',
                             style: const TextStyle(color: Colors.grey),
                           ),
                         ),
@@ -229,7 +227,7 @@ class _TransactionPageState extends State<TransactionPage> {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            widget.ride.isParcel
+                            widget.ride.isParcel!
                                 ? 'Parcel Delivery'
                                 : 'Merchants',
                             style: const TextStyle(color: Colors.grey),
@@ -250,7 +248,7 @@ class _TransactionPageState extends State<TransactionPage> {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            widget.ride.status.capitalizeFirstofEach,
+                            widget.ride.status!.capitalizeFirstofEach,
                             style: const TextStyle(color: Colors.grey),
                           ),
                         ),
@@ -275,17 +273,18 @@ class _TransactionPageState extends State<TransactionPage> {
                                             .watch<ClientBloc>()
                                             .state as ClientLoaded)
                                         .client
-                                        .rides;
+                                        .rides!;
                                     var idx = rides.indexWhere((element) =>
                                         element.id == widget.ride.id);
 
                                     if (idx == -1) {
-                                      return Flushbar(
+                                      Flushbar(
                                         title: 'Rating Failure',
                                         message:
                                             'Sorry we cannot handle your request at the moment.',
                                         duration: Duration(seconds: 5),
                                       )..show(context);
+                                      return null;
                                     }
 
                                     BuiltRequest newRatedRide = rides[idx];
@@ -305,12 +304,13 @@ class _TransactionPageState extends State<TransactionPage> {
                                           .update(
                                               {'rides': formattedClientRides});
                                     } catch (e) {
-                                      return Flushbar(
+                                      Flushbar(
                                         title: 'Rating Failure',
                                         message:
                                             'Sorry we cannot update your request at the moment.',
                                         duration: Duration(seconds: 5),
                                       )..show(context);
+                                      return null;
                                     }
 
                                     if (widget.ride.id == null) return null;
@@ -323,19 +323,20 @@ class _TransactionPageState extends State<TransactionPage> {
                                           .get();
                                       var driver =
                                           Driver.fromSnapshot(driverData);
-                                      var driverRides = driver.rides;
+                                      var driverRides = driver.rides!;
 
                                       var driverIdx = driverRides.indexWhere(
                                           (element) =>
                                               element.id == widget.ride.id);
 
                                       if (driverIdx == -1) {
-                                        return Flushbar(
+                                        Flushbar(
                                           title: 'Rating Failure',
                                           message:
                                               'Sorry we cannot handle your request at the moment.',
                                           duration: Duration(seconds: 5),
                                         )..show(context);
+                                        return null;
                                       }
 
                                       BuiltRequest newRatedRideDriver =
@@ -355,23 +356,25 @@ class _TransactionPageState extends State<TransactionPage> {
                                           .update(
                                               {'rides': formattedDriverRides});
 
-                                      return Flushbar(
+                                      Flushbar(
                                         title: 'Rating Success',
                                         message:
                                             'Your rating has been updated successfully. To see updates, please refresh page.',
                                         duration: Duration(seconds: 5),
                                       )..show(context);
+                                      return null;
                                     } catch (e) {
-                                      return Flushbar(
+                                      Flushbar(
                                         title: 'Rating Failure',
                                         message:
                                             'Sorry, driver data cannot handle your request at the moment.',
                                         duration: Duration(seconds: 5),
                                       )..show(context);
+                                      return null;
                                     }
                                   },
                                   starCount: 5,
-                                  rating: widget.ride.rating.toDouble(),
+                                  rating: widget.ride.rating!.toDouble(),
                                   size: 40.0,
                                   color: Theme.of(context).primaryColor,
                                   borderColor: Color(0xff424242),
@@ -388,7 +391,7 @@ class _TransactionPageState extends State<TransactionPage> {
   }
 
   Widget buildPrices() {
-    if (!widget.ride.isParcel) {
+    if (!widget.ride.isParcel!) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -404,7 +407,7 @@ class _TransactionPageState extends State<TransactionPage> {
               Expanded(
                 flex: 2,
                 child: Text(
-                  'PHP ${widget.ride.subtotal.toStringAsFixed(2)}',
+                  'PHP ${widget.ride.subtotal!.toStringAsFixed(2)}',
                   style: const TextStyle(color: Colors.grey),
                 ),
               ),
@@ -423,7 +426,7 @@ class _TransactionPageState extends State<TransactionPage> {
               Expanded(
                 flex: 2,
                 child: Text(
-                  'PHP ${widget.ride.fee.toStringAsFixed(2)}',
+                  'PHP ${widget.ride.fee!.toStringAsFixed(2)}',
                   style: const TextStyle(color: Colors.grey),
                 ),
               ),
@@ -442,7 +445,7 @@ class _TransactionPageState extends State<TransactionPage> {
               Expanded(
                 flex: 2,
                 child: Text(
-                  'PHP ${(widget.ride.fee + widget.ride.subtotal).toStringAsFixed(2)}',
+                  'PHP ${(widget.ride.fee! + widget.ride.subtotal!).toStringAsFixed(2)}',
                   style: const TextStyle(color: Colors.grey),
                 ),
               ),
@@ -463,7 +466,7 @@ class _TransactionPageState extends State<TransactionPage> {
         Expanded(
           flex: 2,
           child: Text(
-            'PHP ${widget.ride.fee.toStringAsFixed(2)}',
+            'PHP ${widget.ride.fee!.toStringAsFixed(2)}',
             style: const TextStyle(color: Colors.grey),
           ),
         ),

@@ -4,11 +4,11 @@ abstract class FoodRideEvent extends Equatable {
   const FoodRideEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class StartListenOnFoodRide extends FoodRideEvent {
-  final String id;
+  final String? id;
 
   StartListenOnFoodRide(this.id);
 }
@@ -16,19 +16,19 @@ class StartListenOnFoodRide extends FoodRideEvent {
 class StopListenOnFoodRide extends FoodRideEvent {}
 
 class FoodRideUpdated extends FoodRideEvent {
-  final BuiltRequest ride;
+  final BuiltRequest? ride;
 
   FoodRideUpdated(this.ride);
 
   @override
-  List<Object> get props => [ride];
+  List<Object?> get props => [ride];
 }
 
 class AddFinishedFoodRideToUser extends FoodRideEvent {
-  final BuiltRequest ride;
+  final BuiltRequest? ride;
 
   AddFinishedFoodRideToUser(this.ride);
 
   @override
-  List<Object> get props => [ride];
+  List<Object?> get props => [ride];
 }

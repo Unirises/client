@@ -5,9 +5,9 @@ import '../../models/Merchant.dart';
 import '../widgets/time_location_widget.dart';
 
 class CompanyInfoDataPage extends StatelessWidget {
-  final Merchant merchant;
+  final Merchant? merchant;
 
-  const CompanyInfoDataPage({Key key, this.merchant}) : super(key: key);
+  const CompanyInfoDataPage({Key? key, this.merchant}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +24,11 @@ class CompanyInfoDataPage extends StatelessWidget {
               markers: {
                 Marker(
                     markerId: MarkerId('yes'),
-                    position: LatLng(merchant.place.lat, merchant.place.lng),
-                    infoWindow: InfoWindow(title: merchant.companyName))
+                    position: LatLng(merchant!.place!.lat!, merchant!.place!.lng!),
+                    infoWindow: InfoWindow(title: merchant!.companyName))
               },
               initialCameraPosition: CameraPosition(
-                target: LatLng(merchant.place.lat, merchant.place.lng),
+                target: LatLng(merchant!.place!.lat!, merchant!.place!.lng!),
                 zoom: 20,
               ),
             ),
@@ -42,7 +42,7 @@ class CompanyInfoDataPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    merchant.companyName,
+                    merchant!.companyName!,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
                   ),
                   TimeLocationWidget(
@@ -67,7 +67,7 @@ class CompanyInfoDataPage extends StatelessWidget {
                       Expanded(
                         flex: 2,
                         child: Text(
-                          merchant.address ?? '',
+                          merchant!.address ?? '',
                           style: const TextStyle(color: Colors.grey),
                         ),
                       ),
@@ -87,7 +87,7 @@ class CompanyInfoDataPage extends StatelessWidget {
                       Expanded(
                         flex: 2,
                         child: Text(
-                          '${merchant.startTime ?? ''} - ${merchant.endTime ?? ''}',
+                          '${merchant!.startTime ?? ''} - ${merchant!.endTime ?? ''}',
                           style: const TextStyle(color: Colors.grey),
                         ),
                       ),

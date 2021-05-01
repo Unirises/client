@@ -12,7 +12,7 @@ abstract class OverviewPolyline
     implements Built<OverviewPolyline, OverviewPolylineBuilder> {
   OverviewPolyline._();
 
-  factory OverviewPolyline([updates(OverviewPolylineBuilder b)]) =
+  factory OverviewPolyline([updates(OverviewPolylineBuilder b)?]) =
       _$OverviewPolyline;
 
   @BuiltValueField(wireName: 'points')
@@ -22,7 +22,7 @@ abstract class OverviewPolyline
         .encode(serializers.serializeWith(OverviewPolyline.serializer, this));
   }
 
-  static OverviewPolyline fromJson(String jsonString) {
+  static OverviewPolyline? fromJson(String jsonString) {
     return serializers.deserializeWith(
         OverviewPolyline.serializer, json.decode(jsonString));
   }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ProfilePictureWidget extends StatelessWidget {
-  const ProfilePictureWidget({Key key, this.url, this.radius})
+  const ProfilePictureWidget({Key? key, this.url, this.radius})
       : super(key: key);
 
-  final String url;
-  final double radius;
+  final String? url;
+  final double? radius;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class ProfilePictureWidget extends StatelessWidget {
         backgroundImage: NetworkImage(
           url == null
               ? 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'
-              : url,
+              : url!,
         ),
       ),
     );

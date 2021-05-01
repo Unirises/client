@@ -14,9 +14,9 @@ import 'food_delivery_checkout_page.dart';
 import 'item_listing_selection_page.dart';
 
 class FoodDeliveryListingPage extends StatefulWidget {
-  final Merchant merchant;
+  final Merchant? merchant;
 
-  const FoodDeliveryListingPage({Key key, this.merchant}) : super(key: key);
+  const FoodDeliveryListingPage({Key? key, this.merchant}) : super(key: key);
 
   @override
   _FoodDeliveryListingPageState createState() =>
@@ -25,18 +25,18 @@ class FoodDeliveryListingPage extends StatefulWidget {
 
 class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
+  TabController? _tabController;
 
   @override
   void initState() {
     super.initState();
     _tabController = new TabController(
-        vsync: this, length: widget.merchant.listing.listing.length);
+        vsync: this, length: widget.merchant!.listing!.listing!.length);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _tabController!.dispose();
     super.dispose();
   }
 
@@ -79,42 +79,42 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                 } else {
                   return Scaffold(
                     floatingActionButton: (state.items != null &&
-                            state.items.length > 0)
+                            state.items!.length > 0)
                         ? FloatingActionButton(
                             child: Icon(Icons.shopping_basket),
                             backgroundColor: Theme.of(context).primaryColor,
-                            onPressed:
-                                (state.items != null && state.items.length > 0)
-                                    ? () {
-                                        pushNewScreen(context,
-                                            screen: FoodDeliveryCheckoutPage(
-                                          onBooked: () {
-                                            context.read<CheckoutBloc>().add(
-                                                  CheckoutBookRide(
-                                                    storeID: widget.merchant.id,
-                                                    name: (context
-                                                                .read<
-                                                                    UserCollectionBloc>()
-                                                                .state
-                                                            as UserCollectionLoaded)
-                                                        .userCollection
-                                                        .name,
-                                                    number: (context
-                                                                .read<
-                                                                    UserCollectionBloc>()
-                                                                .state
-                                                            as UserCollectionLoaded)
-                                                        .userCollection
-                                                        .phone,
-                                                    foodRideBloc: context
-                                                        .read<FoodRideBloc>(),
-                                                  ),
-                                                );
-                                            Navigator.pop(context);
-                                          },
-                                        ));
-                                      }
-                                    : null,
+                            onPressed: (state.items != null &&
+                                    state.items!.length > 0)
+                                ? () {
+                                    pushNewScreen(context,
+                                        screen: FoodDeliveryCheckoutPage(
+                                      onBooked: () {
+                                        context.read<CheckoutBloc>().add(
+                                              CheckoutBookRide(
+                                                storeID: widget.merchant!.id,
+                                                name: (context
+                                                            .read<
+                                                                UserCollectionBloc>()
+                                                            .state
+                                                        as UserCollectionLoaded)
+                                                    .userCollection!
+                                                    .name,
+                                                number: (context
+                                                            .read<
+                                                                UserCollectionBloc>()
+                                                            .state
+                                                        as UserCollectionLoaded)
+                                                    .userCollection!
+                                                    .phone,
+                                                foodRideBloc: context
+                                                    .read<FoodRideBloc>(),
+                                              ),
+                                            );
+                                        Navigator.pop(context);
+                                      },
+                                    ));
+                                  }
+                                : null,
                           )
                         : null,
                     body: NestedScrollView(
@@ -130,9 +130,9 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                                   StretchMode.zoomBackground,
                                   StretchMode.blurBackground,
                                 ],
-                                background: widget.merchant.hero != null
+                                background: widget.merchant!.hero != null
                                     ? Image.network(
-                                        widget.merchant.hero ??
+                                        widget.merchant!.hero ??
                                             "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
                                         fit: BoxFit.cover,
                                       )
@@ -155,7 +155,7 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        widget.merchant.companyName,
+                                        widget.merchant!.companyName!,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 32),
@@ -190,7 +190,7 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                               controller: _tabController,
                               indicatorColor: Theme.of(context).primaryColor,
                               isScrollable: true,
-                              tabs: widget.merchant.listing.listing
+                              tabs: widget.merchant!.listing!.listing!
                                   .map((e) => Tab(
                                         text: e.classificationName,
                                       ))
@@ -200,26 +200,26 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                           Expanded(
                             child: TabBarView(
                                 controller: _tabController,
-                                children: widget.merchant.listing.listing
+                                children: widget.merchant!.listing!.listing!
                                     .map(
                                       (listing) => ListView.builder(
                                         itemBuilder: (context, itemIndex) {
                                           return ListTile(
                                             onTap: (listing
-                                                            .classificationListing[
+                                                            .classificationListing![
                                                                 itemIndex]
                                                             .isAvailable ==
                                                         null ||
                                                     !listing
-                                                        .classificationListing[
+                                                        .classificationListing![
                                                             itemIndex]
-                                                        .isAvailable)
+                                                        .isAvailable!)
                                                 ? null
                                                 : () {
                                                     context
                                                         .read<ItemBloc>()
                                                         .add(ItemAdded(
-                                                            listing.classificationListing[
+                                                            listing.classificationListing![
                                                                 itemIndex],
                                                             false));
                                                     pushNewScreen(context,
@@ -227,7 +227,7 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                                                             ItemListingSelectionPage(
                                                           itemIndex: itemIndex,
                                                           classificationIndex:
-                                                              _tabController
+                                                              _tabController!
                                                                   .index,
                                                           onSuccess: (item) {
                                                             context
@@ -235,33 +235,33 @@ class _FoodDeliveryListingPageState extends State<FoodDeliveryListingPage>
                                                                     CheckoutBloc>()
                                                                 .add(
                                                                     CheckoutItemAdded(
-                                                                        item));
+                                                                        item!));
                                                             Navigator.pop(
                                                                 context);
                                                           },
                                                         ));
                                                   },
                                             title: Text(listing
-                                                .classificationListing[
+                                                .classificationListing![
                                                     itemIndex]
-                                                .itemName),
+                                                .itemName!),
                                             subtitle: Text(listing
-                                                            .classificationListing[
+                                                            .classificationListing![
                                                                 itemIndex]
                                                             .isAvailable !=
                                                         null &&
                                                     listing
-                                                        .classificationListing[
+                                                        .classificationListing![
                                                             itemIndex]
-                                                        .isAvailable
+                                                        .isAvailable!
                                                 ? ''
                                                 : 'Currently unavailable'),
                                             trailing: Text(
-                                                'PHP ${listing.classificationListing[itemIndex].itemPrice}'),
+                                                'PHP ${listing.classificationListing![itemIndex].itemPrice}'),
                                           );
                                         },
                                         itemCount: listing
-                                            .classificationListing.length,
+                                            .classificationListing!.length,
                                       ),
                                     )
                                     .toList()),

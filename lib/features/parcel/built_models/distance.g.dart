@@ -15,9 +15,9 @@ class _$DistanceSerializer implements StructuredSerializer<Distance> {
   final String wireName = 'Distance';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Distance object,
+  Iterable<Object?> serialize(Serializers serializers, Distance object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'text',
       serializers.serialize(object.text, specifiedType: const FullType(String)),
       'value',
@@ -28,7 +28,7 @@ class _$DistanceSerializer implements StructuredSerializer<Distance> {
   }
 
   @override
-  Distance deserialize(Serializers serializers, Iterable<Object> serialized,
+  Distance deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new DistanceBuilder();
 
@@ -36,7 +36,7 @@ class _$DistanceSerializer implements StructuredSerializer<Distance> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'text':
           result.text = serializers.deserialize(value,
@@ -59,16 +59,12 @@ class _$Distance extends Distance {
   @override
   final int value;
 
-  factory _$Distance([void Function(DistanceBuilder) updates]) =>
+  factory _$Distance([void Function(DistanceBuilder)? updates]) =>
       (new DistanceBuilder()..update(updates)).build();
 
-  _$Distance._({this.text, this.value}) : super._() {
-    if (text == null) {
-      throw new BuiltValueNullFieldError('Distance', 'text');
-    }
-    if (value == null) {
-      throw new BuiltValueNullFieldError('Distance', 'value');
-    }
+  _$Distance._({required this.text, required this.value}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(text, 'Distance', 'text');
+    BuiltValueNullFieldError.checkNotNull(value, 'Distance', 'value');
   }
 
   @override
@@ -99,22 +95,23 @@ class _$Distance extends Distance {
 }
 
 class DistanceBuilder implements Builder<Distance, DistanceBuilder> {
-  _$Distance _$v;
+  _$Distance? _$v;
 
-  String _text;
-  String get text => _$this._text;
-  set text(String text) => _$this._text = text;
+  String? _text;
+  String? get text => _$this._text;
+  set text(String? text) => _$this._text = text;
 
-  int _value;
-  int get value => _$this._value;
-  set value(int value) => _$this._value = value;
+  int? _value;
+  int? get value => _$this._value;
+  set value(int? value) => _$this._value = value;
 
   DistanceBuilder();
 
   DistanceBuilder get _$this {
-    if (_$v != null) {
-      _text = _$v.text;
-      _value = _$v.value;
+    final $v = _$v;
+    if ($v != null) {
+      _text = $v.text;
+      _value = $v.value;
       _$v = null;
     }
     return this;
@@ -122,20 +119,23 @@ class DistanceBuilder implements Builder<Distance, DistanceBuilder> {
 
   @override
   void replace(Distance other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Distance;
   }
 
   @override
-  void update(void Function(DistanceBuilder) updates) {
+  void update(void Function(DistanceBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
   _$Distance build() {
-    final _$result = _$v ?? new _$Distance._(text: text, value: value);
+    final _$result = _$v ??
+        new _$Distance._(
+            text:
+                BuiltValueNullFieldError.checkNotNull(text, 'Distance', 'text'),
+            value: BuiltValueNullFieldError.checkNotNull(
+                value, 'Distance', 'value'));
     replace(_$result);
     return _$result;
   }

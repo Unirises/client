@@ -11,16 +11,16 @@ class FoodDeliveryArrivePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var state = (context.watch<FoodRideBloc>().state as FoodRideLoaded);
-    var now = DateTime.fromMillisecondsSinceEpoch(state.request.timestamp);
+    var now = DateTime.fromMillisecondsSinceEpoch(state.request!.timestamp as int);
     now = now.add(Duration(
-        minutes: (state.request.averageTimePreparation == null)
+        minutes: (state.request!.averageTimePreparation == null)
             ? 0
-            : state.request.averageTimePreparation));
+            : state.request!.averageTimePreparation as int));
     now = now.add(Duration(minutes: 3));
     var optimistic = DateFormat('hh:mm a').format(
-        now.add(Duration(seconds: state.request.destination.duration.value)));
+        now.add(Duration(seconds: state.request!.destination!.duration!.value!)));
     var pessmistic = DateFormat('hh:mm a').format(now
-        .add(Duration(seconds: state.request.destination.duration.value))
+        .add(Duration(seconds: state.request!.destination!.duration!.value!))
         .add(Duration(minutes: 35)));
 
     return Scaffold(
@@ -33,7 +33,7 @@ class FoodDeliveryArrivePage extends StatelessWidget {
               AspectRatio(
                 aspectRatio: 1,
                 child: Container(
-                  child: state.request.status == 'arriving'
+                  child: state.request!.status == 'arriving'
                       ? Image.asset('assets/onboarding/driver.png')
                       : Image.asset('assets/barbecue.png'),
                 ),
@@ -72,14 +72,14 @@ class FoodDeliveryArrivePage extends StatelessWidget {
                       ),
                       Divider(),
                       Text(
-                        '${state.request.status == 'arriving' ? 'Preparing' : 'Waiting'}',
+                        '${state.request!.status == 'arriving' ? 'Preparing' : 'Waiting'}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
                       ),
                       Text(
-                          '${state.request.status == 'arriving' ? 'Found you a driver! On the way to the restaurant' : 'The driver has arrived. Waiting for your order to finish.'}'),
+                          '${state.request!.status == 'arriving' ? 'Found you a driver! On the way to the restaurant' : 'The driver has arrived. Waiting for your order to finish.'}'),
                     ],
                   ),
                 ),
@@ -120,18 +120,18 @@ class FoodDeliveryArrivePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  state.request.driverName ?? 'No Driver Name',
+                                  state.request!.driverName ?? 'No Driver Name',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
                                   ),
                                 ),
                                 Row(children: [
-                                  Text(state.request.vehicleData.brand + ' '),
-                                  Text(state.request.vehicleData.model + ' '),
-                                  Text(state.request.vehicleData.color + ' '),
+                                  Text(state.request!.vehicleData!.brand! + ' '),
+                                  Text(state.request!.vehicleData!.model! + ' '),
+                                  Text(state.request!.vehicleData!.color! + ' '),
                                   Text(' - '),
-                                  Text(state.request.vehicleData.plate)
+                                  Text(state.request!.vehicleData!.plate!)
                                 ]),
                               ],
                             ),
@@ -144,7 +144,7 @@ class FoodDeliveryArrivePage extends StatelessWidget {
                       Divider(),
                       IconButton(
                           onPressed: () async =>
-                              launch('tel:${state.request.driverNumber}'),
+                              launch('tel:${state.request!.driverNumber}'),
                           icon: Icon(Icons.call)),
                     ],
                   ),
@@ -175,7 +175,7 @@ class FoodDeliveryArrivePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${state.request.pickup.name}',
+                        '${state.request!.pickup!.name}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -189,7 +189,7 @@ class FoodDeliveryArrivePage extends StatelessWidget {
                         children: [
                           Text('Total'),
                           Text(
-                            'PHP ${(state.request.subtotal + state.request.fee).toStringAsFixed(2)}',
+                            'PHP ${(state.request!.subtotal! + state.request!.fee!).toStringAsFixed(2)}',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -201,14 +201,14 @@ class FoodDeliveryArrivePage extends StatelessWidget {
                       ),
                       Divider(),
                       ListTile(
-                        leading: Text('${state.request.items.first.quantity}x'),
+                        leading: Text('${state.request!.items!.first.quantity}x'),
                         title: Text(
-                            'You ordered ${state.request.items.first.itemName}',
+                            'You ordered ${state.request!.items!.first.itemName}',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             )),
-                        subtitle: (state.request.items.length > 1)
-                            ? Text('+ ${state.request.items.length - 1} more')
+                        subtitle: (state.request!.items!.length > 1)
+                            ? Text('+ ${state.request!.items!.length - 1} more')
                             : Container(),
                       ),
                       SizedBox(
@@ -268,7 +268,7 @@ class FoodDeliveryArrivePage extends StatelessWidget {
                           width: 16,
                         ),
                         Expanded(
-                            child: Text('${state.request.pickup.address}')),
+                            child: Text('${state.request!.pickup!.address}')),
                       ]),
                       SizedBox(
                         height: 8,
@@ -281,7 +281,7 @@ class FoodDeliveryArrivePage extends StatelessWidget {
                         ),
                         Expanded(
                             child:
-                                Text('${state.request.destination.address}')),
+                                Text('${state.request!.destination!.address}')),
                       ]),
                     ],
                   ),

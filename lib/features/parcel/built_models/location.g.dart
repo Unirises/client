@@ -15,9 +15,9 @@ class _$LocationSerializer implements StructuredSerializer<Location> {
   final String wireName = 'Location';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Location object,
+  Iterable<Object?> serialize(Serializers serializers, Location object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'lat',
       serializers.serialize(object.lat, specifiedType: const FullType(double)),
       'lng',
@@ -28,7 +28,7 @@ class _$LocationSerializer implements StructuredSerializer<Location> {
   }
 
   @override
-  Location deserialize(Serializers serializers, Iterable<Object> serialized,
+  Location deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new LocationBuilder();
 
@@ -36,7 +36,7 @@ class _$LocationSerializer implements StructuredSerializer<Location> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'lat':
           result.lat = serializers.deserialize(value,
@@ -59,16 +59,12 @@ class _$Location extends Location {
   @override
   final double lng;
 
-  factory _$Location([void Function(LocationBuilder) updates]) =>
+  factory _$Location([void Function(LocationBuilder)? updates]) =>
       (new LocationBuilder()..update(updates)).build();
 
-  _$Location._({this.lat, this.lng}) : super._() {
-    if (lat == null) {
-      throw new BuiltValueNullFieldError('Location', 'lat');
-    }
-    if (lng == null) {
-      throw new BuiltValueNullFieldError('Location', 'lng');
-    }
+  _$Location._({required this.lat, required this.lng}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(lat, 'Location', 'lat');
+    BuiltValueNullFieldError.checkNotNull(lng, 'Location', 'lng');
   }
 
   @override
@@ -99,22 +95,23 @@ class _$Location extends Location {
 }
 
 class LocationBuilder implements Builder<Location, LocationBuilder> {
-  _$Location _$v;
+  _$Location? _$v;
 
-  double _lat;
-  double get lat => _$this._lat;
-  set lat(double lat) => _$this._lat = lat;
+  double? _lat;
+  double? get lat => _$this._lat;
+  set lat(double? lat) => _$this._lat = lat;
 
-  double _lng;
-  double get lng => _$this._lng;
-  set lng(double lng) => _$this._lng = lng;
+  double? _lng;
+  double? get lng => _$this._lng;
+  set lng(double? lng) => _$this._lng = lng;
 
   LocationBuilder();
 
   LocationBuilder get _$this {
-    if (_$v != null) {
-      _lat = _$v.lat;
-      _lng = _$v.lng;
+    final $v = _$v;
+    if ($v != null) {
+      _lat = $v.lat;
+      _lng = $v.lng;
       _$v = null;
     }
     return this;
@@ -122,20 +119,21 @@ class LocationBuilder implements Builder<Location, LocationBuilder> {
 
   @override
   void replace(Location other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Location;
   }
 
   @override
-  void update(void Function(LocationBuilder) updates) {
+  void update(void Function(LocationBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
   _$Location build() {
-    final _$result = _$v ?? new _$Location._(lat: lat, lng: lng);
+    final _$result = _$v ??
+        new _$Location._(
+            lat: BuiltValueNullFieldError.checkNotNull(lat, 'Location', 'lat'),
+            lng: BuiltValueNullFieldError.checkNotNull(lng, 'Location', 'lng'));
     replace(_$result);
     return _$result;
   }

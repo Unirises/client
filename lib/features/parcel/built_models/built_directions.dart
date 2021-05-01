@@ -14,7 +14,7 @@ abstract class BuiltDirections
     implements Built<BuiltDirections, BuiltDirectionsBuilder> {
   BuiltDirections._();
 
-  factory BuiltDirections([updates(BuiltDirectionsBuilder b)]) =
+  factory BuiltDirections([updates(BuiltDirectionsBuilder b)?]) =
       _$BuiltDirections;
 
   @BuiltValueField(wireName: 'routes')
@@ -24,7 +24,7 @@ abstract class BuiltDirections
         .encode(serializers.serializeWith(BuiltDirections.serializer, this));
   }
 
-  static BuiltDirections fromJson(String jsonString) {
+  static BuiltDirections? fromJson(String jsonString) {
     return serializers.deserializeWith(
         BuiltDirections.serializer, json.decode(jsonString));
   }

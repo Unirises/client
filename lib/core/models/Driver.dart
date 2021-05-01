@@ -3,11 +3,10 @@ import 'dart:convert';
 import 'package:client/features/parcel/built_models/built_request.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 class Driver extends Equatable {
   const Driver({
-    @required this.id,
+    required this.id,
     this.ride_type,
     this.vehicle_brand,
     this.vehicle_color,
@@ -21,25 +20,25 @@ class Driver extends Equatable {
     this.onRide,
     this.ride_id,
     this.rides,
-  }) : assert(id != null);
+  });
 
   final String id;
-  final String ride_type;
-  final String vehicle_brand;
-  final String vehicle_color;
-  final String vehicle_model;
-  final String plate;
+  final String? ride_type;
+  final String? vehicle_brand;
+  final String? vehicle_color;
+  final String? vehicle_model;
+  final String? plate;
   final dynamic verified_at;
-  final bool sent_documents;
+  final bool? sent_documents;
   final dynamic denied;
   final dynamic position;
-  final String token;
-  final bool onRide;
-  final String ride_id;
-  final List<dynamic> rides;
+  final String? token;
+  final bool? onRide;
+  final String? ride_id;
+  final List<dynamic>? rides;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         ride_type,
         vehicle_brand,
@@ -57,7 +56,7 @@ class Driver extends Equatable {
       ];
 
   static Driver fromSnapshot(DocumentSnapshot snapshot) {
-    final data = snapshot.data();
+    final data = snapshot.data()!;
     return Driver(
       id: snapshot.id,
       ride_type: data['ride_type'],

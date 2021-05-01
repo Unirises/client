@@ -17,71 +17,57 @@ part 'built_request.g.dart';
 
 abstract class BuiltRequest
     implements Built<BuiltRequest, BuiltRequestBuilder> {
-  @nullable
-  String get id;
-  @nullable
-  String get driverId;
+  String? get id;
+  String? get driverId;
   String get userId;
 
   String get status;
 
   BuiltPosition get position;
 
-  @nullable
-  String get storeID;
+  String? get storeID;
 
-  @nullable
-  String get driverName;
-  @nullable
-  String get driverNumber;
+  String? get driverName;
+  String? get driverNumber;
   String get clientName;
   String get clientNumber;
 
   num get rating;
 
-  @nullable
-  num get driverPreviousRating;
+  num? get driverPreviousRating;
 
   String get rideType;
   bool get isParcel;
-  @nullable
-  BuiltVehicleData get vehicleData;
-  @nullable
-  String get driverToken;
+  BuiltVehicleData? get vehicleData;
+  String? get driverToken;
   String get clientToken;
 
-  @nullable
-  num get averageTimePreparation;
+  num? get averageTimePreparation;
 
   BuiltDirections get directions;
 
-  @nullable
-  int get currentIndex;
+  int? get currentIndex;
   BuiltStop get pickup;
 
-  @nullable
-  BuiltStop get destination;
-  @nullable
-  BuiltList<ClassificationListing> get items;
+  BuiltStop? get destination;
+  BuiltList<ClassificationListing>? get items;
 
   BuiltList<BuiltStop> get points;
-  @nullable
-  num get timestamp;
+  num? get timestamp;
 
-  @nullable
-  num get subtotal;
+  num? get subtotal;
   num get fee;
 
   BuiltRequest._();
 
-  factory BuiltRequest([updates(BuiltRequestBuilder b)]) = _$BuiltRequest;
+  factory BuiltRequest([updates(BuiltRequestBuilder b)?]) = _$BuiltRequest;
 
   String toJson() {
     return json
         .encode(serializers.serializeWith(BuiltRequest.serializer, this));
   }
 
-  static BuiltRequest fromJson(String jsonString) {
+  static BuiltRequest? fromJson(String jsonString) {
     return serializers.deserializeWith(
         BuiltRequest.serializer, json.decode(jsonString));
   }

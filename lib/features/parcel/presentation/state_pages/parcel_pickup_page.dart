@@ -14,26 +14,26 @@ class ParcelPickupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var state = (context.watch<ParcelRideBloc>().state as ParcelRideLoaded);
 
-    BuiltStop dest;
+    BuiltStop? dest;
 
-    if (state.request.currentIndex == 0) {
-      dest = state.request.pickup;
-    } else if (state.request.currentIndex >= 1) {
-      dest = state.request.points[state.request.currentIndex - 1];
+    if (state.request!.currentIndex == 0) {
+      dest = state.request!.pickup;
+    } else if (state.request!.currentIndex! >= 1) {
+      dest = state.request!.points![state.request!.currentIndex! - 1];
     }
 
     var listOflatLng = PolylinePoints()
         .decodePolyline(
-            state.request.directions.routes.first.overviewPolyline.points)
+            state.request!.directions!.routes!.first.overviewPolyline!.points!)
         .map((e) => LatLng(e.latitude, e.longitude))
         .toList();
-    var now = DateTime.fromMillisecondsSinceEpoch(state.request.timestamp);
+    var now = DateTime.fromMillisecondsSinceEpoch(state.request!.timestamp as int);
     now = now.add(Duration(minutes: 3));
     var optimistic = DateFormat('hh:mm a').format(now.add(Duration(
-        seconds: (dest.duration != null) ? dest.duration.value : 1500)));
+        seconds: (dest!.duration != null) ? dest.duration!.value! : 1500)));
     var pessmistic = DateFormat('hh:mm a').format(now
         .add(Duration(
-            seconds: (dest.duration != null) ? dest.duration.value : 1500))
+            seconds: (dest.duration != null) ? dest.duration!.value! : 1500))
         .add(Duration(minutes: 35)));
     return Stack(
       children: [
@@ -49,15 +49,15 @@ class ParcelPickupPage extends StatelessWidget {
           },
           cameraTargetBounds: CameraTargetBounds(LatLngBounds(
             northeast: LatLng(
-                state.request.directions.routes.first.bounds.northeast.lat,
-                state.request.directions.routes.first.bounds.northeast.lng),
+                state.request!.directions!.routes!.first.bounds!.northeast!.lat!,
+                state.request!.directions!.routes!.first.bounds!.northeast!.lng!),
             southwest: LatLng(
-                state.request.directions.routes.first.bounds.southwest.lat,
-                state.request.directions.routes.first.bounds.southwest.lng),
+                state.request!.directions!.routes!.first.bounds!.southwest!.lat!,
+                state.request!.directions!.routes!.first.bounds!.southwest!.lng!),
           )),
           initialCameraPosition: CameraPosition(
-            target: LatLng(state.request.position.latitude,
-                state.request.position.longitude),
+            target: LatLng(state.request!.position!.latitude as double,
+                state.request!.position!.longitude as double),
             zoom: 18,
           ),
           myLocationButtonEnabled: true,
@@ -102,14 +102,14 @@ class ParcelPickupPage extends StatelessWidget {
                         ),
                         Divider(),
                         Text(
-                          '${state.request.status == 'arriving' ? 'Arriving to ' + dest.name : state.request.status == 'transit' ? 'Sending Parcel to ' + dest.name : 'Arrived at ' + dest.name}',
+                          '${state.request!.status == 'arriving' ? 'Arriving to ' + dest!.name! : state.request!.status == 'transit' ? 'Sending Parcel to ' + dest!.name! : 'Arrived at ' + dest!.name!}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
                         ),
                         Text(
-                            '${state.request.status == 'arriving' ? 'The driver is on the way to the pickup/recepient.' : state.request.status == 'transit' ? 'The driver is sending your parcel to the receiver.' : 'The driver has arrived.'}'),
+                            '${state.request!.status == 'arriving' ? 'The driver is on the way to the pickup/recepient.' : state.request!.status == 'transit' ? 'The driver is sending your parcel to the receiver.' : 'The driver has arrived.'}'),
                       ],
                     ),
                   ),
@@ -150,7 +150,7 @@ class ParcelPickupPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    state.request.driverName ??
+                                    state.request!.driverName ??
                                         'No Driver Name',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -158,11 +158,11 @@ class ParcelPickupPage extends StatelessWidget {
                                     ),
                                   ),
                                   Row(children: [
-                                    Text(state.request.vehicleData.brand + ' '),
-                                    Text(state.request.vehicleData.model + ' '),
-                                    Text(state.request.vehicleData.color + ' '),
+                                    Text(state.request!.vehicleData!.brand! + ' '),
+                                    Text(state.request!.vehicleData!.model! + ' '),
+                                    Text(state.request!.vehicleData!.color! + ' '),
                                     Text(' - '),
-                                    Text(state.request.vehicleData.plate)
+                                    Text(state.request!.vehicleData!.plate!)
                                   ]),
                                 ],
                               ),
@@ -175,7 +175,7 @@ class ParcelPickupPage extends StatelessWidget {
                         Divider(),
                         IconButton(
                             onPressed: () async =>
-                                launch('tel:${state.request.driverNumber}'),
+                                launch('tel:${state.request!.driverNumber}'),
                             icon: Icon(Icons.call)),
                       ],
                     ),
@@ -206,7 +206,7 @@ class ParcelPickupPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Parcel Delivery for ${state.request.pickup.name}',
+                          'Parcel Delivery for ${state.request!.pickup!.name}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -220,7 +220,7 @@ class ParcelPickupPage extends StatelessWidget {
                           children: [
                             Text('Total'),
                             Text(
-                              'PHP ${(state.request.fee).toStringAsFixed(2)}',
+                              'PHP ${state.request!.fee!.toStringAsFixed(2)}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -272,7 +272,7 @@ class ParcelPickupPage extends StatelessWidget {
                             width: 16,
                           ),
                           Expanded(
-                              child: Text('${state.request.pickup.address}')),
+                              child: Text('${state.request!.pickup!.address}')),
                         ]),
                         SizedBox(
                           height: 8,
@@ -285,7 +285,7 @@ class ParcelPickupPage extends StatelessWidget {
                           ),
                           Expanded(
                               child: Text(
-                                  '${dest == state.request.pickup ? state.request.points[0].address : dest.address}')),
+                                  '${dest == state.request!.pickup ? state.request!.points![0].address : dest.address}')),
                         ]),
                       ],
                     ),

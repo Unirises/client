@@ -12,7 +12,7 @@ abstract class DistanceDuration
     implements Built<DistanceDuration, DistanceDurationBuilder> {
   DistanceDuration._();
 
-  factory DistanceDuration([updates(DistanceDurationBuilder b)]) =
+  factory DistanceDuration([updates(DistanceDurationBuilder b)?]) =
       _$DistanceDuration;
 
   @BuiltValueField(wireName: 'text')
@@ -24,7 +24,7 @@ abstract class DistanceDuration
         .encode(serializers.serializeWith(DistanceDuration.serializer, this));
   }
 
-  static DistanceDuration fromJson(String jsonString) {
+  static DistanceDuration? fromJson(String jsonString) {
     return serializers.deserializeWith(
         DistanceDuration.serializer, json.decode(jsonString));
   }

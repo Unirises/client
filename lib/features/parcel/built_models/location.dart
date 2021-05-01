@@ -11,7 +11,7 @@ part 'location.g.dart';
 abstract class Location implements Built<Location, LocationBuilder> {
   Location._();
 
-  factory Location([updates(LocationBuilder b)]) = _$Location;
+  factory Location([updates(LocationBuilder b)?]) = _$Location;
 
   @BuiltValueField(wireName: 'lat')
   double get lat;
@@ -21,7 +21,7 @@ abstract class Location implements Built<Location, LocationBuilder> {
     return json.encode(serializers.serializeWith(Location.serializer, this));
   }
 
-  static Location fromJson(String jsonString) {
+  static Location? fromJson(String jsonString) {
     return serializers.deserializeWith(
         Location.serializer, json.decode(jsonString));
   }

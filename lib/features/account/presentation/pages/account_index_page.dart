@@ -36,14 +36,14 @@ class AccountIndexPage extends StatelessWidget {
                       children: [
                         Expanded(
                             child: ProfilePictureWidget(
-                                url: state.userCollection.photo)),
+                                url: state.userCollection!.photo)),
                         const SizedBox(width: 16),
                         Expanded(
                           flex: 2,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(state.userCollection.name,
+                              Text(state.userCollection!.name!,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 26)),
@@ -98,10 +98,10 @@ class AccountIndexPage extends StatelessWidget {
                   ),
                   FutureBuilder(
                     future: PackageInfo.fromPlatform(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
+                    builder: (context, AsyncSnapshot<PackageInfo> snapshot) {
+                      if (snapshot.hasData && snapshot.data != null) {
                         return Text(
-                            '${snapshot.data.appName} | version ${snapshot.data.version}');
+                            '${snapshot.data!.appName} | version ${snapshot.data!.version}');
                       }
                       return CircularProgressIndicator();
                     },

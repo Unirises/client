@@ -7,7 +7,7 @@ class VehicleModel extends FormzInput<String, VehicleModelValidationError> {
   const VehicleModel.dirty([String value = '']) : super.dirty(value);
 
   @override
-  VehicleModelValidationError validator(String value) {
+  VehicleModelValidationError? validator(String value) {
     return value.isNotEmpty ? null : VehicleModelValidationError.invalid;
   }
 }

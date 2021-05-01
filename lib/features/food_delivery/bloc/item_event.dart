@@ -4,7 +4,7 @@ abstract class ItemEvent extends Equatable {
   const ItemEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ItemAdded extends ItemEvent {
@@ -33,8 +33,8 @@ class ItemQuantityUpdated extends ItemEvent {
 }
 
 class ItemAdditionalUpdated extends ItemEvent {
-  final int classificationIndex;
-  final int itemIndex;
+  final int? classificationIndex;
+  final int? itemIndex;
   final int additionalIndex;
   final int additionalListIndex;
   final bool isSelected;
@@ -43,7 +43,7 @@ class ItemAdditionalUpdated extends ItemEvent {
       this.additionalIndex, this.additionalListIndex, this.isSelected);
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         classificationIndex,
         itemIndex,
         additionalIndex,

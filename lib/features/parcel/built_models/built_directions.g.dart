@@ -17,9 +17,9 @@ class _$BuiltDirectionsSerializer
   final String wireName = 'BuiltDirections';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, BuiltDirections object,
+  Iterable<Object?> serialize(Serializers serializers, BuiltDirections object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'routes',
       serializers.serialize(object.routes,
           specifiedType:
@@ -31,7 +31,7 @@ class _$BuiltDirectionsSerializer
 
   @override
   BuiltDirections deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new BuiltDirectionsBuilder();
 
@@ -39,12 +39,12 @@ class _$BuiltDirectionsSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'routes':
           result.routes.replace(serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(BuiltList, const [const FullType(Routes)]))
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(Routes)]))!
               as BuiltList<Object>);
           break;
       }
@@ -58,13 +58,11 @@ class _$BuiltDirections extends BuiltDirections {
   @override
   final BuiltList<Routes> routes;
 
-  factory _$BuiltDirections([void Function(BuiltDirectionsBuilder) updates]) =>
+  factory _$BuiltDirections([void Function(BuiltDirectionsBuilder)? updates]) =>
       (new BuiltDirectionsBuilder()..update(updates)).build();
 
-  _$BuiltDirections._({this.routes}) : super._() {
-    if (routes == null) {
-      throw new BuiltValueNullFieldError('BuiltDirections', 'routes');
-    }
+  _$BuiltDirections._({required this.routes}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(routes, 'BuiltDirections', 'routes');
   }
 
   @override
@@ -96,18 +94,19 @@ class _$BuiltDirections extends BuiltDirections {
 
 class BuiltDirectionsBuilder
     implements Builder<BuiltDirections, BuiltDirectionsBuilder> {
-  _$BuiltDirections _$v;
+  _$BuiltDirections? _$v;
 
-  ListBuilder<Routes> _routes;
+  ListBuilder<Routes>? _routes;
   ListBuilder<Routes> get routes =>
       _$this._routes ??= new ListBuilder<Routes>();
-  set routes(ListBuilder<Routes> routes) => _$this._routes = routes;
+  set routes(ListBuilder<Routes>? routes) => _$this._routes = routes;
 
   BuiltDirectionsBuilder();
 
   BuiltDirectionsBuilder get _$this {
-    if (_$v != null) {
-      _routes = _$v.routes?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _routes = $v.routes.toBuilder();
       _$v = null;
     }
     return this;
@@ -115,14 +114,12 @@ class BuiltDirectionsBuilder
 
   @override
   void replace(BuiltDirections other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$BuiltDirections;
   }
 
   @override
-  void update(void Function(BuiltDirectionsBuilder) updates) {
+  void update(void Function(BuiltDirectionsBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -132,7 +129,7 @@ class BuiltDirectionsBuilder
     try {
       _$result = _$v ?? new _$BuiltDirections._(routes: routes.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'routes';
         routes.build();

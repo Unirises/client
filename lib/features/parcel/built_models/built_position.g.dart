@@ -16,9 +16,9 @@ class _$BuiltPositionSerializer implements StructuredSerializer<BuiltPosition> {
   final String wireName = 'BuiltPosition';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, BuiltPosition object,
+  Iterable<Object?> serialize(Serializers serializers, BuiltPosition object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'heading',
       serializers.serialize(object.heading, specifiedType: const FullType(num)),
       'latitude',
@@ -37,7 +37,7 @@ class _$BuiltPositionSerializer implements StructuredSerializer<BuiltPosition> {
 
   @override
   BuiltPosition deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new BuiltPositionBuilder();
 
@@ -45,7 +45,7 @@ class _$BuiltPositionSerializer implements StructuredSerializer<BuiltPosition> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'heading':
           result.heading = serializers.deserialize(value,
@@ -80,24 +80,22 @@ class _$BuiltPosition extends BuiltPosition {
   @override
   final num timestamp;
 
-  factory _$BuiltPosition([void Function(BuiltPositionBuilder) updates]) =>
+  factory _$BuiltPosition([void Function(BuiltPositionBuilder)? updates]) =>
       (new BuiltPositionBuilder()..update(updates)).build();
 
   _$BuiltPosition._(
-      {this.heading, this.latitude, this.longitude, this.timestamp})
+      {required this.heading,
+      required this.latitude,
+      required this.longitude,
+      required this.timestamp})
       : super._() {
-    if (heading == null) {
-      throw new BuiltValueNullFieldError('BuiltPosition', 'heading');
-    }
-    if (latitude == null) {
-      throw new BuiltValueNullFieldError('BuiltPosition', 'latitude');
-    }
-    if (longitude == null) {
-      throw new BuiltValueNullFieldError('BuiltPosition', 'longitude');
-    }
-    if (timestamp == null) {
-      throw new BuiltValueNullFieldError('BuiltPosition', 'timestamp');
-    }
+    BuiltValueNullFieldError.checkNotNull(heading, 'BuiltPosition', 'heading');
+    BuiltValueNullFieldError.checkNotNull(
+        latitude, 'BuiltPosition', 'latitude');
+    BuiltValueNullFieldError.checkNotNull(
+        longitude, 'BuiltPosition', 'longitude');
+    BuiltValueNullFieldError.checkNotNull(
+        timestamp, 'BuiltPosition', 'timestamp');
   }
 
   @override
@@ -138,32 +136,33 @@ class _$BuiltPosition extends BuiltPosition {
 
 class BuiltPositionBuilder
     implements Builder<BuiltPosition, BuiltPositionBuilder> {
-  _$BuiltPosition _$v;
+  _$BuiltPosition? _$v;
 
-  num _heading;
-  num get heading => _$this._heading;
-  set heading(num heading) => _$this._heading = heading;
+  num? _heading;
+  num? get heading => _$this._heading;
+  set heading(num? heading) => _$this._heading = heading;
 
-  num _latitude;
-  num get latitude => _$this._latitude;
-  set latitude(num latitude) => _$this._latitude = latitude;
+  num? _latitude;
+  num? get latitude => _$this._latitude;
+  set latitude(num? latitude) => _$this._latitude = latitude;
 
-  num _longitude;
-  num get longitude => _$this._longitude;
-  set longitude(num longitude) => _$this._longitude = longitude;
+  num? _longitude;
+  num? get longitude => _$this._longitude;
+  set longitude(num? longitude) => _$this._longitude = longitude;
 
-  num _timestamp;
-  num get timestamp => _$this._timestamp;
-  set timestamp(num timestamp) => _$this._timestamp = timestamp;
+  num? _timestamp;
+  num? get timestamp => _$this._timestamp;
+  set timestamp(num? timestamp) => _$this._timestamp = timestamp;
 
   BuiltPositionBuilder();
 
   BuiltPositionBuilder get _$this {
-    if (_$v != null) {
-      _heading = _$v.heading;
-      _latitude = _$v.latitude;
-      _longitude = _$v.longitude;
-      _timestamp = _$v.timestamp;
+    final $v = _$v;
+    if ($v != null) {
+      _heading = $v.heading;
+      _latitude = $v.latitude;
+      _longitude = $v.longitude;
+      _timestamp = $v.timestamp;
       _$v = null;
     }
     return this;
@@ -171,14 +170,12 @@ class BuiltPositionBuilder
 
   @override
   void replace(BuiltPosition other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$BuiltPosition;
   }
 
   @override
-  void update(void Function(BuiltPositionBuilder) updates) {
+  void update(void Function(BuiltPositionBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -186,10 +183,14 @@ class BuiltPositionBuilder
   _$BuiltPosition build() {
     final _$result = _$v ??
         new _$BuiltPosition._(
-            heading: heading,
-            latitude: latitude,
-            longitude: longitude,
-            timestamp: timestamp);
+            heading: BuiltValueNullFieldError.checkNotNull(
+                heading, 'BuiltPosition', 'heading'),
+            latitude: BuiltValueNullFieldError.checkNotNull(
+                latitude, 'BuiltPosition', 'latitude'),
+            longitude: BuiltValueNullFieldError.checkNotNull(
+                longitude, 'BuiltPosition', 'longitude'),
+            timestamp: BuiltValueNullFieldError.checkNotNull(
+                timestamp, 'BuiltPosition', 'timestamp'));
     replace(_$result);
     return _$result;
   }

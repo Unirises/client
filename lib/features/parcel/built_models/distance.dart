@@ -11,7 +11,7 @@ part 'distance.g.dart';
 abstract class Distance implements Built<Distance, DistanceBuilder> {
   Distance._();
 
-  factory Distance([updates(DistanceBuilder b)]) = _$Distance;
+  factory Distance([updates(DistanceBuilder b)?]) = _$Distance;
 
   @BuiltValueField(wireName: 'text')
   String get text;
@@ -21,7 +21,7 @@ abstract class Distance implements Built<Distance, DistanceBuilder> {
     return json.encode(serializers.serializeWith(Distance.serializer, this));
   }
 
-  static Distance fromJson(String jsonString) {
+  static Distance? fromJson(String jsonString) {
     return serializers.deserializeWith(
         Distance.serializer, json.decode(jsonString));
   }

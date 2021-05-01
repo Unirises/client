@@ -21,7 +21,7 @@ class ParcelInitialPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  (state.pickup == null || state.pickup.id == null)
+                  (state.pickup == null || state.pickup!.id == null)
                       ? Text(
                           'Start booking a parcel delivery by adding your pickup location.',
                           style: TextStyle(fontSize: 24),
@@ -43,7 +43,7 @@ class ParcelInitialPage extends StatelessWidget {
                                 color: Color(0xff424242),
                               ),
                               title: Text(
-                                state.pickup.name,
+                                state.pickup!.name!,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context).primaryColor,
@@ -54,13 +54,13 @@ class ParcelInitialPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    state.pickup.houseDetails +
+                                    state.pickup!.houseDetails! +
                                         ' ' +
-                                        state.pickup.address,
+                                        state.pickup!.address!,
                                     style: TextStyle(color: Colors.grey),
                                   ),
                                   Text(
-                                    state.pickup.phone,
+                                    state.pickup!.phone!,
                                     style: TextStyle(color: Colors.grey),
                                   ),
                                 ],
@@ -71,7 +71,7 @@ class ParcelInitialPage extends StatelessWidget {
                                   IconButton(
                                     color: Colors.blue,
                                     onPressed: () async {
-                                      LocationResult result = await Navigator
+                                      LocationResult? result = await Navigator
                                               .of(context)
                                           .push(MaterialPageRoute(
                                               builder: (context) => PlacePicker(
@@ -85,14 +85,14 @@ class ParcelInitialPage extends StatelessWidget {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 AddStopDetailsPage(
-                                                  floor:
-                                                      state.pickup.houseDetails,
-                                                  name: state.pickup.name,
-                                                  phone: state.pickup.phone,
-                                                  weight: state.pickup.weight,
-                                                  id: state.pickup.id,
+                                                  floor: state
+                                                      .pickup!.houseDetails,
+                                                  name: state.pickup!.name,
+                                                  phone: state.pickup!.phone,
+                                                  weight: state.pickup!.weight,
+                                                  id: state.pickup!.id,
                                                   typeOfParcel:
-                                                      state.pickup.type,
+                                                      state.pickup!.type,
                                                   location: result,
                                                   isPickup: true,
                                                   onSubmitFinished: (data) {
@@ -106,7 +106,7 @@ class ParcelInitialPage extends StatelessWidget {
                                                   },
                                                   onCancelled: () {
                                                     Navigator.pop(context);
-                                                    return Flushbar(
+                                                    Flushbar(
                                                       title: 'Event cancelled',
                                                       message:
                                                           'You cancelled adding a stop in your parcel data.',
@@ -121,6 +121,7 @@ class ParcelInitialPage extends StatelessWidget {
                                                       flushbarPosition:
                                                           FlushbarPosition.TOP,
                                                     )..show(context);
+                                                    return null;
                                                   },
                                                 )),
                                       );
@@ -143,14 +144,14 @@ class ParcelInitialPage extends StatelessWidget {
                       : Container(),
                   (state.points != null)
                       ? Text(
-                          state.points.length > 1
+                          state.points!.length > 1
                               ? 'Destinations'
                               : 'Destination',
                           style: TextStyle(
                               color: Theme.of(context).primaryColor,
                               fontSize: 24),
                         )
-                      : (state.pickup != null && state.pickup.id != null)
+                      : (state.pickup != null && state.pickup!.id != null)
                           ? Text(
                               'Add your destinations to your parcel delivery.',
                               style: TextStyle(
@@ -174,7 +175,7 @@ class ParcelInitialPage extends StatelessWidget {
                             color: Theme.of(context).primaryColor,
                           ),
                           title: Text(
-                            state.points[index].name,
+                            state.points![index].name!,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).primaryColor,
@@ -185,33 +186,33 @@ class ParcelInitialPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Phone: ' + state.points[index].phone,
+                                'Phone: ' + state.points![index].phone!,
                                 style: TextStyle(color: Colors.grey),
                               ),
                               Text(
-                                state.points[index].houseDetails +
+                                state.points![index].houseDetails! +
                                     ' ' +
-                                    state.points[index].address,
+                                    state.points![index].address!,
                                 style: TextStyle(color: Colors.grey),
                               ),
                               Text(
-                                state.points[index].type +
-                                    ' - ${state.points[index].weight.toStringAsFixed(2)} kg',
+                                state.points![index].type! +
+                                    ' - ${state.points![index].weight!.toStringAsFixed(2)} kg',
                                 style: TextStyle(color: Colors.grey),
                               ),
-                              (state.points[index].distance != null)
+                              (state.points![index].distance != null)
                                   ? Text(
-                                      (state.points[index].distance / 1000)
+                                      (state.points![index].distance! / 1000)
                                               .toStringAsFixed(2) +
-                                          ' km | ${state.points[index].duration.text}',
+                                          ' km | ${state.points![index].duration!.text}',
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16))
                                   : Container(),
-                              state.points[index].price != null
+                              state.points![index].price != null
                                   ? Text(
-                                      'Price: PHP ${state.points[index].price.toStringAsFixed(2)}',
+                                      'Price: PHP ${state.points![index].price!.toStringAsFixed(2)}',
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
@@ -226,7 +227,7 @@ class ParcelInitialPage extends StatelessWidget {
                               IconButton(
                                 color: Colors.blue,
                                 onPressed: () async {
-                                  LocationResult result =
+                                  LocationResult? result =
                                       await Navigator.of(context)
                                           .push(MaterialPageRoute(
                                               builder: (context) => PlacePicker(
@@ -240,14 +241,14 @@ class ParcelInitialPage extends StatelessWidget {
                                         builder: (context) =>
                                             AddStopDetailsPage(
                                               floor: state
-                                                  .points[index].houseDetails,
-                                              name: state.points[index].name,
-                                              phone: state.points[index].phone,
+                                                  .points![index].houseDetails,
+                                              name: state.points![index].name,
+                                              phone: state.points![index].phone,
                                               weight:
-                                                  state.points[index].weight,
-                                              id: state.points[index].id,
+                                                  state.points![index].weight,
+                                              id: state.points![index].id,
                                               typeOfParcel:
-                                                  state.points[index].type,
+                                                  state.points![index].type,
                                               location: result,
                                               isPickup:
                                                   state.pickup?.id == null,
@@ -262,7 +263,7 @@ class ParcelInitialPage extends StatelessWidget {
                                               },
                                               onCancelled: () {
                                                 Navigator.pop(context);
-                                                return Flushbar(
+                                                Flushbar(
                                                   title: 'Event cancelled',
                                                   message:
                                                       'You cancelled adding a stop in your parcel data.',
@@ -276,6 +277,7 @@ class ParcelInitialPage extends StatelessWidget {
                                                   flushbarPosition:
                                                       FlushbarPosition.TOP,
                                                 )..show(context);
+                                                return null;
                                               },
                                             )),
                                   );
@@ -286,7 +288,7 @@ class ParcelInitialPage extends StatelessWidget {
                                 color: Colors.red,
                                 onPressed: () {
                                   context.read<ParcelBloc>().add(ParcelDeleted(
-                                      state.points[index], false));
+                                      state.points![index], false));
                                 },
                                 icon: Icon(Icons.delete_forever),
                               ),
@@ -295,7 +297,7 @@ class ParcelInitialPage extends StatelessWidget {
                         );
                       },
                       itemCount:
-                          (state.points != null) ? state.points?.length : 0,
+                          ((state.points != null) ? state.points?.length : 0)!,
                     ),
                   ),
                   Column(
@@ -308,10 +310,10 @@ class ParcelInitialPage extends StatelessWidget {
                             ),
                             child: ElevatedButton.icon(
                                 onPressed: ((state.points != null)
-                                        ? state.points.length < 22
+                                        ? state.points!.length < 22
                                         : true)
                                     ? () async {
-                                        LocationResult result =
+                                        LocationResult? result =
                                             await Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                     builder: (context) =>
@@ -342,7 +344,7 @@ class ParcelInitialPage extends StatelessWidget {
                                                     },
                                                     onCancelled: () {
                                                       Navigator.pop(context);
-                                                      return Flushbar(
+                                                      Flushbar(
                                                         title:
                                                             'Event cancelled',
                                                         message:
@@ -359,6 +361,7 @@ class ParcelInitialPage extends StatelessWidget {
                                                             FlushbarPosition
                                                                 .TOP,
                                                       )..show(context);
+                                                      return null;
                                                     },
                                                   )),
                                         );
@@ -369,8 +372,8 @@ class ParcelInitialPage extends StatelessWidget {
                                     'Add ${state.pickup?.id == null ? 'Starting Point' : 'Destination'}'))),
                       ),
                       (state.points != null &&
-                              state.points.length >= 1 &&
-                              state.pickup.id != null)
+                              state.points!.length >= 1 &&
+                              state.pickup!.id != null)
                           ? Container(
                               width: double.infinity,
                               child: Padding(
@@ -411,11 +414,10 @@ class ParcelInitialPage extends StatelessWidget {
                               ),
                             )
                           : Container(),
-                      ((state?.subtotal ?? 0) > 0 &&
-                              state.points.length != null &&
-                              state.points.length > 0 &&
+                      ((state.subtotal) > 0 &&
+                              state.points!.isNotEmpty &&
                               state.pickup != null &&
-                              state.pickup.id != null)
+                              state.pickup!.id != null)
                           ? Container(
                               width: double.infinity,
                               child: Padding(
@@ -433,14 +435,14 @@ class ParcelInitialPage extends StatelessWidget {
                                                               UserCollectionBloc>()
                                                           .state
                                                       as UserCollectionLoaded)
-                                                  .userCollection
+                                                  .userCollection!
                                                   .name,
                                               number: (context
                                                           .read<
                                                               UserCollectionBloc>()
                                                           .state
                                                       as UserCollectionLoaded)
-                                                  .userCollection
+                                                  .userCollection!
                                                   .phone),
                                         );
                                   },
@@ -448,7 +450,7 @@ class ParcelInitialPage extends StatelessWidget {
                                     primary: Theme.of(context).primaryColor,
                                   ),
                                   child: Text(
-                                    'Request Parcel Delivery - PHP ${state.subtotal.toStringAsFixed(2)} | ${(state.data['distance'] / 1000).toStringAsFixed(2)} km',
+                                    'Request Parcel Delivery - PHP ${state.subtotal!.toStringAsFixed(2)} | ${(state.data!['distance'] / 1000).toStringAsFixed(2)} km',
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),

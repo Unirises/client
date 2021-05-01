@@ -8,12 +8,12 @@ import '../../models/additionals.dart';
 import '../../models/classification_listing.dart';
 
 class ItemListingSelectionPage extends StatelessWidget {
-  final int classificationIndex;
-  final int itemIndex;
-  final Function(ClassificationListing) onSuccess;
+  final int? classificationIndex;
+  final int? itemIndex;
+  final Function(ClassificationListing?)? onSuccess;
 
   const ItemListingSelectionPage({
-    Key key,
+    Key? key,
     this.onSuccess,
     this.classificationIndex,
     this.itemIndex,
@@ -35,10 +35,10 @@ class ItemListingSelectionPage extends StatelessWidget {
         );
       } else if (state is ItemLoaded) {
         return Scaffold(
-          appBar: (state.item.itemPhoto != null)
+          appBar: (state.item!.itemPhoto != null)
               ? AppBar(
                   leading: CloseButton(),
-                  title: Text(state.item.itemName),
+                  title: Text(state.item!.itemName!),
                 )
               : null,
           body: Stack(
@@ -51,7 +51,7 @@ class ItemListingSelectionPage extends StatelessWidget {
                 child: NestedScrollView(
                   physics: const BouncingScrollPhysics(),
                   headerSliverBuilder: (context, _) {
-                    if (state.item.itemPhoto != null)
+                    if (state.item!.itemPhoto != null)
                       return [
                         SliverAppBar(
                           leading: Container(),
@@ -63,9 +63,9 @@ class ItemListingSelectionPage extends StatelessWidget {
                                 StretchMode.zoomBackground,
                                 StretchMode.blurBackground,
                               ],
-                              background: state.item.itemPhoto != null
+                              background: state.item!.itemPhoto != null
                                   ? Image.network(
-                                      state.item.itemPhoto ??
+                                      state.item!.itemPhoto ??
                                           "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
                                       fit: BoxFit.cover,
                                     )
@@ -78,17 +78,18 @@ class ItemListingSelectionPage extends StatelessWidget {
 
                     return [
                       SliverAppBar(
-                        title: Text(state.item.itemName),
+                        title: Text(state.item!.itemName!),
                       ),
                     ];
                   },
-                  body: (state.item.additionals.length > 0)
+                  body: (state.item!.additionals!.length > 0)
                       ? SingleChildScrollView(
                           physics: const BouncingScrollPhysics(),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
-                            children: buildAdditionals(state.item.additionals),
+                            children:
+                                buildAdditionals(state.item!.additionals!),
                           ),
                         )
                       : Center(child: Text('No additionals available.')),
@@ -114,9 +115,9 @@ class ItemListingSelectionPage extends StatelessWidget {
                             BorderRadius.vertical(top: Radius.circular(28)),
                         color: Colors.white),
                     child: GestureDetector(
-                      onTap: (state.item.isValid != null)
-                          ? (state.item.isValid)
-                              ? () => onSuccess(state.item)
+                      onTap: (state.item!.isValid != null)
+                          ? state.item!.isValid!
+                              ? () => onSuccess!(state.item)
                               : null
                           : null,
                       child: Column(
@@ -135,7 +136,7 @@ class ItemListingSelectionPage extends StatelessWidget {
                                 ),
                                 SizedBox(width: 12),
                                 Text(
-                                  state.item.quantity.toString(),
+                                  state.item!.quantity.toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 32),
@@ -157,15 +158,15 @@ class ItemListingSelectionPage extends StatelessWidget {
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(6),
-                                color: (state.item.isValid != null)
-                                    ? (state.item.isValid)
+                                color: (state.item!.isValid != null)
+                                    ? state.item!.isValid!
                                         ? Colors.green
                                         : Colors.grey
                                     : Colors.grey,
                               ),
                               child: Center(
                                 child: Text(
-                                  'Add to basket - PHP ${(((state.additionalPrice != null && state.additionalPrice > 0) ? (state.item.itemPrice + state.additionalPrice) : state.item.itemPrice) * state.item.quantity).toStringAsFixed(2)}',
+                                  'Add to basket - PHP ${(((state.additionalPrice != null && state.additionalPrice! > 0) ? (state.item!.itemPrice! + state.additionalPrice!) : state.item!.itemPrice)! * state.item!.quantity!).toStringAsFixed(2)}',
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
@@ -199,11 +200,11 @@ class ItemListingSelectionPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  additionals[i].additionalName,
+                  additionals[i].additionalName!,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
                 ),
-                buildMinMax(additionals[i].type, additionals[i].minMax.first,
-                    additionals[i].minMax.last),
+                buildMinMax(additionals[i].type, additionals[i].minMax!.first,
+                    additionals[i].minMax!.last),
               ],
             ),
           ),
@@ -216,7 +217,8 @@ class ItemListingSelectionPage extends StatelessWidget {
                   List<ItemAdditionalUpdated> wow = [];
                   if (additionals[i].type == 'radio') {
                     for (int someRandomNum = 0;
-                        someRandomNum < additionals[i].additionalListing.length;
+                        someRandomNum <
+                            additionals[i].additionalListing!.length;
                         someRandomNum++) {
                       if (someRandomNum == index) {
                         wow.add(ItemAdditionalUpdated(
@@ -230,31 +232,33 @@ class ItemListingSelectionPage extends StatelessWidget {
                     }
                   } else if (additionals[i].type == 'checkbox') {
                     int numOfSelected = additionals[i]
-                        .additionalListing
+                        .additionalListing!
                         .where((element) =>
                             element.isSelected != null &&
                             element.isSelected == true)
                         .length;
-                    if (additionals[i].additionalListing[index].isSelected !=
+                    if (additionals[i].additionalListing![index].isSelected !=
                             null &&
-                        additionals[i].additionalListing[index].isSelected ==
+                        additionals[i].additionalListing![index].isSelected ==
                             true) {
-                      if (numOfSelected - 1 < additionals[i].minMax.first) {
-                        return Flushbar(
+                      if (numOfSelected - 1 < additionals[i].minMax!.first) {
+                        Flushbar(
                           title: 'Item Action',
                           message: 'You cannot delete.',
                           progressIndicatorBackgroundColor:
                               Theme.of(ctx).primaryColor,
                           flushbarPosition: FlushbarPosition.TOP,
                         )..show(ctx);
+                        return null;
                       } else {
                         wow.insert(
                             0,
                             ItemAdditionalUpdated(classificationIndex,
                                 itemIndex, i, index, false));
                       }
-                    } else if (numOfSelected + 1 > additionals[i].minMax.last) {
-                      return Flushbar(
+                    } else if (numOfSelected + 1 >
+                        additionals[i].minMax!.last) {
+                      Flushbar(
                         title: 'Item Action',
                         message: 'You cannot add more data',
                         duration: Duration(seconds: 5),
@@ -262,6 +266,7 @@ class ItemListingSelectionPage extends StatelessWidget {
                             Theme.of(ctx).primaryColor,
                         flushbarPosition: FlushbarPosition.TOP,
                       )..show(ctx);
+                      return null;
                     } else {
                       wow.insert(
                           0,
@@ -274,22 +279,22 @@ class ItemListingSelectionPage extends StatelessWidget {
                     ctx.read<ItemBloc>().add(element);
                   });
                 },
-                title: Text(additionals[i].additionalListing[index].name),
+                title: Text(additionals[i].additionalListing![index].name!),
                 trailing: Container(
                   child: Text(
-                      additionals[i].additionalListing[index].isSelected ??
+                      additionals[i].additionalListing![index].isSelected ??
                               false
                           ? 'Selected'
                           : ''),
                 ),
                 subtitle: Text('PHP ' +
                     additionals[i]
-                        .additionalListing[index]
-                        .additionalPrice
+                        .additionalListing![index]
+                        .additionalPrice!
                         .toStringAsFixed(2)),
               );
             },
-            itemCount: additionals[i].additionalListing.length,
+            itemCount: additionals[i].additionalListing!.length,
           ),
         ],
       ));
@@ -297,7 +302,7 @@ class ItemListingSelectionPage extends StatelessWidget {
     return list;
   }
 
-  Text buildMinMax(String type, int min, int max) {
+  Text buildMinMax(String? type, int min, int max) {
     if (type == 'radio') {
       return Text('Please select one of the following choices.');
     } else if (type == 'checkbox') {

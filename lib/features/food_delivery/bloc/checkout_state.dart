@@ -4,20 +4,20 @@ abstract class CheckoutState extends Equatable {
   const CheckoutState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class CheckoutLoadingInProgress extends CheckoutState {}
 
 class CheckoutLoadSuccess extends CheckoutState {
-  final Merchant merchant;
-  final BuiltStop destination;
-  final BuiltStop pickup;
-  final BuiltList<ClassificationListing> items;
-  final Map<String, dynamic> data;
-  final BuiltDirections directions;
-  final String selectedVehicleType;
-  final num deliveryFee;
+  final Merchant? merchant;
+  final BuiltStop? destination;
+  final BuiltStop? pickup;
+  final BuiltList<ClassificationListing>? items;
+  final Map<String, dynamic>? data;
+  final BuiltDirections? directions;
+  final String? selectedVehicleType;
+  final num? deliveryFee;
 
   const CheckoutLoadSuccess([
     this.merchant,
@@ -31,7 +31,7 @@ class CheckoutLoadSuccess extends CheckoutState {
   ]);
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         merchant,
         destination,
         pickup,
@@ -47,14 +47,14 @@ class CheckoutLoadSuccess extends CheckoutState {
       'CheckoutLoadSuccess { pickup: $pickup, points: $destination }';
 
   CheckoutLoadSuccess copyWith({
-    Merchant merchant,
-    BuiltStop destination,
-    BuiltStop pickup,
-    BuiltList<ClassificationListing> items,
-    Map<String, dynamic> data,
-    BuiltDirections directions,
-    String selectedVehicleType,
-    num deliveryFee,
+    Merchant? merchant,
+    BuiltStop? destination,
+    BuiltStop? pickup,
+    BuiltList<ClassificationListing>? items,
+    Map<String, dynamic>? data,
+    BuiltDirections? directions,
+    String? selectedVehicleType,
+    num? deliveryFee,
   }) =>
       CheckoutLoadSuccess(
         merchant ?? this.merchant,

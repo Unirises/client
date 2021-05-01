@@ -6,7 +6,7 @@ import '../cubit/sign_up_cubit.dart';
 import '../widgets/sign_up_form.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key key}) : super(key: key);
+  const SignUpPage({Key? key}) : super(key: key);
 
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => const SignUpPage());

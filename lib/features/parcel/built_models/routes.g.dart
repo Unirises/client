@@ -15,9 +15,9 @@ class _$RoutesSerializer implements StructuredSerializer<Routes> {
   final String wireName = 'Routes';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Routes object,
+  Iterable<Object?> serialize(Serializers serializers, Routes object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'bounds',
       serializers.serialize(object.bounds,
           specifiedType: const FullType(Bounds)),
@@ -34,7 +34,7 @@ class _$RoutesSerializer implements StructuredSerializer<Routes> {
   }
 
   @override
-  Routes deserialize(Serializers serializers, Iterable<Object> serialized,
+  Routes deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new RoutesBuilder();
 
@@ -42,21 +42,21 @@ class _$RoutesSerializer implements StructuredSerializer<Routes> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'bounds':
           result.bounds.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Bounds)) as Bounds);
+              specifiedType: const FullType(Bounds))! as Bounds);
           break;
         case 'legs':
           result.legs.replace(serializers.deserialize(value,
                   specifiedType:
-                      const FullType(BuiltList, const [const FullType(Legs)]))
+                      const FullType(BuiltList, const [const FullType(Legs)]))!
               as BuiltList<Object>);
           break;
         case 'overview_polyline':
           result.overviewPolyline.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(OverviewPolyline))
+                  specifiedType: const FullType(OverviewPolyline))!
               as OverviewPolyline);
           break;
       }
@@ -74,19 +74,18 @@ class _$Routes extends Routes {
   @override
   final OverviewPolyline overviewPolyline;
 
-  factory _$Routes([void Function(RoutesBuilder) updates]) =>
+  factory _$Routes([void Function(RoutesBuilder)? updates]) =>
       (new RoutesBuilder()..update(updates)).build();
 
-  _$Routes._({this.bounds, this.legs, this.overviewPolyline}) : super._() {
-    if (bounds == null) {
-      throw new BuiltValueNullFieldError('Routes', 'bounds');
-    }
-    if (legs == null) {
-      throw new BuiltValueNullFieldError('Routes', 'legs');
-    }
-    if (overviewPolyline == null) {
-      throw new BuiltValueNullFieldError('Routes', 'overviewPolyline');
-    }
+  _$Routes._(
+      {required this.bounds,
+      required this.legs,
+      required this.overviewPolyline})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(bounds, 'Routes', 'bounds');
+    BuiltValueNullFieldError.checkNotNull(legs, 'Routes', 'legs');
+    BuiltValueNullFieldError.checkNotNull(
+        overviewPolyline, 'Routes', 'overviewPolyline');
   }
 
   @override
@@ -122,29 +121,30 @@ class _$Routes extends Routes {
 }
 
 class RoutesBuilder implements Builder<Routes, RoutesBuilder> {
-  _$Routes _$v;
+  _$Routes? _$v;
 
-  BoundsBuilder _bounds;
+  BoundsBuilder? _bounds;
   BoundsBuilder get bounds => _$this._bounds ??= new BoundsBuilder();
-  set bounds(BoundsBuilder bounds) => _$this._bounds = bounds;
+  set bounds(BoundsBuilder? bounds) => _$this._bounds = bounds;
 
-  ListBuilder<Legs> _legs;
+  ListBuilder<Legs>? _legs;
   ListBuilder<Legs> get legs => _$this._legs ??= new ListBuilder<Legs>();
-  set legs(ListBuilder<Legs> legs) => _$this._legs = legs;
+  set legs(ListBuilder<Legs>? legs) => _$this._legs = legs;
 
-  OverviewPolylineBuilder _overviewPolyline;
+  OverviewPolylineBuilder? _overviewPolyline;
   OverviewPolylineBuilder get overviewPolyline =>
       _$this._overviewPolyline ??= new OverviewPolylineBuilder();
-  set overviewPolyline(OverviewPolylineBuilder overviewPolyline) =>
+  set overviewPolyline(OverviewPolylineBuilder? overviewPolyline) =>
       _$this._overviewPolyline = overviewPolyline;
 
   RoutesBuilder();
 
   RoutesBuilder get _$this {
-    if (_$v != null) {
-      _bounds = _$v.bounds?.toBuilder();
-      _legs = _$v.legs?.toBuilder();
-      _overviewPolyline = _$v.overviewPolyline?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _bounds = $v.bounds.toBuilder();
+      _legs = $v.legs.toBuilder();
+      _overviewPolyline = $v.overviewPolyline.toBuilder();
       _$v = null;
     }
     return this;
@@ -152,14 +152,12 @@ class RoutesBuilder implements Builder<Routes, RoutesBuilder> {
 
   @override
   void replace(Routes other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Routes;
   }
 
   @override
-  void update(void Function(RoutesBuilder) updates) {
+  void update(void Function(RoutesBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -173,7 +171,7 @@ class RoutesBuilder implements Builder<Routes, RoutesBuilder> {
               legs: legs.build(),
               overviewPolyline: overviewPolyline.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'bounds';
         bounds.build();

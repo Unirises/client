@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/Flavor.dart';
 import '../../../core/client_bloc/client_bloc.dart';
@@ -34,7 +33,7 @@ class WalletPage extends StatelessWidget {
                 builder: (context, state) {
                   if (state is ClientLoaded) {
                     return Text(
-                      'PHP ${state.client.balance.toStringAsFixed(2)}',
+                      'PHP ${state.client.balance!.toStringAsFixed(2)}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -48,10 +47,11 @@ class WalletPage extends StatelessWidget {
                   onTap: () async {
                     if (Provider.of<Flavor>(context, listen: false) ==
                         Flavor.dev) {
-                      return await launch(
-                          'https://buzz-staging-cfbae.web.app/app/top-up');
+                      // await launch(
+                      //     'https://buzz-staging-cfbae.web.app/app/top-up');
                     }
-                    return await launch('https://buzzph.online/app/top-up');
+                    // await launch('https://buzzph.online/app/top-up');
+                    return null;
                   },
                   child: Column(
                     children: [
@@ -102,7 +102,7 @@ class WalletPage extends StatelessWidget {
                 .collection('transactions')
                 .where(
                   'receiver',
-                  isEqualTo: FirebaseAuth.instance.currentUser.uid,
+                  isEqualTo: FirebaseAuth.instance.currentUser!.uid,
                 )
                 .get(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -113,7 +113,7 @@ class WalletPage extends StatelessWidget {
                   );
                 } else {
                   // var listOfCashIns = snapshot.data['documents'].map();
-                  var listOfCashIns = snapshot.data.docs.map((e) {
+                  var listOfCashIns = snapshot.data!.docs.map((e) {
                     var data = e.data();
                     if (data['sender'] == 'paypal') {
                       if (data['timestamp'] != null) {
@@ -126,22 +126,22 @@ class WalletPage extends StatelessWidget {
                       .where((element) => element != null)
                       .toList();
 
-                  if (listOfCashIns.length > 0) {
+                  if (listOfCashIns.isNotEmpty) {
                     listOfCashIns.sort(
-                        (b, a) => a['timestamp'].compareTo(b['timestamp']));
+                        (b, a) => a?['timestamp'].compareTo(b?['timestamp']));
                   }
 
-                  if (listOfCashIns.length > 0) {
+                  if (listOfCashIns.isNotEmpty) {
                     return Expanded(
                       child: ListView.separated(
                           itemBuilder: (context, index) {
                             return ListTile(
                               title: Text(
-                                  'PayPal Cash In - ${listOfCashIns[index]['status'].toString().capitalize()}'),
+                                  'PayPal Cash In - ${listOfCashIns[index]?['status'].toString().capitalize()}'),
                               subtitle: Text(
-                                  '${DateFormat('E, d y h:mm a').format(DateTime.fromMillisecondsSinceEpoch(listOfCashIns[index]['timestamp']))}'),
+                                  '${DateFormat('E, d y h:mm a').format(DateTime.fromMillisecondsSinceEpoch(listOfCashIns[index]?['timestamp']))}'),
                               trailing: Text(
-                                  'PHP ${listOfCashIns[index]['amount'].toString()}'),
+                                  'PHP ${listOfCashIns[index]?['amount'].toString()}'),
                             );
                           },
                           separatorBuilder: (context, index) {

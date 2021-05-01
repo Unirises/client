@@ -7,7 +7,7 @@ class VehicleColor extends FormzInput<String, VehicleColorValidationError> {
   const VehicleColor.dirty([String value = '']) : super.dirty(value);
 
   @override
-  VehicleColorValidationError validator(String value) {
+  VehicleColorValidationError? validator(String value) {
     return value.isNotEmpty ? null : VehicleColorValidationError.invalid;
   }
 }

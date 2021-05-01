@@ -1,27 +1,26 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 import '../../parcel/built_models/location.dart';
 import 'merchant_listing.dart';
 
 class Merchant extends Equatable {
   final String id;
-  final MerchantListing listing;
-  final String address;
-  final num averageTimePreparation;
-  final String companyName;
-  final bool isOpen;
+  final MerchantListing? listing;
+  final String? address;
+  final num? averageTimePreparation;
+  final String? companyName;
+  final bool? isOpen;
 
-  final String hero;
-  final String phone;
-  final String photo;
-  final Location place;
-  final String startTime;
-  final String endTime;
-  final Map<String, dynamic> representative;
+  final String? hero;
+  final String? phone;
+  final String? photo;
+  final Location? place;
+  final String? startTime;
+  final String? endTime;
+  final Map<String, dynamic>? representative;
 
   const Merchant({
-    @required this.id,
+    required this.id,
     this.address,
     this.averageTimePreparation,
     this.companyName,
@@ -34,10 +33,10 @@ class Merchant extends Equatable {
     this.phone,
     this.representative,
     this.isOpen,
-  }) : assert(id != null);
+  });
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         address,
         averageTimePreparation,

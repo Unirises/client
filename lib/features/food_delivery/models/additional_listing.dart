@@ -12,15 +12,14 @@ abstract class AdditionalListing
     implements Built<AdditionalListing, AdditionalListingBuilder> {
   AdditionalListing._();
 
-  factory AdditionalListing([updates(AdditionalListingBuilder b)]) =
+  factory AdditionalListing([updates(AdditionalListingBuilder b)?]) =
       _$AdditionalListing;
 
   @BuiltValueField(wireName: 'additionalPrice')
   num get additionalPrice;
   @BuiltValueField(wireName: 'name')
   String get name;
-  @nullable
-  bool get isSelected;
+  bool? get isSelected;
   String get additionalSKU;
 
   String toJson() {
@@ -28,7 +27,7 @@ abstract class AdditionalListing
         .encode(serializers.serializeWith(AdditionalListing.serializer, this));
   }
 
-  static AdditionalListing fromJson(String jsonString) {
+  static AdditionalListing? fromJson(String jsonString) {
     return serializers.deserializeWith(
         AdditionalListing.serializer, json.decode(jsonString));
   }

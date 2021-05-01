@@ -39,15 +39,15 @@ class MerchantBloc extends Bloc<MerchantEvent, MerchantState> {
             try {
               bool isAvailable = false;
 
-              List<String> startTimeTmp = [];
+              List<String>? startTimeTmp = [];
               List<String> startTimeList = [];
               startTimeTmp = finalCompany['startTime'].split(" ");
-              startTimeList = startTimeTmp[0].split(":");
+              startTimeList = startTimeTmp![0].split(":");
 
-              List<String> endTimeTmp = [];
+              List<String>? endTimeTmp = [];
               List<String> endTimeList = [];
               endTimeTmp = finalCompany['endTime'].split(" ");
-              endTimeList = endTimeTmp[0].split(":");
+              endTimeList = endTimeTmp![0].split(":");
 
               var startTime = DateTime.now().copyWith(
                 hour: (startTimeTmp[1].contains('AM'))
@@ -102,14 +102,14 @@ class MerchantBloc extends Bloc<MerchantEvent, MerchantState> {
 
 extension MyDateUtils on DateTime {
   DateTime copyWith(
-      {int year,
-      int month,
-      int day,
-      int hour,
-      int minute,
-      int second,
-      int millisecond,
-      int microsecond}) {
+      {int? year,
+      int? month,
+      int? day,
+      int? hour,
+      int? minute,
+      int? second,
+      int? millisecond,
+      int? microsecond}) {
     return DateTime(
       year ?? this.year,
       month ?? this.month,

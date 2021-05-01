@@ -162,7 +162,7 @@ class LoginPage extends StatelessWidget {
                                                         state.email.status ==
                                                             FormzInputStatus
                                                                 .invalid) {
-                                                      return Flushbar(
+                                                      Flushbar(
                                                         title:
                                                             'Incomplete Form',
                                                         message:
@@ -173,6 +173,7 @@ class LoginPage extends StatelessWidget {
                                                         duration: Duration(
                                                             seconds: 3),
                                                       )..show(context);
+                                                      return null;
                                                     } else {
                                                       try {
                                                         await FirebaseAuth
@@ -181,7 +182,7 @@ class LoginPage extends StatelessWidget {
                                                                 email: state
                                                                     .email
                                                                     .value);
-                                                        return Flushbar(
+                                                        Flushbar(
                                                           title: 'Success',
                                                           message:
                                                               'Forgot Password email sent at ${state.email.value}.',
@@ -191,18 +192,20 @@ class LoginPage extends StatelessWidget {
                                                           duration: Duration(
                                                               seconds: 3),
                                                         )..show(context);
+                                                        return null;
                                                       } catch (e) {
-                                                        return Flushbar(
+                                                        Flushbar(
                                                           title:
                                                               'Error Occured',
                                                           message:
-                                                              '${e.message}',
+                                                              '${e.toString().replaceAll("Exception: ", "")}',
                                                           flushbarPosition:
                                                               FlushbarPosition
                                                                   .TOP,
                                                           duration: Duration(
                                                               seconds: 3),
                                                         )..show(context);
+                                                        return null;
                                                       }
                                                     }
                                                   },

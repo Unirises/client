@@ -24,14 +24,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  PersistentTabController _controller;
+  PersistentTabController? _controller;
 
   @override
   void initState() {
     super.initState();
     _controller = PersistentTabController(initialIndex: 0);
     FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-      return Flushbar(
+      Flushbar(
         title: (event.data['title'] != null)
             ? event.data['title']
             : 'Notification',
@@ -44,15 +44,16 @@ class _HomePageState extends State<HomePage> {
         progressIndicatorBackgroundColor: Theme.of(context).primaryColor,
         flushbarPosition: FlushbarPosition.TOP,
       )..show(context);
+      return null;
     });
 
     sendVerification();
   }
 
   sendVerification() async {
-    if (!FirebaseAuth.instance.currentUser.emailVerified) {
+    if (!FirebaseAuth.instance.currentUser!.emailVerified) {
       print('not verified');
-      await FirebaseAuth.instance.currentUser.sendEmailVerification();
+      await FirebaseAuth.instance.currentUser!.sendEmailVerification();
     } else {
       print('verified');
     }

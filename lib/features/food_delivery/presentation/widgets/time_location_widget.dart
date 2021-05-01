@@ -4,9 +4,9 @@ import 'package:geolocator/geolocator.dart';
 import '../../models/Merchant.dart';
 
 class TimeLocationWidget extends StatelessWidget {
-  final Merchant merchant;
+  final Merchant? merchant;
 
-  const TimeLocationWidget({Key key, this.merchant}) : super(key: key);
+  const TimeLocationWidget({Key? key, this.merchant}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +20,17 @@ class TimeLocationWidget extends StatelessWidget {
           Expanded(
             child: FutureBuilder(
               future: Geolocator.getCurrentPosition(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  Position data = snapshot.data;
+              builder: (context, AsyncSnapshot<Position> snapshot) {
+                if (snapshot.hasData && snapshot.data != null) {
+                  Position data = snapshot.data!;
                   var distance = Geolocator.distanceBetween(
                     data.latitude,
                     data.longitude,
-                    merchant.place.lat,
-                    merchant.place.lng,
+                    merchant!.place!.lat,
+                    merchant!.place!.lng,
                   );
                   return Text(
-                      '${merchant.address != null ? merchant.address + ' | ' : ''}${(distance / 1000).round()} km away',
+                      '${merchant!.address != null ? merchant!.address! + ' | ' : ''}${(distance / 1000).round()} km away',
                       overflow: TextOverflow.clip);
                 }
                 return Text('...');
@@ -43,7 +43,7 @@ class TimeLocationWidget extends StatelessWidget {
           SizedBox(
             width: 4,
           ),
-          Text('${merchant.averageTimePreparation ?? 30} minutes')
+          Text('${merchant!.averageTimePreparation ?? 30} minutes')
         ]),
       ],
     );

@@ -7,7 +7,7 @@ class VehicleBrand extends FormzInput<String, VehicleBrandValidationError> {
   const VehicleBrand.dirty([String value = '']) : super.dirty(value);
 
   @override
-  VehicleBrandValidationError validator(String value) {
+  VehicleBrandValidationError? validator(String value) {
     return value.isNotEmpty ? null : VehicleBrandValidationError.invalid;
   }
 }

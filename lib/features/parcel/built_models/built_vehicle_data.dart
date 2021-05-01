@@ -17,7 +17,7 @@ abstract class BuiltVehicleData
 
   BuiltVehicleData._();
 
-  factory BuiltVehicleData([updates(BuiltVehicleDataBuilder b)]) =
+  factory BuiltVehicleData([updates(BuiltVehicleDataBuilder b)?]) =
       _$BuiltVehicleData;
 
   String toJson() {
@@ -25,7 +25,7 @@ abstract class BuiltVehicleData
         .encode(serializers.serializeWith(BuiltVehicleData.serializer, this));
   }
 
-  static BuiltVehicleData fromJson(String jsonString) {
+  static BuiltVehicleData? fromJson(String jsonString) {
     return serializers.deserializeWith(
         BuiltVehicleData.serializer, json.decode(jsonString));
   }

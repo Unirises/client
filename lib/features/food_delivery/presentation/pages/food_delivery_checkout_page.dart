@@ -14,9 +14,9 @@ import '../../bloc/item_bloc.dart';
 import 'item_listing_selection_page.dart';
 
 class FoodDeliveryCheckoutPage extends StatelessWidget {
-  final Function onBooked;
+  final Function? onBooked;
 
-  const FoodDeliveryCheckoutPage({Key key, this.onBooked}) : super(key: key);
+  const FoodDeliveryCheckoutPage({Key? key, this.onBooked}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +38,13 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
         List<num> items = [];
         num subtotal = 0.00;
 
-        state.items.forEach((item) {
+        state.items!.forEach((item) {
           var tmp = 0;
           (item.additionalPrice != null)
-              ? tmp += (item?.additionalPrice ?? 0)
+              ? tmp += (item.additionalPrice as int? ?? 0)
               : null;
-          tmp += item.itemPrice;
-          tmp *= item.quantity;
+          tmp += item.itemPrice as int;
+          tmp *= item.quantity!;
           items.add(tmp);
         });
 
@@ -56,17 +56,18 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
             appBar: AppBar(
               title: Column(
                 children: [
-                  Text(state.merchant.companyName),
+                  Text(state.merchant!.companyName!),
                   (state.destination != null &&
-                          state.destination.duration != null)
+                          state.destination!.duration != null)
                       ? RichText(
                           textAlign: TextAlign.center,
                           text: TextSpan(children: [
                             TextSpan(
                                 text:
-                                    'Distance from you: ${(state.destination.distance / 1000).toStringAsFixed(2)} km'),
+                                    'Distance from you: ${(state.destination!.distance! / 1000).toStringAsFixed(2)} km'),
                             TextSpan(
-                                text: ' (${state.destination.duration.text})'),
+                                text:
+                                    ' (${state.destination!.duration!.text})'),
                           ]),
                         )
                       : Container(),
@@ -112,7 +113,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text(state.destination.name,
+                                                Text(state.destination!.name!,
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -120,7 +121,8 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                                           .primaryColor,
                                                       fontSize: 18,
                                                     )),
-                                                Text(state.destination.address),
+                                                Text(state
+                                                    .destination!.address!),
                                               ],
                                             ),
                                           )
@@ -138,7 +140,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                         '${state.destination == null ? 'Select' : 'Change'} Location',
                                         style: TextStyle(color: Colors.white)),
                                     onPressed: () async {
-                                      LocationResult result = await Navigator
+                                      LocationResult? result = await Navigator
                                               .of(context)
                                           .push(MaterialPageRoute(
                                               builder: (context) => PlacePicker(
@@ -164,7 +166,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                                   },
                                                   onCancelled: () {
                                                     Navigator.pop(context);
-                                                    return Flushbar(
+                                                    Flushbar(
                                                       title: 'Event cancelled',
                                                       message:
                                                           'You cancelled adding destination to your request.',
@@ -179,6 +181,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                                       flushbarPosition:
                                                           FlushbarPosition.TOP,
                                                     )..show(context);
+                                                    return null;
                                                   },
                                                 )),
                                       );
@@ -230,10 +233,10 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                           primary: false,
                           itemBuilder: (context, index) {
                             return ListTile(
-                              title: Text(state.items[index].itemName),
-                              leading: Text('${state.items[index].quantity}x'),
+                              title: Text(state.items![index].itemName!),
+                              leading: Text('${state.items![index].quantity}x'),
                               trailing: Text(
-                                  'PHP ${(((state.items[index]?.additionalPrice ?? 0) + state.items[index].itemPrice) * state.items[index].quantity).toStringAsFixed(2)}'),
+                                  'PHP ${(((state.items![index].additionalPrice ?? 0) + state.items![index].itemPrice!) * state.items![index].quantity!).toStringAsFixed(2)}'),
                               subtitle: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -241,14 +244,14 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                   TextButton(
                                     onPressed: () {
                                       context.read<ItemBloc>().add(
-                                          ItemAdded(state.items[index], true));
+                                          ItemAdded(state.items![index], true));
                                       pushNewScreen(context,
                                           screen: ItemListingSelectionPage(
                                             itemIndex: index,
                                             classificationIndex: 0,
                                             onSuccess: (item) {
                                               context.read<CheckoutBloc>().add(
-                                                  CheckoutItemUpdated(item));
+                                                  CheckoutItemUpdated(item!));
                                               Navigator.pop(context);
                                             },
                                           ));
@@ -262,7 +265,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                     onPressed: () {
                                       context.read<CheckoutBloc>().add(
                                           CheckoutItemDeleted(
-                                              state.items[index], index));
+                                              state.items![index], index));
                                     },
                                     child: Text('Delete',
                                         style: TextStyle(
@@ -273,7 +276,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                               ),
                             );
                           },
-                          itemCount: state.items.length,
+                          itemCount: state.items!.length,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -311,7 +314,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                       ),
                                       Text(
                                         'PHP ' +
-                                            state.deliveryFee
+                                            state.deliveryFee!
                                                 .toStringAsFixed(2),
                                         style: TextStyle(
                                           fontSize: 16,
@@ -334,7 +337,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                       ),
                                       Text(
                                         'PHP ' +
-                                            (subtotal + state.deliveryFee)
+                                            (subtotal + state.deliveryFee!)
                                                 .toStringAsFixed(2),
                                         style: TextStyle(
                                           fontSize: 16,
@@ -390,8 +393,8 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                       ),
                                     );
                                   }
-                                : (state.items.length > 0)
-                                    ? onBooked
+                                : (state.items!.length > 0)
+                                    ? onBooked as void Function()?
                                     : null
                             : null,
                         child: Padding(
@@ -400,7 +403,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(6),
                               color: (state.destination != null)
-                                  ? (state.items.length > 0)
+                                  ? (state.items!.length > 0)
                                       ? Colors.green
                                       : Colors.grey
                                   : Colors.grey,
@@ -427,7 +430,7 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
     });
   }
 
-  String buildType(String type) {
+  String buildType(String? type) {
     switch (type) {
       case 'motorcycle':
         return 'Motorcycle';
@@ -444,9 +447,10 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
 }
 
 class FoodDeliverySelectVehicle extends StatefulWidget {
-  final Function(String) onSelected;
+  final Function(String?)? onSelected;
 
-  const FoodDeliverySelectVehicle({Key key, this.onSelected}) : super(key: key);
+  const FoodDeliverySelectVehicle({Key? key, this.onSelected})
+      : super(key: key);
 
   @override
   _FoodDeliverySelectVehicleState createState() =>
@@ -456,8 +460,8 @@ class FoodDeliverySelectVehicle extends StatefulWidget {
 class _FoodDeliverySelectVehicleState extends State<FoodDeliverySelectVehicle> {
   final polyLines = PolylinePoints();
   Completer<GoogleMapController> _controller = Completer();
-  GoogleMapController mapController;
-  String selected = 'motorcycle';
+  late GoogleMapController mapController;
+  String? selected = 'motorcycle';
 
   @override
   Widget build(BuildContext context) {
@@ -475,31 +479,31 @@ class _FoodDeliverySelectVehicleState extends State<FoodDeliverySelectVehicle> {
         } else if (state is CheckoutLoadSuccess) {
           final bounds = LatLngBounds(
             southwest: LatLng(
-              state.directions.routes.first.bounds.southwest.lat,
-              state.directions.routes.first.bounds.southwest.lng,
+              state.directions!.routes!.first.bounds!.southwest!.lat!,
+              state.directions!.routes!.first.bounds!.southwest!.lng!,
             ),
             northeast: LatLng(
-              state.directions.routes.first.bounds.northeast.lat,
-              state.directions.routes.first.bounds.northeast.lng,
+              state.directions!.routes!.first.bounds!.northeast!.lat!,
+              state.directions!.routes!.first.bounds!.northeast!.lng!,
             ),
           );
           final listOfLatLng = polyLines
               .decodePolyline(
-                  state.directions.routes.first.overviewPolyline.points)
+                  state.directions!.routes!.first.overviewPolyline!.points!)
               .map((e) => LatLng(e.latitude, e.longitude))
               .toList();
           final Set<Marker> markers = {};
 
           markers.add(Marker(
               markerId: MarkerId('start'),
-              position:
-                  LatLng(state.pickup.location.lat, state.pickup.location.lng),
+              position: LatLng(
+                  state.pickup!.location!.lat!, state.pickup!.location!.lng!),
               infoWindow: InfoWindow(title: 'Start')));
 
           markers.add(Marker(
               markerId: MarkerId('start'),
-              position: LatLng(state.destination.location.lat,
-                  state.destination.location.lng),
+              position: LatLng(state.destination!.location!.lat!,
+                  state.destination!.location!.lng!),
               infoWindow: InfoWindow(title: 'Destination')));
 
           return Scaffold(
@@ -546,7 +550,7 @@ class _FoodDeliverySelectVehicleState extends State<FoodDeliverySelectVehicle> {
                               height: 2,
                               color: Theme.of(context).primaryColor,
                             ),
-                            onChanged: (String newValue) {
+                            onChanged: (String? newValue) {
                               if (mounted)
                                 setState(() {
                                   selected = newValue;
@@ -578,11 +582,11 @@ class _FoodDeliverySelectVehicleState extends State<FoodDeliverySelectVehicle> {
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
                               ),
-                              child: TextButton(
+                              child: ElevatedButton(
                                 onPressed: (selected != '')
-                                    ? () => widget.onSelected(selected)
+                                    ? () => widget.onSelected!(selected)
                                     : null,
-                                style: TextButton.styleFrom(
+                                style: ElevatedButton.styleFrom(
                                   primary: Theme.of(context).primaryColor,
                                 ),
                                 child: Text(

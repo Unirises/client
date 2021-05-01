@@ -4,18 +4,18 @@ abstract class ParcelRideState extends Equatable {
   const ParcelRideState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ParcelRideInitial extends ParcelRideState {}
 
 class ParcelRideLoaded extends ParcelRideState {
-  final BuiltRequest request;
+  final BuiltRequest? request;
 
   ParcelRideLoaded(this.request);
 
   @override
-  List<Object> get props => [request];
+  List<Object?> get props => [request];
 }
 
 class ParcelRideFailure extends ParcelRideState {}

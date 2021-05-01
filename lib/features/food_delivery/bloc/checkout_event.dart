@@ -4,7 +4,7 @@ abstract class CheckoutEvent extends Equatable {
   const CheckoutEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class CheckoutLoaded extends CheckoutEvent {}
@@ -72,27 +72,27 @@ class CheckoutDestinationUpdated extends CheckoutEvent {
 }
 
 class CheckoutBookRide extends CheckoutEvent {
-  final String name;
-  final String number;
-  final FoodRideBloc foodRideBloc;
-  final String storeID;
+  final String? name;
+  final String? number;
+  final FoodRideBloc? foodRideBloc;
+  final String? storeID;
 
   CheckoutBookRide({this.name, this.number, this.foodRideBloc, this.storeID});
 
   @override
-  List<Object> get props => [name, number];
+  List<Object?> get props => [name, number];
 
   @override
   String toString() => 'CheckoutBookRide { name: $name, number: $number }';
 }
 
 class CheckoutVehicleUpdated extends CheckoutEvent {
-  final String selectedVehicleType;
+  final String? selectedVehicleType;
 
   CheckoutVehicleUpdated({this.selectedVehicleType});
 
   @override
-  List<Object> get props => [selectedVehicleType];
+  List<Object?> get props => [selectedVehicleType];
 
   @override
   String toString() =>

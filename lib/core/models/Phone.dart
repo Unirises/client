@@ -9,7 +9,7 @@ class Phone extends FormzInput<String, PhoneValidationError> {
   static final RegExp _phoneRegExp = RegExp(r'^(09|\+639)\d{9}$');
 
   @override
-  PhoneValidationError validator(String value) {
+  PhoneValidationError? validator(String value) {
     return _phoneRegExp.hasMatch(value) ? null : PhoneValidationError.invalid;
   }
 }

@@ -20,10 +20,10 @@ class _$ClassificationListingSerializer
   final String wireName = 'ClassificationListing';
 
   @override
-  Iterable<Object> serialize(
+  Iterable<Object?> serialize(
       Serializers serializers, ClassificationListing object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'itemName',
       serializers.serialize(object.itemName,
           specifiedType: const FullType(String)),
@@ -37,48 +37,53 @@ class _$ClassificationListingSerializer
       'sku',
       serializers.serialize(object.sku, specifiedType: const FullType(String)),
     ];
-    if (object.itemPhoto != null) {
+    Object? value;
+    value = object.itemPhoto;
+    if (value != null) {
       result
         ..add('itemPhoto')
-        ..add(serializers.serialize(object.itemPhoto,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.itemSize != null) {
+    value = object.itemSize;
+    if (value != null) {
       result
         ..add('itemSize')
-        ..add(serializers.serialize(object.itemSize,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.quantity != null) {
+    value = object.quantity;
+    if (value != null) {
       result
         ..add('quantity')
-        ..add(serializers.serialize(object.quantity,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
-    if (object.isValid != null) {
+    value = object.isValid;
+    if (value != null) {
       result
         ..add('isValid')
-        ..add(serializers.serialize(object.isValid,
-            specifiedType: const FullType(bool)));
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
-    if (object.additionalPrice != null) {
+    value = object.additionalPrice;
+    if (value != null) {
       result
         ..add('additionalPrice')
-        ..add(serializers.serialize(object.additionalPrice,
-            specifiedType: const FullType(num)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(num)));
     }
-    if (object.isAvailable != null) {
+    value = object.isAvailable;
+    if (value != null) {
       result
         ..add('isAvailable')
-        ..add(serializers.serialize(object.isAvailable,
-            specifiedType: const FullType(bool)));
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
     return result;
   }
 
   @override
   ClassificationListing deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new ClassificationListingBuilder();
 
@@ -86,7 +91,7 @@ class _$ClassificationListingSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'itemName':
           result.itemName = serializers.deserialize(value,
@@ -95,7 +100,7 @@ class _$ClassificationListingSerializer
         case 'additionals':
           result.additionals.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(Additionals)]))
+                      BuiltList, const [const FullType(Additionals)]))!
               as BuiltList<Object>);
           break;
         case 'itemPhoto':
@@ -143,51 +148,45 @@ class _$ClassificationListing extends ClassificationListing {
   @override
   final BuiltList<Additionals> additionals;
   @override
-  final String itemPhoto;
+  final String? itemPhoto;
   @override
   final num itemPrice;
   @override
-  final String itemSize;
+  final String? itemSize;
   @override
-  final int quantity;
+  final int? quantity;
   @override
-  final bool isValid;
+  final bool? isValid;
   @override
-  final num additionalPrice;
+  final num? additionalPrice;
   @override
   final String sku;
   @override
-  final bool isAvailable;
+  final bool? isAvailable;
 
   factory _$ClassificationListing(
-          [void Function(ClassificationListingBuilder) updates]) =>
+          [void Function(ClassificationListingBuilder)? updates]) =>
       (new ClassificationListingBuilder()..update(updates)).build();
 
   _$ClassificationListing._(
-      {this.itemName,
-      this.additionals,
+      {required this.itemName,
+      required this.additionals,
       this.itemPhoto,
-      this.itemPrice,
+      required this.itemPrice,
       this.itemSize,
       this.quantity,
       this.isValid,
       this.additionalPrice,
-      this.sku,
+      required this.sku,
       this.isAvailable})
       : super._() {
-    if (itemName == null) {
-      throw new BuiltValueNullFieldError('ClassificationListing', 'itemName');
-    }
-    if (additionals == null) {
-      throw new BuiltValueNullFieldError(
-          'ClassificationListing', 'additionals');
-    }
-    if (itemPrice == null) {
-      throw new BuiltValueNullFieldError('ClassificationListing', 'itemPrice');
-    }
-    if (sku == null) {
-      throw new BuiltValueNullFieldError('ClassificationListing', 'sku');
-    }
+    BuiltValueNullFieldError.checkNotNull(
+        itemName, 'ClassificationListing', 'itemName');
+    BuiltValueNullFieldError.checkNotNull(
+        additionals, 'ClassificationListing', 'additionals');
+    BuiltValueNullFieldError.checkNotNull(
+        itemPrice, 'ClassificationListing', 'itemPrice');
+    BuiltValueNullFieldError.checkNotNull(sku, 'ClassificationListing', 'sku');
   }
 
   @override
@@ -256,65 +255,66 @@ class _$ClassificationListing extends ClassificationListing {
 
 class ClassificationListingBuilder
     implements Builder<ClassificationListing, ClassificationListingBuilder> {
-  _$ClassificationListing _$v;
+  _$ClassificationListing? _$v;
 
-  String _itemName;
-  String get itemName => _$this._itemName;
-  set itemName(String itemName) => _$this._itemName = itemName;
+  String? _itemName;
+  String? get itemName => _$this._itemName;
+  set itemName(String? itemName) => _$this._itemName = itemName;
 
-  ListBuilder<Additionals> _additionals;
+  ListBuilder<Additionals>? _additionals;
   ListBuilder<Additionals> get additionals =>
       _$this._additionals ??= new ListBuilder<Additionals>();
-  set additionals(ListBuilder<Additionals> additionals) =>
+  set additionals(ListBuilder<Additionals>? additionals) =>
       _$this._additionals = additionals;
 
-  String _itemPhoto;
-  String get itemPhoto => _$this._itemPhoto;
-  set itemPhoto(String itemPhoto) => _$this._itemPhoto = itemPhoto;
+  String? _itemPhoto;
+  String? get itemPhoto => _$this._itemPhoto;
+  set itemPhoto(String? itemPhoto) => _$this._itemPhoto = itemPhoto;
 
-  num _itemPrice;
-  num get itemPrice => _$this._itemPrice;
-  set itemPrice(num itemPrice) => _$this._itemPrice = itemPrice;
+  num? _itemPrice;
+  num? get itemPrice => _$this._itemPrice;
+  set itemPrice(num? itemPrice) => _$this._itemPrice = itemPrice;
 
-  String _itemSize;
-  String get itemSize => _$this._itemSize;
-  set itemSize(String itemSize) => _$this._itemSize = itemSize;
+  String? _itemSize;
+  String? get itemSize => _$this._itemSize;
+  set itemSize(String? itemSize) => _$this._itemSize = itemSize;
 
-  int _quantity;
-  int get quantity => _$this._quantity;
-  set quantity(int quantity) => _$this._quantity = quantity;
+  int? _quantity;
+  int? get quantity => _$this._quantity;
+  set quantity(int? quantity) => _$this._quantity = quantity;
 
-  bool _isValid;
-  bool get isValid => _$this._isValid;
-  set isValid(bool isValid) => _$this._isValid = isValid;
+  bool? _isValid;
+  bool? get isValid => _$this._isValid;
+  set isValid(bool? isValid) => _$this._isValid = isValid;
 
-  num _additionalPrice;
-  num get additionalPrice => _$this._additionalPrice;
-  set additionalPrice(num additionalPrice) =>
+  num? _additionalPrice;
+  num? get additionalPrice => _$this._additionalPrice;
+  set additionalPrice(num? additionalPrice) =>
       _$this._additionalPrice = additionalPrice;
 
-  String _sku;
-  String get sku => _$this._sku;
-  set sku(String sku) => _$this._sku = sku;
+  String? _sku;
+  String? get sku => _$this._sku;
+  set sku(String? sku) => _$this._sku = sku;
 
-  bool _isAvailable;
-  bool get isAvailable => _$this._isAvailable;
-  set isAvailable(bool isAvailable) => _$this._isAvailable = isAvailable;
+  bool? _isAvailable;
+  bool? get isAvailable => _$this._isAvailable;
+  set isAvailable(bool? isAvailable) => _$this._isAvailable = isAvailable;
 
   ClassificationListingBuilder();
 
   ClassificationListingBuilder get _$this {
-    if (_$v != null) {
-      _itemName = _$v.itemName;
-      _additionals = _$v.additionals?.toBuilder();
-      _itemPhoto = _$v.itemPhoto;
-      _itemPrice = _$v.itemPrice;
-      _itemSize = _$v.itemSize;
-      _quantity = _$v.quantity;
-      _isValid = _$v.isValid;
-      _additionalPrice = _$v.additionalPrice;
-      _sku = _$v.sku;
-      _isAvailable = _$v.isAvailable;
+    final $v = _$v;
+    if ($v != null) {
+      _itemName = $v.itemName;
+      _additionals = $v.additionals.toBuilder();
+      _itemPhoto = $v.itemPhoto;
+      _itemPrice = $v.itemPrice;
+      _itemSize = $v.itemSize;
+      _quantity = $v.quantity;
+      _isValid = $v.isValid;
+      _additionalPrice = $v.additionalPrice;
+      _sku = $v.sku;
+      _isAvailable = $v.isAvailable;
       _$v = null;
     }
     return this;
@@ -322,14 +322,12 @@ class ClassificationListingBuilder
 
   @override
   void replace(ClassificationListing other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ClassificationListing;
   }
 
   @override
-  void update(void Function(ClassificationListingBuilder) updates) {
+  void update(void Function(ClassificationListingBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -339,18 +337,21 @@ class ClassificationListingBuilder
     try {
       _$result = _$v ??
           new _$ClassificationListing._(
-              itemName: itemName,
+              itemName: BuiltValueNullFieldError.checkNotNull(
+                  itemName, 'ClassificationListing', 'itemName'),
               additionals: additionals.build(),
               itemPhoto: itemPhoto,
-              itemPrice: itemPrice,
+              itemPrice: BuiltValueNullFieldError.checkNotNull(
+                  itemPrice, 'ClassificationListing', 'itemPrice'),
               itemSize: itemSize,
               quantity: quantity,
               isValid: isValid,
               additionalPrice: additionalPrice,
-              sku: sku,
+              sku: BuiltValueNullFieldError.checkNotNull(
+                  sku, 'ClassificationListing', 'sku'),
               isAvailable: isAvailable);
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'additionals';
         additionals.build();

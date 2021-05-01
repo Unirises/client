@@ -8,9 +8,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../bloc/parcel_bloc.dart';
 
 class SelectVehiclePage extends StatefulWidget {
-  final Function(String) onSelected;
+  final Function(String?)? onSelected;
 
-  const SelectVehiclePage({Key key, this.onSelected}) : super(key: key);
+  const SelectVehiclePage({Key? key, this.onSelected}) : super(key: key);
 
   @override
   _SelectVehiclePageState createState() => _SelectVehiclePageState();
@@ -19,8 +19,8 @@ class SelectVehiclePage extends StatefulWidget {
 class _SelectVehiclePageState extends State<SelectVehiclePage> {
   final polyLines = PolylinePoints();
   Completer<GoogleMapController> _controller = Completer();
-  GoogleMapController mapController;
-  String selected = 'car7Seater';
+  late GoogleMapController mapController;
+  String? selected = 'car7Seater';
 
   @override
   Widget build(BuildContext context) {
@@ -41,17 +41,17 @@ class _SelectVehiclePageState extends State<SelectVehiclePage> {
         } else if (state is ParcelLoadSuccess) {
           final bounds = LatLngBounds(
             southwest: LatLng(
-              state.directions.routes.first.bounds.southwest.lat,
-              state.directions.routes.first.bounds.southwest.lng,
+              state.directions!.routes!.first.bounds!.southwest!.lat!,
+              state.directions!.routes!.first.bounds!.southwest!.lng!,
             ),
             northeast: LatLng(
-              state.directions.routes.first.bounds.northeast.lat,
-              state.directions.routes.first.bounds.northeast.lng,
+              state.directions!.routes!.first.bounds!.northeast!.lat!,
+              state.directions!.routes!.first.bounds!.northeast!.lng!,
             ),
           );
           final listOfLatLng = polyLines
               .decodePolyline(
-                  state.directions.routes.first.overviewPolyline.points)
+                  state.directions!.routes!.first.overviewPolyline!.points!)
               .map((e) => LatLng(e.latitude, e.longitude))
               .toList();
 
@@ -60,15 +60,15 @@ class _SelectVehiclePageState extends State<SelectVehiclePage> {
           markers.add(Marker(
               markerId: MarkerId('start'),
               position:
-                  LatLng(state.pickup.location.lat, state.pickup.location.lng),
+                  LatLng(state.pickup!.location!.lat!, state.pickup!.location!.lng!),
               infoWindow: InfoWindow(title: 'Start')));
 
-          for (var i = 0; i < state.points.length; i++) {
+          for (var i = 0; i < state.points!.length; i++) {
             markers.add(Marker(
                 markerId: MarkerId(String.fromCharCode(i)),
                 position: LatLng(
-                    state.points[i].location.lat, state.points[i].location.lng),
-                infoWindow: InfoWindow(title: state.points[i].name)));
+                    state.points![i].location!.lat!, state.points![i].location!.lng!),
+                infoWindow: InfoWindow(title: state.points![i].name)));
           }
 
           return Scaffold(
@@ -115,13 +115,13 @@ class _SelectVehiclePageState extends State<SelectVehiclePage> {
                               height: 2,
                               color: Theme.of(context).primaryColor,
                             ),
-                            onChanged: (String newValue) {
+                            onChanged: (String? newValue) {
                               if (mounted)
                                 setState(() {
                                   selected = newValue;
                                 });
                             },
-                            items: buildDropdownItems(state.data),
+                            items: buildDropdownItems(state.data!),
                           ),
                           Container(
                             width: double.infinity,
@@ -133,7 +133,7 @@ class _SelectVehiclePageState extends State<SelectVehiclePage> {
                                 style: ElevatedButton.styleFrom(
                                     primary: Theme.of(context).primaryColor),
                                 onPressed: (selected != '')
-                                    ? () => widget.onSelected(selected)
+                                    ? () => widget.onSelected!(selected)
                                     : null,
                                 child: Text('Select Vehicle',
                                     style: TextStyle(color: Colors.white)),

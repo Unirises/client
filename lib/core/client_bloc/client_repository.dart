@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:meta/meta.dart';
 
 import '../../features/parcel/built_models/built_request.dart';
 import '../models/Client.dart';
@@ -16,7 +15,7 @@ class ClientRepository {
 
   Stream<Client> client() {
     return clientCollection
-        .doc(FirebaseAuth.instance.currentUser.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .snapshots()
         .map((snapshot) {
       return Client.fromSnapshot(snapshot);
@@ -24,17 +23,15 @@ class ClientRepository {
   }
 
   Future<void> updatePosition(Position data) async {
-    if (FirebaseAuth.instance.currentUser.uid != null) {
-      return clientCollection
-          .doc(FirebaseAuth.instance.currentUser.uid)
-          .update({'position': FixedPos.fromPosition(data).toJson()});
-    }
+    return clientCollection
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({'position': FixedPos.fromPosition(data).toJson()});
   }
 
-  Future<void> updateToken(String data) async {
+  Future<void> updateToken(String? data) async {
     try {
       return clientCollection
-          .doc(FirebaseAuth.instance.currentUser.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({
         'token': data,
       });
@@ -46,19 +43,19 @@ class ClientRepository {
   }
 
   Future updateStatus({
-    @required String data,
-    BuiltRequest request,
-    String requestID,
+    required String data,
+    BuiltRequest? request,
+    String? requestID,
   }) async {
     await clientCollection
-        .doc(FirebaseAuth.instance.currentUser.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({'status': data});
 
     if (data == 'requesting' && request != null) {
       var requestResponse =
           await requestsCollection.add(json.decode(request.toJson()));
       await clientCollection
-          .doc(FirebaseAuth.instance.currentUser.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({'ride_id': requestResponse.id});
       return requestResponse.id;
     }
@@ -73,19 +70,19 @@ class ClientRepository {
   }
 
   Future updateDeliveryStatus({
-    @required String data,
-    BuiltRequest request,
-    String requestID,
+    required String data,
+    BuiltRequest? request,
+    String? requestID,
   }) async {
     await clientCollection
-        .doc(FirebaseAuth.instance.currentUser.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({'delivery_status': data});
 
     if (data == 'requesting' && request != null) {
       var requestResponse =
           await requestsCollection.add(json.decode(request.toJson()));
       await clientCollection
-          .doc(FirebaseAuth.instance.currentUser.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({'delivery_id': requestResponse.id});
       return requestResponse.id;
     }
@@ -107,24 +104,24 @@ class ClientRepository {
 }
 
 class FixedPos {
-  final num heading;
-  final num latitude;
-  final num longitude;
-  final num timestamp;
+  final num? heading;
+  final num? latitude;
+  final num? longitude;
+  final num? timestamp;
 
   const FixedPos({
-    @required this.heading,
-    @required this.latitude,
-    @required this.longitude,
+    required this.heading,
+    required this.latitude,
+    required this.longitude,
     this.timestamp,
   });
 
   static FixedPos fromPosition(Position data) {
     return FixedPos(
-      heading: data?.heading ?? 0,
-      latitude: data?.latitude ?? 0,
-      longitude: data?.longitude ?? 0,
-      timestamp: data.timestamp.millisecondsSinceEpoch ?? 0,
+      heading: data.heading,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      timestamp: data.timestamp!.millisecondsSinceEpoch,
     );
   }
 
@@ -139,10 +136,10 @@ class FixedPos {
 
   static FixedPos fromMap(Map<String, dynamic> data) {
     return FixedPos(
-      heading: data != null ? data['heading'] : 0,
-      latitude: data != null ? data['latitude'] : 0,
-      longitude: data != null ? data['longitude'] : 0,
-      timestamp: data != null ? data['timestamp'] : 0,
+      heading: data['heading'],
+      latitude: data['latitude'],
+      longitude: data['longitude'],
+      timestamp: data['timestamp'],
     );
   }
 }

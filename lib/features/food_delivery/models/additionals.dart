@@ -14,7 +14,7 @@ part 'additionals.g.dart';
 abstract class Additionals implements Built<Additionals, AdditionalsBuilder> {
   Additionals._();
 
-  factory Additionals([updates(AdditionalsBuilder b)]) = _$Additionals;
+  factory Additionals([updates(AdditionalsBuilder b)?]) = _$Additionals;
 
   @BuiltValueField(wireName: 'minMax')
   BuiltList<int> get minMax;
@@ -28,7 +28,7 @@ abstract class Additionals implements Built<Additionals, AdditionalsBuilder> {
     return json.encode(serializers.serializeWith(Additionals.serializer, this));
   }
 
-  static Additionals fromJson(String jsonString) {
+  static Additionals? fromJson(String jsonString) {
     return serializers.deserializeWith(
         Additionals.serializer, json.decode(jsonString));
   }

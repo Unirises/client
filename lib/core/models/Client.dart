@@ -2,13 +2,12 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 import '../../features/parcel/built_models/built_request.dart';
 
 class Client extends Equatable {
   const Client({
-    @required this.id,
+    required this.id,
     this.position,
     this.token,
     this.onRide,
@@ -18,21 +17,21 @@ class Client extends Equatable {
     this.delivery_id,
     this.delivery_status,
     this.balance,
-  }) : assert(id != null);
+  });
 
   final String id;
   final dynamic position;
-  final String token;
-  final bool onRide;
-  final String status;
-  final String ride_id;
-  final List<dynamic> rides;
-  final String delivery_status;
-  final String delivery_id;
-  final num balance;
+  final String? token;
+  final bool? onRide;
+  final String? status;
+  final String? ride_id;
+  final List<dynamic>? rides;
+  final String? delivery_status;
+  final String? delivery_id;
+  final num? balance;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         position,
         token,
@@ -46,7 +45,7 @@ class Client extends Equatable {
       ];
 
   static Client fromSnapshot(DocumentSnapshot snapshot) {
-    final data = snapshot.data();
+    final data = snapshot.data()!;
     return Client(
       id: snapshot.id,
       position: data['position'],
