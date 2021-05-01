@@ -122,7 +122,11 @@ class OnboardingActionScreen extends StatelessWidget {
                   },
                   child: const Text(
                     'Sign In',
-                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),

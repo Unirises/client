@@ -119,8 +119,10 @@ class _HomePageState extends State<HomePage> {
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.shopping_cart),
-        title: 'Merchants',
+        icon: Image.asset(
+          'assets/icon/minimal_icon.png',
+          fit: BoxFit.fill,
+        ),
         activeColorPrimary: Theme.of(context).primaryColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),

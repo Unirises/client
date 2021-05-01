@@ -45,7 +45,6 @@ dependencies:
   image_cropper: ^1.4.0
   flutter_slidable: ^0.6.0
   google_maps_flutter: ^2.0.3
-  animate_icons: ^2.0.0
   smooth_page_indicator: ^0.3.0-nullsafety.0
   formz: ^0.4.0
   provider: ^5.0.0
@@ -78,7 +77,6 @@ dev_dependencies:
   built_value_generator: ^8.0.5
 
 dependency_overrides:
-  intl: 0.17.0
   build_config: ^1.0.0
 
 flutter_icons:

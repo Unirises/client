@@ -201,7 +201,10 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
-                                    child: Text(value),
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(fontSize: 18),
+                                    ),
                                   );
                                 }).toList(),
                               ),

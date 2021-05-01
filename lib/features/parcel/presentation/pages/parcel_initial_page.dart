@@ -309,6 +309,8 @@ class ParcelInitialPage extends StatelessWidget {
                               horizontal: 8,
                             ),
                             child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                    primary: Color(0xffed1c24)),
                                 onPressed: ((state.points != null)
                                         ? state.points!.length < 22
                                         : true)
@@ -369,7 +371,9 @@ class ParcelInitialPage extends StatelessWidget {
                                     : null,
                                 icon: Icon(Icons.add),
                                 label: Text(
-                                    'Add ${state.pickup?.id == null ? 'Starting Point' : 'Destination'}'))),
+                                  'Add ${state.pickup?.id == null ? 'Starting Point' : 'Destination'}',
+                                  style: TextStyle(fontSize: 18),
+                                ))),
                       ),
                       (state.points != null &&
                               state.points!.length >= 1 &&
