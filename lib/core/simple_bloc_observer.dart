@@ -8,7 +8,7 @@ class SimpleBlocObserver extends BlocObserver {
   }
 
   @override
-  void onChange(Cubit cubit, Change change) {
+  void onChange(BlocBase cubit, Change change) {
     print('cubit: ${cubit.runtimeType}, change: $change');
     super.onChange(cubit, change);
   }
@@ -20,7 +20,7 @@ class SimpleBlocObserver extends BlocObserver {
   }
 
   @override
-  void onError(Cubit cubit, Object error, StackTrace stackTrace) {
+  void onError(BlocBase cubit, Object error, StackTrace stackTrace) {
     print('cubit: ${cubit.runtimeType}, error: $error');
     super.onError(cubit, error, stackTrace);
   }

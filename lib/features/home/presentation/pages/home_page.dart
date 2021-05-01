@@ -1,6 +1,6 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -114,20 +114,20 @@ class _HomePageState extends State<HomePage> {
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.archivebox),
         title: 'Parcel Delivery',
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: CupertinoColors.systemGrey,
+        activeColorPrimary: Theme.of(context).primaryColor,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.shopping_cart),
         title: 'Merchants',
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: CupertinoColors.systemGrey,
+        activeColorPrimary: Theme.of(context).primaryColor,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.person),
         title: 'Account',
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: CupertinoColors.systemGrey,
+        activeColorPrimary: Theme.of(context).primaryColor,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
     ];
   }

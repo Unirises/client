@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
-import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:place_picker/place_picker.dart';
 
 import '../../built_models/built_stop.dart';
 import '../../built_models/location.dart';
@@ -64,7 +64,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.location.address),
+        title: Text(widget.location.formattedAddress),
         leading: CloseButton(
           onPressed: widget.onCancelled,
         ),
@@ -245,7 +245,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                   ..weight =
                                       num.tryParse(_weightController.text)
                                   ..type = _typeOfParcel
-                                  ..address = widget.location.address
+                                  ..address = widget.location.formattedAddress
                                   ..houseDetails = _floorController.text
                                   ..name = _nameController.text
                                   ..phone = _phoneController.text

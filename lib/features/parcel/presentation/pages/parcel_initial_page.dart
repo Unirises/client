@@ -1,8 +1,7 @@
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_map_location_picker/google_map_location_picker.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:place_picker/place_picker.dart';
 
 import '../../../../core/user_collection_bloc/user_collection_bloc.dart';
 import '../../bloc/parcel_bloc.dart';
@@ -72,18 +71,15 @@ class ParcelInitialPage extends StatelessWidget {
                                   IconButton(
                                     color: Colors.blue,
                                     onPressed: () async {
-                                      LocationResult result =
-                                          await showLocationPicker(
-                                        context,
-                                        'AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU',
-                                        initialCenter: LatLng(
-                                            state.pickup.location.lat,
-                                            state.pickup.location.lng),
-                                        countries: ['PH'],
-                                        desiredAccuracy: LocationAccuracy.best,
-                                      );
+                                      LocationResult result = await Navigator
+                                              .of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (context) => PlacePicker(
+                                                    "AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU",
+                                                  )));
                                       if (result == null ||
-                                          result.address == null) return;
+                                          result.formattedAddress == null)
+                                        return;
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -231,17 +227,13 @@ class ParcelInitialPage extends StatelessWidget {
                                 color: Colors.blue,
                                 onPressed: () async {
                                   LocationResult result =
-                                      await showLocationPicker(
-                                    context,
-                                    'AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU',
-                                    initialCenter: LatLng(
-                                        state.points[index].location.lat,
-                                        state.points[index].location.lng),
-                                    countries: ['PH'],
-                                    desiredAccuracy: LocationAccuracy.best,
-                                  );
-                                  if (result == null || result.address == null)
-                                    return;
+                                      await Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (context) => PlacePicker(
+                                                    "AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU",
+                                                  )));
+                                  if (result == null ||
+                                      result.formattedAddress == null) return;
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -320,21 +312,15 @@ class ParcelInitialPage extends StatelessWidget {
                                         : true)
                                     ? () async {
                                         LocationResult result =
-                                            await showLocationPicker(
-                                          context,
-                                          'AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU',
-                                          initialCenter:
-                                              LatLng(14.6091, 121.0223),
-                                          automaticallyAnimateToCurrentLocation:
-                                              true,
-                                          myLocationButtonEnabled: true,
-                                          requiredGPS: true,
-                                          countries: ['PH'],
-                                          desiredAccuracy:
-                                              LocationAccuracy.best,
-                                        );
+                                            await Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PlacePicker(
+                                                          "AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU",
+                                                        )));
                                         if (result == null ||
-                                            result.address == null) return;
+                                            result.formattedAddress == null)
+                                          return;
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(

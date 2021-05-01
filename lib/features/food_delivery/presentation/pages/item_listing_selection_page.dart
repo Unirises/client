@@ -1,5 +1,5 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:built_collection/built_collection.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

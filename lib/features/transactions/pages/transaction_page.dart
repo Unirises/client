@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:client/core/client_bloc/client_bloc.dart';
 import 'package:client/core/models/Driver.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';

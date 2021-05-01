@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:place_picker/place_picker.dart';
 
 import '../../../parcel/presentation/pages/add_stop_details_page.dart';
 import '../../bloc/checkout_bloc.dart';
@@ -138,21 +138,15 @@ class FoodDeliveryCheckoutPage extends StatelessWidget {
                                         '${state.destination == null ? 'Select' : 'Change'} Location',
                                         style: TextStyle(color: Colors.white)),
                                     onPressed: () async {
-                                      LocationResult result =
-                                          await showLocationPicker(
-                                        context,
-                                        'AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU',
-                                        initialCenter:
-                                            LatLng(14.6091, 121.0223),
-                                        automaticallyAnimateToCurrentLocation:
-                                            true,
-                                        myLocationButtonEnabled: true,
-                                        requiredGPS: true,
-                                        countries: ['PH'],
-                                        desiredAccuracy: LocationAccuracy.best,
-                                      );
+                                      LocationResult result = await Navigator
+                                              .of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (context) => PlacePicker(
+                                                    "AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU",
+                                                  )));
                                       if (result == null ||
-                                          result.address == null) return;
+                                          result.formattedAddress == null)
+                                        return;
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
