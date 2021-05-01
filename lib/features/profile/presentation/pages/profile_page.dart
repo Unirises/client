@@ -25,12 +25,10 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     final userCollection =
         context.watch<UserCollectionBloc>().state.userCollection!;
-
     _nameController.value = TextEditingValue(
       text: userCollection.name!,
       selection: TextSelection.fromPosition(
-        TextPosition(
-            offset: FirebaseAuth.instance.currentUser!.displayName!.length),
+        TextPosition(offset: userCollection.name!.length),
       ),
     );
     if (userCollection.phone != null) {
