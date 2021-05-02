@@ -74,12 +74,15 @@ class ParcelRideBloc extends Bloc<ParcelRideEvent, ParcelRideState> {
         try {
           await clientsRepository
               .doc(FirebaseAuth.instance.currentUser!.uid)
-              .update({
-            'rides': FieldValue.arrayUnion([json.decode(event.ride!.toJson())])
-          });
-          await driversRepository.doc(event.ride!.driverId).update({
-            'rides': FieldValue.arrayUnion([json.decode(event.ride!.toJson())]),
-          });
+              .collection('rides')
+              .doc(event.ride!.id.toString())
+              .set(json.decode(event.ride!.toJson()));
+
+          await driversRepository
+              .doc(event.ride!.driverId)
+              .collection('rides')
+              .doc(event.ride!.id.toString())
+              .set(json.decode(event.ride!.toJson()));
         } catch (e) {
           print('Failed updating client and driver rides.');
           print(e);
