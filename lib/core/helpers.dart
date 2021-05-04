@@ -26,6 +26,6 @@ num computeFare(String? type, num? distance, bool isAddtlStop) {
   }
 
   distance = (distance! / 1000) - 5;
-  return (baseFare + (perKm * distance) + (isAddtlStop ? addtlStop : 0))
-      .round();
+  distance = distance.isNegative ? 0 : distance;
+  return (baseFare + (perKm * distance) + (isAddtlStop ? addtlStop : 0)).ceil();
 }
