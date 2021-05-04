@@ -155,7 +155,8 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
             ..clientName = event.name
             ..clientNumber = event.number
             ..directions = currentState.directions!.toBuilder()
-            ..rideType = currentState.type);
+            ..rideType = currentState.type
+            ..hasHandlingFee = currentState.hasHandlingFee);
 
           var requestId = await _clientRepository.updateStatus(
             data: 'requesting',
