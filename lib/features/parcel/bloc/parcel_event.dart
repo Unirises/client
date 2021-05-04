@@ -79,3 +79,9 @@ class TypeUpdated extends ParcelEvent {
   @override
   String toString() => 'TypeUpdated';
 }
+
+class HandlingFeeUpdated extends ParcelEvent {
+  final bool value;
+
+  HandlingFeeUpdated(this.value);
+}

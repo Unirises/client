@@ -142,13 +142,6 @@ class _$BuiltStopSerializer implements StructuredSerializer<BuiltStop> {
         ..add(
             serializers.serialize(value, specifiedType: const FullType(bool)));
     }
-    value = object.hasHandlingFee;
-    if (value != null) {
-      result
-        ..add('hasHandlingFee')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
-    }
     value = object.itemPrice;
     if (value != null) {
       result
@@ -242,10 +235,6 @@ class _$BuiltStopSerializer implements StructuredSerializer<BuiltStop> {
           result.receiverWillShoulder = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
           break;
-        case 'hasHandlingFee':
-          result.hasHandlingFee = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
-          break;
         case 'itemPrice':
           result.itemPrice = serializers.deserialize(value,
               specifiedType: const FullType(num)) as num;
@@ -295,8 +284,6 @@ class _$BuiltStop extends BuiltStop {
   @override
   final bool? receiverWillShoulder;
   @override
-  final bool? hasHandlingFee;
-  @override
   final num? itemPrice;
 
   factory _$BuiltStop([void Function(BuiltStopBuilder)? updates]) =>
@@ -321,7 +308,6 @@ class _$BuiltStop extends BuiltStop {
       this.duration,
       this.specialNote,
       this.receiverWillShoulder,
-      this.hasHandlingFee,
       this.itemPrice})
       : super._();
 
@@ -354,7 +340,6 @@ class _$BuiltStop extends BuiltStop {
         duration == other.duration &&
         specialNote == other.specialNote &&
         receiverWillShoulder == other.receiverWillShoulder &&
-        hasHandlingFee == other.hasHandlingFee &&
         itemPrice == other.itemPrice;
   }
 
@@ -378,25 +363,31 @@ class _$BuiltStop extends BuiltStop {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc(0, houseDetails.hashCode),
-                                                                                name.hashCode),
-                                                                            phone.hashCode),
-                                                                        location.hashCode),
-                                                                    address.hashCode),
-                                                                id.hashCode),
-                                                            weight.hashCode),
-                                                        type.hashCode),
-                                                    isCashOnDelivery.hashCode),
-                                                distance.hashCode),
-                                            price.hashCode),
-                                        startLocation.hashCode),
-                                    endLocation.hashCode),
-                                startAddress.hashCode),
-                            endAddress.hashCode),
-                        duration.hashCode),
-                    specialNote.hashCode),
-                receiverWillShoulder.hashCode),
-            hasHandlingFee.hashCode),
+                                                                            $jc(
+                                                                                0,
+                                                                                houseDetails
+                                                                                    .hashCode),
+                                                                            name
+                                                                                .hashCode),
+                                                                        phone
+                                                                            .hashCode),
+                                                                    location
+                                                                        .hashCode),
+                                                                address
+                                                                    .hashCode),
+                                                            id.hashCode),
+                                                        weight.hashCode),
+                                                    type.hashCode),
+                                                isCashOnDelivery.hashCode),
+                                            distance.hashCode),
+                                        price.hashCode),
+                                    startLocation.hashCode),
+                                endLocation.hashCode),
+                            startAddress.hashCode),
+                        endAddress.hashCode),
+                    duration.hashCode),
+                specialNote.hashCode),
+            receiverWillShoulder.hashCode),
         itemPrice.hashCode));
   }
 
@@ -421,7 +412,6 @@ class _$BuiltStop extends BuiltStop {
           ..add('duration', duration)
           ..add('specialNote', specialNote)
           ..add('receiverWillShoulder', receiverWillShoulder)
-          ..add('hasHandlingFee', hasHandlingFee)
           ..add('itemPrice', itemPrice))
         .toString();
   }
@@ -510,11 +500,6 @@ class BuiltStopBuilder implements Builder<BuiltStop, BuiltStopBuilder> {
   set receiverWillShoulder(bool? receiverWillShoulder) =>
       _$this._receiverWillShoulder = receiverWillShoulder;
 
-  bool? _hasHandlingFee;
-  bool? get hasHandlingFee => _$this._hasHandlingFee;
-  set hasHandlingFee(bool? hasHandlingFee) =>
-      _$this._hasHandlingFee = hasHandlingFee;
-
   num? _itemPrice;
   num? get itemPrice => _$this._itemPrice;
   set itemPrice(num? itemPrice) => _$this._itemPrice = itemPrice;
@@ -542,7 +527,6 @@ class BuiltStopBuilder implements Builder<BuiltStop, BuiltStopBuilder> {
       _duration = $v.duration?.toBuilder();
       _specialNote = $v.specialNote;
       _receiverWillShoulder = $v.receiverWillShoulder;
-      _hasHandlingFee = $v.hasHandlingFee;
       _itemPrice = $v.itemPrice;
       _$v = null;
     }
@@ -584,7 +568,6 @@ class BuiltStopBuilder implements Builder<BuiltStop, BuiltStopBuilder> {
               duration: _duration?.build(),
               specialNote: specialNote,
               receiverWillShoulder: receiverWillShoulder,
-              hasHandlingFee: hasHandlingFee,
               itemPrice: itemPrice);
     } catch (_) {
       late String _$failedField;

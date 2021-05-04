@@ -213,6 +213,20 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
           subtotal: subtotal,
         );
       }
+    } else if (event is HandlingFeeUpdated) {
+      if (currentState is ParcelLoadSuccess) {
+        if (currentState.hasHandlingFee && !event.value) {
+          yield currentState.copyWith(
+            subtotal: currentState.subtotal - 30,
+            hasHandlingFee: false,
+          );
+        } else if (!currentState.hasHandlingFee && event.value) {
+          yield currentState.copyWith(
+            subtotal: currentState.subtotal + 30,
+            hasHandlingFee: true,
+          );
+        }
+      }
     }
   }
 }

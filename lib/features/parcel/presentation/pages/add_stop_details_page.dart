@@ -14,25 +14,15 @@ class AddStopDetailsPage extends StatefulWidget {
   final VoidCallback? onCancelled;
   final bool? isPickup;
 
-  final String? floor;
-  final String? name;
-  final String? phone;
-  final num? weight;
-  final String? id;
-  final String? typeOfParcel;
+  final BuiltStop? previousData;
 
   const AddStopDetailsPage({
     Key? key,
     required this.location,
     required this.onSubmitFinished,
+    this.previousData,
     this.onCancelled,
     this.isPickup,
-    this.floor,
-    this.name,
-    this.phone,
-    this.weight,
-    this.id,
-    this.typeOfParcel,
   }) : super(key: key);
 
   @override
@@ -45,18 +35,40 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _weightController = TextEditingController();
+  final _notesController = TextEditingController();
+  final _itemPriceController = TextEditingController();
+
   String? _typeOfParcel;
   String? _id;
+  bool _receiverWillShoulder = false;
 
   @override
   void initState() {
-    _floorController.text = widget.floor ?? '';
-    _nameController.text = widget.name ?? '';
-    _phoneController.text = widget.phone ?? '';
-    _id = widget.id ?? getRandomString(15);
-    _typeOfParcel = widget.typeOfParcel ?? 'Documents';
-    _weightController.text =
-        widget.weight == null ? '' : widget.weight.toString();
+    if (widget.previousData != null) {
+      _floorController.text = widget.previousData!.houseDetails ?? '';
+      _nameController.text = widget.previousData!.name ?? '';
+      _phoneController.text = widget.previousData!.phone ?? '';
+      _id = widget.previousData!.id ?? getRandomString(15);
+      _typeOfParcel = widget.previousData!.type ?? 'Documents';
+      _weightController.text = widget.previousData!.weight == null
+          ? ''
+          : widget.previousData!.weight.toString();
+      _notesController.text = widget.previousData!.specialNote ?? '';
+      _itemPriceController.text = widget.previousData!.itemPrice.toString();
+      _receiverWillShoulder =
+          widget.previousData!.receiverWillShoulder ?? false;
+    } else {
+      _floorController.text = '';
+      _nameController.text = '';
+      _phoneController.text = '';
+      _id = getRandomString(15);
+      _typeOfParcel = 'Documents';
+      _weightController.text = '';
+      _itemPriceController.text = '0';
+      _notesController.text = '';
+      _receiverWillShoulder = false;
+    }
+
     super.initState();
   }
 
@@ -105,7 +117,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         labelText: 'Building, Floor and House number',
-                        prefixIcon: const Icon(Icons.person_outline),
+                        prefixIcon: const Icon(Icons.house),
                       ),
                     ),
                     Row(
@@ -197,7 +209,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                   'Food',
                                   'Boxed Fragile Item',
                                   'Groceries',
-                                  'Flowers'
+                                  'Others'
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
@@ -208,29 +220,82 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                   );
                                 }).toList(),
                               ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: _itemPriceController,
+                                      validator: (value) {
+                                        num? parsedValue = num.tryParse(value!);
+                                        if (value.isEmpty) {
+                                          return 'Please enter item price.';
+                                        } else if (!(parsedValue is num)) {
+                                          return 'Please enter a numerical value.';
+                                        } else if (parsedValue < 0 ||
+                                            parsedValue > 1000) {
+                                          return 'Please enter valid number';
+                                        }
+                                        return null;
+                                      },
+                                      onEditingComplete: () =>
+                                          FocusScope.of(context).nextFocus(),
+                                      keyboardType: TextInputType.number,
+                                      textInputAction: TextInputAction.done,
+                                      decoration: InputDecoration(
+                                        labelText: 'Item Price (Php)',
+                                        prefixIcon: const Icon(Icons.money),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: _weightController,
+                                      validator: (value) {
+                                        num? parsedValue = num.tryParse(value!);
+                                        if (value.isEmpty) {
+                                          return 'Please enter item weight.';
+                                        } else if (!(parsedValue is num)) {
+                                          return 'Please enter a numerical value.';
+                                        } else if (parsedValue < 0 ||
+                                            parsedValue > 1000) {
+                                          return 'Please enter valid number';
+                                        }
+                                        return null;
+                                      },
+                                      onEditingComplete: () =>
+                                          FocusScope.of(context).nextFocus(),
+                                      keyboardType: TextInputType.number,
+                                      textInputAction: TextInputAction.done,
+                                      decoration: InputDecoration(
+                                        labelText: 'Item Weight (kg)',
+                                        prefixIcon:
+                                            const Icon(Icons.fitness_center),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                               TextFormField(
-                                controller: _weightController,
-                                validator: (value) {
-                                  num? parsedValue = num.tryParse(value!);
-                                  if (value.isEmpty) {
-                                    return 'Please enter item weight.';
-                                  } else if (!(parsedValue is num)) {
-                                    return 'Please enter a numerical value.';
-                                  } else if (parsedValue < 0 ||
-                                      parsedValue > 1000) {
-                                    return 'Please enter valid number';
-                                  }
-                                  return null;
-                                },
-                                onEditingComplete: () =>
-                                    FocusScope.of(context).nextFocus(),
-                                keyboardType: TextInputType.number,
-                                textInputAction: TextInputAction.done,
+                                controller: _notesController,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,
+                                maxLines: 3,
                                 decoration: InputDecoration(
-                                  labelText: 'Item Weight (kg)',
-                                  prefixIcon: const Icon(Icons.person_outline),
+                                  labelText: 'Special Notes',
+                                  prefixIcon: const Icon(Icons.notes),
                                 ),
                               ),
+                              CheckboxListTile(
+                                title: Text("Receiver will shoulder fees."),
+                                value: _receiverWillShoulder,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _receiverWillShoulder = newValue!;
+                                  });
+                                },
+                                controlAffinity: ListTileControlAffinity
+                                    .leading, //  <-- leading Checkbox
+                              )
                             ],
                           )
                         : Container(),
@@ -252,6 +317,10 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                   ..houseDetails = _floorController.text
                                   ..name = _nameController.text
                                   ..phone = _phoneController.text
+                                  ..specialNote = _notesController.text
+                                  ..receiverWillShoulder = _receiverWillShoulder
+                                  ..itemPrice =
+                                      num.parse(_itemPriceController.text)
                                   ..location = Location(
                                     (b) => b
                                       ..lat = widget.location.latLng!.latitude

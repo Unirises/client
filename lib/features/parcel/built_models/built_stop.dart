@@ -35,7 +35,6 @@ abstract class BuiltStop implements Built<BuiltStop, BuiltStopBuilder> {
 
   String? get specialNote;
   bool? get receiverWillShoulder;
-  bool? get hasHandlingFee;
   num? get itemPrice;
 
   BuiltStop._();

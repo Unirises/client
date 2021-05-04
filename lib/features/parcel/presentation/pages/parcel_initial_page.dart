@@ -76,6 +76,18 @@ class ParcelInitialPage extends StatelessWidget {
                                           .push(MaterialPageRoute(
                                               builder: (context) => PlacePicker(
                                                     "AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU",
+                                                    displayLocation:
+                                                        state.pickup == null
+                                                            ? null
+                                                            : LatLng(
+                                                                state
+                                                                    .pickup!
+                                                                    .location!
+                                                                    .lat!,
+                                                                state
+                                                                    .pickup!
+                                                                    .location!
+                                                                    .lng!),
                                                   )));
                                       if (result == null ||
                                           result.formattedAddress == null)
@@ -85,14 +97,7 @@ class ParcelInitialPage extends StatelessWidget {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 AddStopDetailsPage(
-                                                  floor: state
-                                                      .pickup!.houseDetails,
-                                                  name: state.pickup!.name,
-                                                  phone: state.pickup!.phone,
-                                                  weight: state.pickup!.weight,
-                                                  id: state.pickup!.id,
-                                                  typeOfParcel:
-                                                      state.pickup!.type,
+                                                  previousData: state.pickup,
                                                   location: result,
                                                   isPickup: true,
                                                   onSubmitFinished: (data) {
@@ -202,10 +207,6 @@ class ParcelInitialPage extends StatelessWidget {
                                     ' - ${state.points![index].weight!.toStringAsFixed(2)} kg',
                                 style: TextStyle(color: Colors.grey),
                               ),
-                              state.points![index].hasHandlingFee != null
-                                  ? Text(
-                                      '+ 30 PHP Handling Fee | Item Declared Value: ${state.points![index].itemPrice!.toStringAsFixed(2)}')
-                                  : Container(),
                               state.points![index].specialNote != null
                                   ? Text(
                                       state.points![index].specialNote!,
@@ -249,12 +250,16 @@ class ParcelInitialPage extends StatelessWidget {
                               IconButton(
                                 color: Colors.blue,
                                 onPressed: () async {
-                                  LocationResult? result =
-                                      await Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                              builder: (context) => PlacePicker(
-                                                    "AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU",
-                                                  )));
+                                  LocationResult? result = await Navigator.of(
+                                          context)
+                                      .push(MaterialPageRoute(
+                                          builder: (context) => PlacePicker(
+                                              "AIzaSyAt9lUp_riyazE0ZgeSPya-HPtiWBxkMiU",
+                                              displayLocation: LatLng(
+                                                  state.points![index]!
+                                                      .location!.lat!,
+                                                  state.points![index]!
+                                                      .location!.lng!))));
                                   if (result == null ||
                                       result.formattedAddress == null) return;
                                   Navigator.push(
@@ -262,15 +267,8 @@ class ParcelInitialPage extends StatelessWidget {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             AddStopDetailsPage(
-                                              floor: state
-                                                  .points![index].houseDetails,
-                                              name: state.points![index].name,
-                                              phone: state.points![index].phone,
-                                              weight:
-                                                  state.points![index].weight,
-                                              id: state.points![index].id,
-                                              typeOfParcel:
-                                                  state.points![index].type,
+                                              previousData:
+                                                  state.points![index],
                                               location: result,
                                               isPickup:
                                                   state.pickup?.id == null,
@@ -324,6 +322,19 @@ class ParcelInitialPage extends StatelessWidget {
                   ),
                   Column(
                     children: [
+                      CheckboxListTile(
+                        title: Text("Use JG Pabili Services"),
+                        value: state.hasHandlingFee,
+                        onChanged: (newValue) {
+                          if (newValue != null) {
+                            context
+                                .read<ParcelBloc>()
+                                .add(HandlingFeeUpdated(newValue!));
+                          }
+                        },
+                        controlAffinity: ListTileControlAffinity
+                            .leading, //  <-- leading Checkbox
+                      ),
                       Container(
                         width: double.infinity,
                         child: Padding(
@@ -441,6 +452,7 @@ class ParcelInitialPage extends StatelessWidget {
                             )
                           : Container(),
                       ((state.subtotal) > 0 &&
+                              state.points != null &&
                               state.points!.isNotEmpty &&
                               state.pickup != null &&
                               state.pickup!.id != null)

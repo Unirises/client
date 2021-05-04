@@ -16,6 +16,7 @@ class ParcelLoadSuccess extends ParcelState {
   final BuiltDirections? directions;
   final String? type;
   final num subtotal;
+  final bool hasHandlingFee;
 
   const ParcelLoadSuccess([
     this.pickup,
@@ -24,6 +25,7 @@ class ParcelLoadSuccess extends ParcelState {
     this.directions,
     this.type,
     this.subtotal = 0,
+    this.hasHandlingFee = false,
   ]);
 
   @override
@@ -39,14 +41,17 @@ class ParcelLoadSuccess extends ParcelState {
     BuiltDirections? directions,
     String? type,
     num? subtotal,
+    bool? hasHandlingFee,
   }) =>
       ParcelLoadSuccess(
-          pickup ?? this.pickup,
-          points ?? this.points,
-          data ?? this.data,
-          directions ?? this.directions,
-          type ?? this.type,
-          subtotal ?? this.subtotal);
+        pickup ?? this.pickup,
+        points ?? this.points,
+        data ?? this.data,
+        directions ?? this.directions,
+        type ?? this.type,
+        subtotal ?? this.subtotal,
+        hasHandlingFee ?? this.hasHandlingFee,
+      );
 }
 
 class ParcelLoadFailure extends ParcelState {}

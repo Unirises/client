@@ -58,6 +58,8 @@ abstract class BuiltRequest
   num? get subtotal;
   num get fee;
 
+  bool? get hasHandlingFee;
+
   BuiltRequest._();
 
   factory BuiltRequest([updates(BuiltRequestBuilder b)?]) = _$BuiltRequest;
