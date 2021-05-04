@@ -281,7 +281,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                 minLines: 1,
                                 maxLines: 3,
                                 decoration: InputDecoration(
-                                  labelText: 'Special Notes',
+                                  labelText: 'Special Notes (Optional)',
                                   prefixIcon: const Icon(Icons.notes),
                                 ),
                               ),
