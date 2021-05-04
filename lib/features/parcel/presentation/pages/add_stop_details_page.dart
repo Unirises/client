@@ -257,7 +257,7 @@ class _AddStopDetailsPageState extends State<AddStopDetailsPage> {
                                         } else if (!(parsedValue is num)) {
                                           return 'Please enter a numerical value.';
                                         } else if (parsedValue < 0 ||
-                                            parsedValue > 1000) {
+                                            parsedValue > 200000) {
                                           return 'Please enter valid number';
                                         }
                                         return null;
