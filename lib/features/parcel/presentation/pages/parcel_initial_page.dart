@@ -451,7 +451,7 @@ class ParcelInitialPage extends StatelessWidget {
                               ),
                             )
                           : Container(),
-                      ((state.subtotal) > 0 &&
+                      ((state.subtotal) > 30 &&
                               state.points != null &&
                               state.points!.isNotEmpty &&
                               state.pickup != null &&
