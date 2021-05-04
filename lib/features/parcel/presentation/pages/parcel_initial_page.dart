@@ -194,12 +194,34 @@ class ParcelInitialPage extends StatelessWidget {
                                     ' ' +
                                     state.points![index].address!,
                                 style: TextStyle(color: Colors.grey),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                               Text(
                                 state.points![index].type! +
                                     ' - ${state.points![index].weight!.toStringAsFixed(2)} kg',
                                 style: TextStyle(color: Colors.grey),
                               ),
+                              state.points![index].hasHandlingFee != null
+                                  ? Text(
+                                      '+ 30 PHP Handling Fee | Item Declared Value: ${state.points![index].itemPrice!.toStringAsFixed(2)}')
+                                  : Container(),
+                              state.points![index].specialNote != null
+                                  ? Text(
+                                      state.points![index].specialNote!,
+                                      maxLines: 2,
+                                    )
+                                  : Container(),
+                              state.points![index].receiverWillShoulder !=
+                                          null &&
+                                      state.points![index]
+                                              .receiverWillShoulder ==
+                                          true
+                                  ? Text(
+                                      'Receiver will shoulder delivery fee.',
+                                      maxLines: 2,
+                                    )
+                                  : Container(),
                               (state.points![index].distance != null)
                                   ? Text(
                                       (state.points![index].distance! / 1000)

@@ -33,6 +33,11 @@ abstract class BuiltStop implements Built<BuiltStop, BuiltStopBuilder> {
 
   DistanceDuration? get duration;
 
+  String? get specialNote;
+  bool? get receiverWillShoulder;
+  bool? get hasHandlingFee;
+  num? get itemPrice;
+
   BuiltStop._();
 
   factory BuiltStop([updates(BuiltStopBuilder b)?]) = _$BuiltStop;
