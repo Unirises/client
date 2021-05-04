@@ -187,7 +187,7 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
                 ..duration =
                     directions.routes!.first.legs![i].duration!.toBuilder()
                 ..price = computeFare(event.type,
-                    directions.routes!.first.legs![i].distance!.value, i > 1)
+                    directions.routes!.first.legs![i].distance!.value, i >= 1)
                 ..startLocation =
                     directions.routes!.first.legs![i].startLocation!.toBuilder()
                 ..endLocation =
