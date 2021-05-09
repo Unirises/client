@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import '../../parcel/built_models/location.dart';
 import '../models/Merchant.dart';
@@ -92,8 +93,12 @@ class MerchantBloc extends Bloc<MerchantEvent, MerchantState> {
         });
 
         yield MerchantLoadSuccess(listOfMerchants);
-      } catch (e) {
-        print(e);
+      } catch (e, st) {
+        await FirebaseCrashlytics.instance.recordError(
+          e,
+          st,
+          reason: 'Merchant Load Failure',
+        );
         yield MerchantLoadFailure();
       }
     }

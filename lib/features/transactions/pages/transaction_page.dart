@@ -1,15 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:another_flushbar/flushbar.dart';
-import 'package:client/core/client_bloc/client_bloc.dart';
-import 'package:client/core/models/Driver.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../parcel/built_models/built_request.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -276,7 +272,13 @@ class _TransactionPageState extends State<TransactionPage> {
                                           .collection('rides')
                                           .doc(widget.ride.id)
                                           .update({'rating': v});
-                                    } catch (e) {
+                                    } catch (e, st) {
+                                      await FirebaseCrashlytics.instance
+                                          .recordError(
+                                        e,
+                                        st,
+                                        reason: 'Cannot update rating',
+                                      );
                                       Flushbar(
                                         title: 'Rating Failure',
                                         message:
@@ -303,7 +305,13 @@ class _TransactionPageState extends State<TransactionPage> {
                                         duration: Duration(seconds: 5),
                                       )..show(context);
                                       return null;
-                                    } catch (e) {
+                                    } catch (e, st) {
+                                      await FirebaseCrashlytics.instance
+                                          .recordError(
+                                        e,
+                                        st,
+                                        reason: 'Cannot update rating',
+                                      );
                                       Flushbar(
                                         title: 'Rating Failure',
                                         message:

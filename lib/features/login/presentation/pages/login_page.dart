@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -193,7 +194,16 @@ class LoginPage extends StatelessWidget {
                                                               seconds: 3),
                                                         )..show(context);
                                                         return null;
-                                                      } catch (e) {
+                                                      } catch (e, st) {
+                                                        await FirebaseCrashlytics
+                                                            .instance
+                                                            .recordError(
+                                                          e,
+                                                          st,
+                                                          reason:
+                                                              'Cannot send reset passwoprd',
+                                                          fatal: true,
+                                                        );
                                                         Flushbar(
                                                           title:
                                                               'Error Occured',

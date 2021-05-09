@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import '../models/classification_listing.dart';
 
@@ -87,9 +87,11 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
           yield currentState.copyWith(
               item: newItem, additionalPrice: additionalPrice);
         } catch (e, stacktrace) {
-          print('Cannot rebuild item.');
-          print(e);
-          log(stacktrace.toString());
+          await FirebaseCrashlytics.instance.recordError(
+            e,
+            stacktrace,
+            reason: 'Failed updating client and driver rides.',
+          );
         }
       }
     }

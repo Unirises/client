@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../features/parcel/built_models/built_request.dart';
@@ -35,10 +36,12 @@ class ClientRepository {
           .update({
         'token': data,
       });
-    } catch (e) {
-      print('ERROR ACQUIRING TOKEN ------------');
-      print(data);
-      print(e);
+    } catch (e, st) {
+      await FirebaseCrashlytics.instance.recordError(
+        e,
+        st,
+        reason: 'Cannot update user token data',
+      );
     }
   }
 

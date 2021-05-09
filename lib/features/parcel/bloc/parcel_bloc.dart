@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -128,8 +129,13 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
             if (currentState.type != null) add(TypeUpdated(currentState.type));
           }
         }
-      } catch (e) {
-        print(e);
+      } catch (e, st) {
+        await FirebaseCrashlytics.instance.recordError(
+          e,
+          st,
+          reason: 'Cannot load parcel',
+          fatal: true,
+        );
         yield ParcelLoadFailure();
       }
     } else if (event is RequestParcel) {
@@ -170,8 +176,13 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
 
           yield currentState.copyWith();
         }
-      } catch (e) {
-        print(e);
+      } catch (e, st) {
+        await FirebaseCrashlytics.instance.recordError(
+          e,
+          st,
+          reason: 'Cannot request parcel',
+          fatal: true,
+        );
         yield ParcelLoadFailure();
       }
     } else if (event is TypeUpdated) {

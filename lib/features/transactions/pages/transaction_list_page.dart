@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../core/client_bloc/client_bloc.dart';
 import '../../parcel/built_models/built_request.dart';
 import 'transaction_page.dart';
 

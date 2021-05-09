@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -123,8 +124,11 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
               );
             }
           } catch (e, stacktrace) {
-            log(e.toString());
-            log(stacktrace.toString());
+            await FirebaseCrashlytics.instance.recordError(
+              e,
+              stacktrace,
+              reason: 'Error on checkout bloc',
+            );
             yield CheckoutLoadFailure();
           }
         }
@@ -209,9 +213,12 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
           event.foodRideBloc!.add(StartListenOnFoodRide(requestId));
           yield currentState.copyWith();
         }
-      } catch (e) {
-        print('TROUBLE ON REQUESTING RIDE');
-        log(e.toString());
+      } catch (e, st) {
+        await FirebaseCrashlytics.instance.recordError(
+          e,
+          st,
+          reason: 'Error on requesting ride',
+        );
       }
     } else if (event is CheckoutVehicleUpdated) {
       if (currentState is CheckoutLoadSuccess) {

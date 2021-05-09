@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import '../../parcel/built_models/built_request.dart';
 
@@ -34,9 +35,12 @@ class FoodRideBloc extends Bloc<FoodRideEvent, FoodRideState> {
         }).listen((event) {
           return add(FoodRideUpdated(event));
         });
-      } catch (e) {
-        print('Failed loading parcel');
-        print(e);
+      } catch (e, st) {
+        await FirebaseCrashlytics.instance.recordError(
+          e,
+          st,
+          reason: 'Fail loading parcel',
+        );
         await FirebaseFirestore.instance
             .collection('clients')
             .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -57,9 +61,12 @@ class FoodRideBloc extends Bloc<FoodRideEvent, FoodRideState> {
         }
         print('currently listening on ${event.ride.toString()}');
         yield FoodRideLoaded(event.ride);
-      } catch (e) {
-        print('Failed updating currentState ride on parcel');
-        print(e);
+      } catch (e, st) {
+        await FirebaseCrashlytics.instance.recordError(
+          e,
+          st,
+          reason: 'Failed updating currentState ride on parcel',
+        );
         await FirebaseFirestore.instance
             .collection('clients')
             .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -85,9 +92,12 @@ class FoodRideBloc extends Bloc<FoodRideEvent, FoodRideState> {
               .collection('rides')
               .doc(event.ride!.id.toString())
               .set(json.decode(event.ride!.toJson()));
-        } catch (e) {
-          print('Failed updating client and driver rides.');
-          print(e);
+        } catch (e, st) {
+          await FirebaseCrashlytics.instance.recordError(
+            e,
+            st,
+            reason: 'Failed updating client and driver rides.',
+          );
           await FirebaseFirestore.instance
               .collection('clients')
               .doc(FirebaseAuth.instance.currentUser!.uid)

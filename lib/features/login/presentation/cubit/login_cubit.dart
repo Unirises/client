@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:formz/formz.dart';
 
 import '../../../../core/models/Email.dart';
@@ -38,7 +39,13 @@ class LoginCubit extends Cubit<LoginState> {
         password: state.password.value,
       );
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
-    } catch (e) {
+    } catch (e, st) {
+      await FirebaseCrashlytics.instance.recordError(
+        e,
+        st,
+        reason: 'Cannot log in through email and password',
+        fatal: true,
+      );
       emit(state.copyWith(
         status: FormzStatus.submissionFailure,
         message: e.toString().replaceAll("Exception: ", ""),

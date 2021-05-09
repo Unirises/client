@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import '../built_models/built_request.dart';
 
@@ -33,9 +34,13 @@ class ParcelRideBloc extends Bloc<ParcelRideEvent, ParcelRideState> {
         }).listen((event) {
           return add(ParcelRideUpdated(event));
         });
-      } catch (e) {
-        print('Failed loading parcel');
-        print(e);
+      } catch (e, st) {
+        await FirebaseCrashlytics.instance.recordError(
+          e,
+          st,
+          reason: 'Failed loading parcel data',
+          fatal: true,
+        );
         await FirebaseFirestore.instance
             .collection('clients')
             .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -56,9 +61,12 @@ class ParcelRideBloc extends Bloc<ParcelRideEvent, ParcelRideState> {
         }
         print('currently listening on ${event.ride.toString()}');
         yield ParcelRideLoaded(event.ride);
-      } catch (e) {
-        print('Failed updating currentState ride on parcel');
-        print(e);
+      } catch (e, st) {
+        await FirebaseCrashlytics.instance.recordError(
+          e,
+          st,
+          reason: 'Failed pdating currentState ride on parcel',
+        );
         await FirebaseFirestore.instance
             .collection('clients')
             .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -83,9 +91,12 @@ class ParcelRideBloc extends Bloc<ParcelRideEvent, ParcelRideState> {
               .collection('rides')
               .doc(event.ride!.id.toString())
               .set(json.decode(event.ride!.toJson()));
-        } catch (e) {
-          print('Failed updating client and driver rides.');
-          print(e);
+        } catch (e, st) {
+          await FirebaseCrashlytics.instance.recordError(
+            e,
+            st,
+            reason: 'Failed updating client and driver rides.',
+          );
           await FirebaseFirestore.instance
               .collection('clients')
               .doc(FirebaseAuth.instance.currentUser!.uid)
