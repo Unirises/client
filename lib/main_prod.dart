@@ -45,10 +45,10 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  EquatableConfig.stringify = kDebugMode;
   runZonedGuarded<Future<void>>(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-    EquatableConfig.stringify = kDebugMode;
     // Bloc.observer = SimpleBlocObserver();
 
     // Set the background messaging handler early on, as a named top-level function
