@@ -27,7 +27,8 @@ class ParcelPickupPage extends StatelessWidget {
             state.request!.directions!.routes!.first.overviewPolyline!.points!)
         .map((e) => LatLng(e.latitude, e.longitude))
         .toList();
-    var now = DateTime.fromMillisecondsSinceEpoch(state.request!.timestamp as int);
+    var now =
+        DateTime.fromMillisecondsSinceEpoch(state.request!.timestamp as int);
     now = now.add(Duration(minutes: 3));
     var optimistic = DateFormat('hh:mm a').format(now.add(Duration(
         seconds: (dest!.duration != null) ? dest.duration!.value! : 1500)));
@@ -38,6 +39,26 @@ class ParcelPickupPage extends StatelessWidget {
     return Stack(
       children: [
         GoogleMap(
+          markers: state.request != null
+              ? {
+                  Marker(
+                      rotation: state.request!.position!.heading!.toDouble(),
+                      markerId: MarkerId('yourCurrentLocation'),
+                      infoWindow: InfoWindow(title: 'Driver Location'),
+                      icon: state.carImage!,
+                      position: LatLng(
+                        state.request!.position!.latitude as double,
+                        state.request!.position!.longitude as double,
+                      )),
+                  Marker(
+                      markerId: MarkerId('destination'),
+                      infoWindow: InfoWindow(title: 'Destination'),
+                      position: LatLng(
+                        dest.location!.lat,
+                        dest.location!.lng,
+                      )),
+                }
+              : {},
           polylines: {
             Polyline(
               polylineId: PolylineId('routeToEnd'),
@@ -49,11 +70,15 @@ class ParcelPickupPage extends StatelessWidget {
           },
           cameraTargetBounds: CameraTargetBounds(LatLngBounds(
             northeast: LatLng(
-                state.request!.directions!.routes!.first.bounds!.northeast!.lat!,
-                state.request!.directions!.routes!.first.bounds!.northeast!.lng!),
+                state
+                    .request!.directions!.routes!.first.bounds!.northeast!.lat!,
+                state.request!.directions!.routes!.first.bounds!.northeast!
+                    .lng!),
             southwest: LatLng(
-                state.request!.directions!.routes!.first.bounds!.southwest!.lat!,
-                state.request!.directions!.routes!.first.bounds!.southwest!.lng!),
+                state
+                    .request!.directions!.routes!.first.bounds!.southwest!.lat!,
+                state.request!.directions!.routes!.first.bounds!.southwest!
+                    .lng!),
           )),
           initialCameraPosition: CameraPosition(
             target: LatLng(state.request!.position!.latitude as double,
@@ -158,9 +183,12 @@ class ParcelPickupPage extends StatelessWidget {
                                     ),
                                   ),
                                   Row(children: [
-                                    Text(state.request!.vehicleData!.brand! + ' '),
-                                    Text(state.request!.vehicleData!.model! + ' '),
-                                    Text(state.request!.vehicleData!.color! + ' '),
+                                    Text(state.request!.vehicleData!.brand! +
+                                        ' '),
+                                    Text(state.request!.vehicleData!.model! +
+                                        ' '),
+                                    Text(state.request!.vehicleData!.color! +
+                                        ' '),
                                     Text(' - '),
                                     Text(state.request!.vehicleData!.plate!)
                                   ]),

@@ -326,11 +326,9 @@ class ParcelInitialPage extends StatelessWidget {
                         title: Text("Use JG Pabili Services"),
                         value: state.hasHandlingFee,
                         onChanged: (newValue) {
-                          if (newValue != null) {
-                            context
-                                .read<ParcelBloc>()
-                                .add(HandlingFeeUpdated(newValue!));
-                          }
+                          context
+                              .read<ParcelBloc>()
+                              .add(HandlingFeeUpdated(newValue!));
                         },
                         controlAffinity: ListTileControlAffinity
                             .leading, //  <-- leading Checkbox

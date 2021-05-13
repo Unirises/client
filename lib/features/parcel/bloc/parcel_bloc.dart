@@ -217,6 +217,7 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
 
         if (items.length > 0) {
           subtotal = items.reduce((value, element) => value! + element!);
+          subtotal = currentState.hasHandlingFee ? subtotal! + 30 : subtotal;
         }
 
         yield currentState.copyWith(
@@ -227,17 +228,10 @@ class ParcelBloc extends Bloc<ParcelEvent, ParcelState> {
       }
     } else if (event is HandlingFeeUpdated) {
       if (currentState is ParcelLoadSuccess) {
-        if (currentState.hasHandlingFee && !event.value) {
-          yield currentState.copyWith(
-            subtotal: currentState.subtotal - 30,
-            hasHandlingFee: false,
-          );
-        } else if (!currentState.hasHandlingFee && event.value) {
-          yield currentState.copyWith(
-            subtotal: currentState.subtotal + 30,
-            hasHandlingFee: true,
-          );
-        }
+        yield currentState.copyWith(
+          hasHandlingFee: event.value,
+        );
+        if (currentState.type != null) add(TypeUpdated(currentState.type));
       }
     }
   }
