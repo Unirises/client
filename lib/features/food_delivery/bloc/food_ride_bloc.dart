@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../parcel/built_models/built_request.dart';
 
@@ -60,7 +62,9 @@ class FoodRideBloc extends Bloc<FoodRideEvent, FoodRideState> {
             break;
         }
         print('currently listening on ${event.ride.toString()}');
-        yield FoodRideLoaded(event.ride);
+        var image = await BitmapDescriptor.fromAssetImage(ImageConfiguration(),
+            'assets/rideshare-icons/${event.ride!.rideType}.png');
+        yield FoodRideLoaded(event.ride, image);
       } catch (e, st) {
         await FirebaseCrashlytics.instance.recordError(
           e,

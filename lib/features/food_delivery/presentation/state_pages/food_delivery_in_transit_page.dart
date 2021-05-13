@@ -19,20 +19,54 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
             state.request!.directions!.routes!.first.overviewPolyline!.points!)
         .map((e) => LatLng(e.latitude, e.longitude))
         .toList();
-    var now = DateTime.fromMillisecondsSinceEpoch(state.request!.timestamp as int);
+    var now =
+        DateTime.fromMillisecondsSinceEpoch(state.request!.timestamp as int);
     now = now.add(Duration(
         minutes: (state.request!.averageTimePreparation == null)
             ? 0
             : state.request!.averageTimePreparation as int));
     now = now.add(Duration(minutes: 3));
-    var optimistic = DateFormat('hh:mm a').format(
-        now.add(Duration(seconds: state.request!.destination!.duration!.value!)));
+    var optimistic = DateFormat('hh:mm a').format(now
+        .add(Duration(seconds: state.request!.destination!.duration!.value!)));
     var pessmistic = DateFormat('hh:mm a').format(now
         .add(Duration(seconds: state.request!.destination!.duration!.value!))
         .add(Duration(minutes: 35)));
     return Stack(
       children: [
         GoogleMap(
+          markers: state.request != null
+              ? {
+                  Marker(
+                      rotation: state.request!.position!.heading!.toDouble(),
+                      markerId: MarkerId('yourCurrentLocation'),
+                      infoWindow: InfoWindow(title: 'Driver Location'),
+                      icon: state.carImage!,
+                      position: LatLng(
+                        state.request!.position!.latitude as double,
+                        state.request!.position!.longitude as double,
+                      )),
+                  Marker(
+                    markerId: MarkerId('dropoff'),
+                    position: LatLng(
+                      state.request!.destination!.location!.lat,
+                      state.request!.destination!.location!.lng,
+                    ),
+                    infoWindow: InfoWindow(
+                      title: 'Your House',
+                    ),
+                  ),
+                  Marker(
+                    markerId: MarkerId('pickup'),
+                    position: LatLng(
+                      state.request!.pickup!.location!.lat,
+                      state.request!.pickup!.location!.lng,
+                    ),
+                    infoWindow: InfoWindow(
+                      title: 'Restaurant',
+                    ),
+                  ),
+                }
+              : {},
           polylines: {
             Polyline(
               polylineId: PolylineId('routeToEnd'),
@@ -44,11 +78,15 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
           },
           cameraTargetBounds: CameraTargetBounds(LatLngBounds(
             northeast: LatLng(
-                state.request!.directions!.routes!.first.bounds!.northeast!.lat!,
-                state.request!.directions!.routes!.first.bounds!.northeast!.lng!),
+                state
+                    .request!.directions!.routes!.first.bounds!.northeast!.lat!,
+                state.request!.directions!.routes!.first.bounds!.northeast!
+                    .lng!),
             southwest: LatLng(
-                state.request!.directions!.routes!.first.bounds!.southwest!.lat!,
-                state.request!.directions!.routes!.first.bounds!.southwest!.lng!),
+                state
+                    .request!.directions!.routes!.first.bounds!.southwest!.lat!,
+                state.request!.directions!.routes!.first.bounds!.southwest!
+                    .lng!),
           )),
           initialCameraPosition: CameraPosition(
             target: LatLng(state.request!.position!.latitude as double,
@@ -153,9 +191,12 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
                                     ),
                                   ),
                                   Row(children: [
-                                    Text(state.request!.vehicleData!.brand! + ' '),
-                                    Text(state.request!.vehicleData!.model! + ' '),
-                                    Text(state.request!.vehicleData!.color! + ' '),
+                                    Text(state.request!.vehicleData!.brand! +
+                                        ' '),
+                                    Text(state.request!.vehicleData!.model! +
+                                        ' '),
+                                    Text(state.request!.vehicleData!.color! +
+                                        ' '),
                                     Text(' - '),
                                     Text(state.request!.vehicleData!.plate!)
                                   ]),
@@ -235,7 +276,8 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               )),
                           subtitle: (state.request!.items!.length > 1)
-                              ? Text('+ ${state.request!.items!.length - 1} more')
+                              ? Text(
+                                  '+ ${state.request!.items!.length - 1} more')
                               : Container(),
                         ),
                         SizedBox(
@@ -308,8 +350,8 @@ class FoodDeliveryInTransitPage extends StatelessWidget {
                             width: 12,
                           ),
                           Expanded(
-                              child:
-                                  Text('${state.request!.destination!.address}')),
+                              child: Text(
+                                  '${state.request!.destination!.address}')),
                         ]),
                       ],
                     ),

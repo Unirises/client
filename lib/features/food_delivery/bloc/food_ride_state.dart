@@ -13,8 +13,9 @@ class FoodRideLoading extends FoodRideState {}
 
 class FoodRideLoaded extends FoodRideState {
   final BuiltRequest? request;
+  final BitmapDescriptor? carImage;
 
-  FoodRideLoaded(this.request);
+  FoodRideLoaded(this.request, this.carImage);
 
   @override
   List<Object?> get props => [request];
